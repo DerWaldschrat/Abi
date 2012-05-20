@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Misserfolg bei der Registrierung</title>
+
+    <meta charset="UTF-8" />
+    <script>
+    window.onload = function () {
+        var hash = location.hash.substr(1);
+        document.getElementById("user").innerHTML = hash;
+    }
+    </script>
+
+</head>
+
+<body>
+    <div>Hallo <span id="user"></span>, deine Registrierung war leider nicht erfolgreich. Du kannst versuchen, den Link aus der E-Mail in 5 Minuten ein weiteres Mal aufzurufen oder eine Mail an <a href="mailto:support@derwaldschrat.net">support@derwaldschrat.net</a> schicken, um dein Problem zu klären</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Erfolgreiche Registrierung</title>
+
+    <meta charset="UTF-8" />
+     <script>
+     window.onload = function () {
+        var hash = location.hash.substr(1);
+        document.getElementById("user").innerHTML = hash;   
+     }
+     </script>
+</head>
+
+<body>
+    <div>Hallo <span id="user"></span>, deine Registrierung wurde erfolgreich bestätigt. Du kannst dich nun über die <a href="./">Startseite</a> einloggen.</div>
+</body>
+</html>
