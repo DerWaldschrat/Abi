@@ -1,0 +1,2 @@
+This is a simple project for creating our "Abizeitung" (which is something like a "facebook", but I just want to do my own work)
+The app completely runs on the client-side, and it uses stealJS, underscore, jquery, backbone and bootstrap
