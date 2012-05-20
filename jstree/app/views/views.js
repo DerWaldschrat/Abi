@@ -210,8 +210,6 @@
             this.collection = new Abi.Collection.Comments();
             this.$el.append(Abi.App.getLoading());
             this.collection.on("reset", this.render, this).fetch();
-            
-            Abi.App.$main.on("cleanuppage", _.bind(this.cleanup, this));
         },
         render: function () {
             var html = "<h1>Andere über dich</h1><ul class='itemList'>";
@@ -221,9 +219,6 @@
             html += "</ul>";
             this.$el.html(html);
             return this;
-        },
-        cleanup: function () {
-            this.collection.off("reset", this.render, this);
         }
     });
 
@@ -410,7 +405,7 @@
             this.collection = new Abi.Collection.Awards();
             this.collection.on("add", this.add, this).refetch();
             this._items = {};
-            this.table = $(document.createElement("table")).addClass("formList");
+            this.table = $(document.createElement("table")).addClass("table-bordered table");
             var tr = $(document.createElement("tr")),
                 heads = ["männlich", "Award", "weiblich"];
             _.each(heads, function (head) {
