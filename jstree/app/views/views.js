@@ -108,9 +108,6 @@
             this.change();
             this.collection.on("reset", this.change, this);
             this._nothing = "<i>" + Abi.App.message("nothing") + "</i>";
-            
-            // We do not wanna memory leaks            
-            Abi.App.$main.on("cleanuppage", _.bind(this.cleanup, this));
         },
         events: {
             "submit .commentUserForm": function () {
@@ -202,10 +199,6 @@
         _removeLoadingForm: function () {
             this.$("form .ajaxLoading").remove();
             this.$("form .submit").prop("disabled", false);
-        },
-        cleanup: function () {
-            this.$el.off();
-            this.model.off("change", this.changeModel, this).off("resterror", this.restError, this);
         }
     });
 
