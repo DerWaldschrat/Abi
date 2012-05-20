@@ -1,0 +1,9 @@
+
+/* The loading button */
+.ajaxLoading {
+    background-image: url(gif/ajax-loader.gif);
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+}
