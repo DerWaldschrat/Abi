@@ -1,7 +1,9 @@
 This is a simple project for creating our "Abizeitung" (which is something like a "facebook", but I just want to do my own work).
 The app completely runs on the client-side, and it uses stealJS, underscore, jquery, backbone and bootstrap.
-License:
 
+One little hint: I have a simple build script for this project, but probably I will not publish it because I am too lazy to take care of not publishing any passwords. If you are interested in my project, ask me and I can send you a build script.
+
+License:
 Copyright (C) <2012> <Hauke Mewes>
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
