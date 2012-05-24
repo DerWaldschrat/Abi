@@ -1,1 +1,8 @@
-__build
+# ignore all files and directories starting with '__'
+__*
+# ignore all explain.txt files
+*explain.txt
+# ignore the phpstorm project dir
+.idea/
+# do not ignore the registered directory
+!__registered/
