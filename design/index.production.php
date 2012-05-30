@@ -17,6 +17,7 @@ if (strpos($_encoding, "gzip") !== false) {
 
 <meta charset="UTF-8" />
 <style type="text/css">
+    @import url(<?php echo $gzip ? "+ 'gz/'" : ""; ?>design/bootstrap/css/bootstrap.css);
     @import url(design/main.css);
     @import url(design/startscreen.css);
     @import url(design/widgets.css);
@@ -264,11 +265,19 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
 <div id="initialOverlay">
     <!-- <div class="o-close" onclick="__faster.closeOverlay();">X</div> -->
 
-    <ul class="buttonBar" id="switchBetweenRegisterLogin">
-        <li id="to-loginScreen" class="active" onclick="__faster.switch_.call(this);">Anmeldung</li><li id="to-registerScreen" onclick="__faster.switch_.call(this);">Registrierung</li><li id="to-passwortIdiotScreen" onclick="__faster.switch_.call(this);">Passwort vergessen?</li>
+    <ul class="nav nav-tabs" id="switchBetweenRegisterLogin">
+        <li id="to-loginScreen" class="active">
+            <a href="#" onclick="__faster.switch_.call(this.parentNode);return false;">Anmeldung</a>
+        </li>
+        <li id="to-registerScreen">
+            <a href="#"  onclick="__faster.switch_.call(this.parentNode);return false;">Registrierung</a>
+        </li>
+        <li id="to-passwortIdiotScreen">
+            <a href="#"  onclick="__faster.switch_.call(this.parentNode);return false;">Passwort vergessen?</a>
+        </li>
     </ul>
 
-    <div id="registerScreen" style="overflow: scroll;">
+    <div id="registerScreen">
         <form action="#" onsubmit="__faster.register();return false;">
             <ul class="formList">
                 <li class="statusField">Bitte beachte: Alle diese Eingaben können nach der Registrierung <b>nicht</b> wieder geändert werden!</li>
@@ -313,15 +322,22 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
 
 <div id="wrapper">
 
-    <div id="head">
-        <div class="empty">
-            <input type="search" id="searchPupil" placeholder="Suche Schüler..." /><input type="button" value="Suche" id="searchPupilStart" /><input type="button" onclick='App.logout()' value="Logout" class="logout" />
+    <div class="navbar navbar-fixed-top" id="head">
+        <div class="navbar-inner">
+            <div class="container">
+                <form action="javascript:void(0)" class="form-search">
+                    <a class="brand" href="http://github.com/derwaldschrat">Abi-Zeitung</a>
+                    <input type="search" id="searchPupil" class="search-query" placeholder="Suche Schüler..." />
+                    <input type="button" value="Suche" class="btn" id="searchPupilStart" />
+                    <input type="button" class="btn" onclick='App.logout()' value="Logout" class="logout" />
+                </form>
+            </div>
         </div>
     </div>
-    <div id="main">
-        <ul id="navi" class="c1">
+    <div id="main" class="row-fluid">
+        <ul id="navi" class="span3 nav nav-list">
         </ul>
-        <div id="content" class="c2">
+        <div id="content" class="span9">
 
         </div>
     </div>
