@@ -17,7 +17,7 @@ if (strpos($_encoding, "gzip") !== false) {
 
 <meta charset="UTF-8" />
 <style type="text/css">
-    @import url(<?php echo $gzip ? "+ 'gz/'" : ""; ?>design/bootstrap/css/bootstrap.css);
+    @import url(design/bootstrap/css/bootstrap.css);
     @import url(design/main.css);
     @import url(design/startscreen.css);
     @import url(design/widgets.css);
