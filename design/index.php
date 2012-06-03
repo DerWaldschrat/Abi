@@ -89,6 +89,7 @@ __faster.closeOverlay = function(silent) {
     var body = __faster.byS("body"),
         overlay = __faster.byS("#initialOverlay");
     __faster.byS("html").className = "";
+    __faster.byId("head").className = __faster.byId("head").className.replace(" hidden", "");
     if (silent) {
         body.removeChild(overlay);
         return;
@@ -316,7 +317,7 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
 
 <div id="wrapper">
 
-    <div class="navbar navbar-fixed-top" id="head">
+    <div class="navbar navbar-fixed-top hidden" id="head">
         <div class="navbar-inner">
             <div class="container">
                 <form action="javascript:void(0)" class="form-search">
