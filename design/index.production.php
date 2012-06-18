@@ -327,7 +327,7 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
 
 <div id="wrapper">
 
-    <div class="navbar navbar-fixed-top" id="head">
+    <div class="navbar navbar-fixed-top hidden" id="head">
         <div class="navbar-inner">
             <div class="container">
                 <form action="javascript:void(0)" class="form-search">
