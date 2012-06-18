@@ -33,6 +33,8 @@ post(function () {
                     require IN . "User/fetchData" . PHP_EX;
                     fetchUserData($user);
                     echo json_encode($user);
+                } else {
+                    h404();
                 }
             } else {
                 h404();

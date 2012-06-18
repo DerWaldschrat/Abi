@@ -199,17 +199,22 @@ __faster.login = function() {
         props = {
             nickname: $nickname.value,
             passwort: $passwort.value
+        },
+        error = function (xhr) {
+            __faster.byId("lSubmit").disabled = false;
+            __faster.message("lStatus", "loginFail");
+            $nickname.value = "";
+            $passwort.value = "";
         };
     $submit.disabled = true;
     __faster.request("User/login.php", props, function (xhr) {
-        window.__User = JSON.parse(xhr.responseText);
+        try {
+            window.__User = JSON.parse(xhr.responseText);  
+        } catch(e) {
+            error(xhr);
+        }
         __faster.unlockPageLoad();
-    }, function (xhr) {
-        $submit.disabled = false;
-        __faster.message("lStatus", "loginFail");
-        $nickname.value = "";
-        $passwort.value = "";
-    });
+    }, error);
 }
 // The function for the Idiots who have forgotten their password
 __faster.forgot = function() {
