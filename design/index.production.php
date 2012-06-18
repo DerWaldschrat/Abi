@@ -95,6 +95,7 @@ __faster.closeOverlay = function(silent) {
     var body = __faster.byS("body"),
         overlay = __faster.byS("#initialOverlay");
     __faster.byS("html").className = "";
+    __faster.byId("head").className = __faster.byId("head").className.replace(" hidden", "");
     if (silent) {
         body.removeChild(overlay);
         return;
