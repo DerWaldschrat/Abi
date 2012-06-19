@@ -44,7 +44,7 @@ if (isLoggedin()) {
         get(function () {
             // Actually, this is for the limitedusers, but it is good to have everything in this single file
             $db = db();
-            $result = $db->query("SELECT userid, vorname, nachname, geschlecht, rights FROM " . USER );
+            $result = $db->query("SELECT userid, nickname, vorname, nachname, geschlecht, rights FROM " . USER . " WHERE vorname != ''");
             if ($result instanceof mysqli_result) {
                 $json = array();
                 while($row = $result->fetch_object()) {
