@@ -29,7 +29,7 @@ App.user.rights() >= 2 ? (function () {
         },
         render: function () {
             this.$el.append(App.getLoading());
-            var $table = $(document.createElement("table")), self = this, curr;
+            var $table = $(document.createElement("table")).addClass("table table-bordered"), self = this, curr;
             // Reset subviews
             this._subviews = {};
             this.collection.each(function (model) {

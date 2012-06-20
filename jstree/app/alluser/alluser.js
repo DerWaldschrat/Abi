@@ -34,7 +34,7 @@ App.user.rights() >= 1 ? (function () {
             return template;        
         },
         render: function () {
-            this.$el.html(this.template())
+            this.$el.html(this.template()).find("table").addClass("table table-bordered")
             return this;
         }
     })
