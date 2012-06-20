@@ -336,7 +336,7 @@
             }
         },
         template: function () {
-            var html = "<span class='removeButton' title='Spruch löschen'>X</span>" + _.escape(this.model.get("content"));
+            var html = "<i class='removeButton icon-trash' title='Spruch löschen'></i>" + _.escape(this.model.get("content"));
             return html;
         },
         render: function () {

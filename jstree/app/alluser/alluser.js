@@ -31,11 +31,11 @@ App.user.rights() >= 1 ? (function () {
                 + "<td>"
                 + _asHyperlink(curr.get("nickname"))
                 + "</td>"
-                + "<td><form action='#' class='allUserCommentForm form-inline' data-id='" + curr.id + "'>"
+                + "<td><form action='#' class='allUserCommentForm form-inline' data-id='" + curr.id + "'><fieldset class='control-group'>"
                 + (disabled ? "<i>Das bist du selbst</i>"
-                : ("<input type='text' name='allUserComment" + curr.id + "' id='allUserComment" + curr.id + "' class='allUserComment' title='Dein Kommentar zu " + curr.get("vorname") + " " + curr.get("nachname") + "' />"
-                + "<input type='submit' class='allUserCommentSubmit btn' value='Speichern' />") ) 
-                + "</form></td>"
+                : ("<input type='text' name='allUserComment" + curr.id + "' id='allUserComment" + curr.id + "' class='allUserComment ' title='Dein Kommentar zu " + curr.get("vorname") + " " + curr.get("nachname") + "' />"
+                + "<input type='submit' class='allUserCommentSubmit btn' value='Speichern' id='allUserSubmit" + curr.id + "' />") ) 
+                + "</fieldset></form></td>"
                 + "</tr>"
                    
             }
@@ -62,11 +62,25 @@ App.user.rights() >= 1 ? (function () {
         },
         sync: function (model) {
             model.off()
-            this.$(".allUserError").text(App.message("commentSaveSucceed"))
+            var msg = App.message("commentSaveSucceed")
+            , $el = this.$("#allUserComment" + model.get("toid")).val(msg)
+            $el.parent().addClass("success")
+            window.setTimeout(function () {
+                if ($el.val() == msg) {
+                    $el.val("").parent().removeClass("success")
+                }    
+            }, 3000)
         },
         error: function (model, error) {
             model.off()
-            this.$(".allUserError").text(App.message(error))
+            var msg = App.message(error) 
+            , $el = this.$("#allUserComment" + model.get("toid"))
+            $el.val(msg).parent().addClass("error")
+            window.setTimeout(function () {
+                if ($el.val() == msg) {
+                    $el.val("").parent().removeClass("error")
+                }   
+            }, 3000)
         }
     })
     
