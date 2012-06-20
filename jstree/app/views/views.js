@@ -364,14 +364,15 @@
             },
             "autocompleteselect": function (event, ui) {
                 return this.store(ui);
-            }
+            },
+            "keyup": "_storeNil"
         },
         // Stores the actual value
         store: function (ui, op) {
             this.$el.val(ui.item.label).data("real-value", ui.item.value);
             // Trigger only when it is nessecary
             if(!op || !op.silent) {
-                this.trigger("selected", ui.item.value);
+                this.trigger("selected", ui.item.value, this.$el);
             }
             return false;
         },
@@ -393,6 +394,16 @@
                 }, {silent: true});
             }
             return this.$el.data("real-value");
+        },
+        _storeNil: function() {
+            if (this.$el.val() === "") {
+                this.store({
+                    item: {
+                        label: "",
+                        value: 0
+                    }
+                })
+            }    
         }
     });
 
