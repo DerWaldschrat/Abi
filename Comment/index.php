@@ -12,16 +12,19 @@ if (isLoggedin()) {
         post(function () {
             $comment = bodyAsJSON();
             if (hasAllSet($comment, array("fromid", "toid", "content")) && $comment->fromid == userField("userid")) {
-                $db = db();
-                $st = $db->prepare("INSERT INTO " . COMMENT . " (fromid, toid, content) VALUES (?, ?, ?)");
-                $st->bind_param("iis", $comment->fromid, $comment->toid, $comment->content);
-                if (exQuery($st)) {
-                    $id = $st->insert_id;
-                    hJSON();
-                    echo json_encode(array("commentid" => $id));
-                } else {
-                    fail("commentSaveFail");
+                if (true) {
+                    $db = db();
+                    $st = $db->prepare("INSERT INTO " . COMMENT . " (fromid, toid, content) VALUES (?, ?, ?)");
+                    $st->bind_param("iis", $comment->fromid, $comment->toid, $comment->content);
+                    if (exQuery($st)) {
+                        $id = $st->insert_id;
+                        hJSON();
+                        echo json_encode(array("commentid" => $id));
+                    } else {
+                        fail("commentSaveFail");
+                    }    
                 }
+                
             } else {
                 fail("commentSaveFail");
             }
