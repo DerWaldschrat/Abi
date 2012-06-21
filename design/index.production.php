@@ -11,8 +11,13 @@ if (strpos($_encoding, "gzip") !== false) {
 ?>
 <!DOCTYPE html>
 <html class="overlay">
-
 <head>
+<script>
+var ROOT = window.ROOT = "%%ROOT%%"
+if (location.href.indexOf(ROOT) === -1) {
+    location.href = ROOT  
+}
+</script>
 <title>Abizeitung</title>
 
 <meta charset="UTF-8" />
@@ -40,7 +45,6 @@ if (isLoggedin()) {
     }
 }
 ?>
-window.ROOT = "%%ROOT%%";
 window.Messages = {
     loginFail: "Der Login ist fehlgeschlagen. Bitte probiere es mit einem anderen Benutzernamen oder einem anderem Passwort!",
     registrationFail: "Bei deiner Registrierung ist leider ein Fehler aufgetreten. Überprüfe bitte deine Daten und versuche es bitte noch einmal!",
@@ -351,7 +355,7 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
 </div>
 <script src="steal/steal.production.js"></script>
 <script>
-steal.rootUrl(ROOT<?php echo $gzip ? "+ 'gz/'" : ""; ?>);
+steal.rootUrl(window.ROOT<?php echo $gzip ? "+ 'gz/'" : ""; ?>);
 steal("jstree/app");
 </script>
 </body>
