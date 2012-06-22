@@ -339,7 +339,7 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
                     <a class="brand" href="http://github.com/derwaldschrat">Abi-Zeitung</a>
                     <input type="search" id="searchPupil" class="search-query" placeholder="Suche Schüler..." />
                     <input type="button" value="Suche" class="btn" id="searchPupilStart" />
-                    <input type="button" class="btn" onclick='App.logout()' value="Logout" class="logout" />
+                    <input type="button" class="btn logout" onclick='App.logout()' value="Logout" />
                 </form>
             </div>
         </div>
