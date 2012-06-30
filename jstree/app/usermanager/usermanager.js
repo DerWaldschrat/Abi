@@ -13,8 +13,10 @@ App.user.rights() >= 2 ? (function () {
      * Used for viewing the User enabling process
      * */
     Abi.View.UserManager = Abi.View.Base.extend({
+        bindToCollection: {
+            "reset": "render"
+        },
         initialize: function () {
-            this.collection.on("reset", this.render, this);
             this.$table = null;   
         },
         // Creates the headrow
@@ -42,13 +44,22 @@ App.user.rights() >= 2 ? (function () {
             this.$el.append($table);
             this.$table = $table;                
             return this;            
+        },
+        remove: function () {
+            var i;
+            for (i in this._subviews) {
+                this._subviews[i].remove();
+            }
+            Abi.View.Base.prototype.remove.call(this);
         }         
     });
     
     Abi.View.UserManagerItem = Abi.View.Base.extend({
+        bindToModel: {
+            "change": "render"
+        },
         tagName: "tr",
         initialize: function () {
-            this.model.on("change", this.render, this);
             // If this is the active user, show that
             if (App.user.id == this.model.id) {
                 this.$el.css("color", "red").addClass("currentUser");   

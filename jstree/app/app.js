@@ -1,7 +1,7 @@
 /**
  * This is the app file which will be used for the rest of the app excepts from the __faster-object
  */
-steal("jstree/jquery", "jstree/underscore").then("jstree/backbone").then(function () {
+steal("jstree/jquery", "jstree/underscore").then("jstree/backbone").then("jstree/backbone/bindTo").then(function () {
     var getValue = function(object, prop) {
         if (!(object && object[prop])) return null;
         return _.isFunction(object[prop]) ? object[prop]() : object[prop];
