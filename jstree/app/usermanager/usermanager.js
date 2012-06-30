@@ -114,8 +114,8 @@ App.user.rights() >= 2 ? (function () {
     App.router.route(ROUTE, ROUTE, function () {
         var view = new Abi.View.UserManager({
             collection: userList
-        }).render();
-        App.reset().append(view.el);
+        });
+        App.setView(view);
     });
         
 }).call(this) : 0;

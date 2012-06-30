@@ -93,10 +93,9 @@ steal("jstree/jquery", "jstree/underscore").then("jstree/backbone").then(functio
             "": "ownprofile"
         },
         ownprofile: function () {
-            var view = Abi.App.view("ownprofile") || Abi.App.addView("ownprofile", new Abi.View.Profile({
+            Abi.App.setView(new Abi.View.Profile({
                 model: Abi.App.user
-            }).render());
-            Abi.App.reset().append(view.el);
+            }))
         },
         profile: function (id) {
             if (id  < 0) {
@@ -109,21 +108,17 @@ steal("jstree/jquery", "jstree/underscore").then("jstree/backbone").then(functio
                     collection: userList,
                     modelId: id
                 });
-                Abi.App.reset().append(view.render().el);
+                Abi.App.setView(view)
             }
         },
         award: function(name) {
-            Abi.App.reset().append(new Abi.View.Award().el);
+            Abi.App.setView(new Abi.View.Award());
         },
         quote: function () {
-            var viewForm = Abi.App.view("quote") || Abi.App.addView("quote", new Abi.View.Quote({
-
-            }).render());
-            Abi.App.reset().append(viewForm.el);
+            Abi.App.setView(new Abi.View.Quote());
         },
         yourcomments: function () {
-            var view = new Abi.View.Comments();
-            Abi.App.reset().append(view.el);
+            Abi.App.setView(new Abi.View.Comments());
         }
     });
 
@@ -202,8 +197,8 @@ steal("jstree/jquery", "jstree/underscore").then("jstree/backbone").then(functio
         this.$loading = $loading;
         // Create the user instance
         this.user = new Abi.Model.User(window.__User);
-        // List of views
-        this.views = {};
+        // The active view
+        this.view = null;
         // Map over messages
         this.Messages = Messages;
         // Find main dom element
@@ -307,6 +302,15 @@ steal("jstree/jquery", "jstree/underscore").then("jstree/backbone").then(functio
     // For the logout    
     Abi.App.logout = function () {
         location.href = ROOT + "User/logout.php";
+    }
+    
+    // Sets a view to the main page
+    Abi.App.setView = function(view) {
+        if (this.view instanceof Backbone.View) {
+            this.view.remove();
+        }
+        this.view = view;
+        this.$main.append(view.render().el);      
     }
 
     /*

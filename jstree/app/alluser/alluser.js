@@ -88,6 +88,6 @@ App.user.rights() >= 1 ? (function () {
         var view = new Abi.View.AllUserList({
             collection: userList
         }).render()
-        App.reset().append(view.el)
+        App.setView(view)
     })    
 }).call(this) : 0;
