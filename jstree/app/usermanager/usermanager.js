@@ -13,6 +13,7 @@ App.user.rights() >= 2 ? (function () {
      * Used for viewing the User enabling process
      * */
     Abi.View.UserManager = Abi.View.Base.extend({
+        _subviewList: ["_subviews"],
         bindToCollection: {
             "reset": "render"
         },

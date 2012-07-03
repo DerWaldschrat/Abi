@@ -227,6 +227,7 @@
      * used for the quotes
      */
     Abi.View.Quote = Abi.View.Base.extend({
+        _subviewList: ["quoteList"],
         initialize: function () {
             this.newModel();
             this.quoteList = new Abi.View.QuoteList({
@@ -292,10 +293,16 @@
     Abi.View.QuoteList = Abi.View.Base.extend({
         tagName: "ul",
         className: "itemList",
+        bindToCollection: {
+            reset: "render",
+            add: "add",
+            remove: "removeItem",
+            error: "error"
+        },
+        _subviewList: ["_subviews"],
         initialize: function () {
             this._subviews = {};
             // Set events
-            this.collection.on("reset", this.render, this).on("add", this.add, this).on("remove", this.remove, this).on("error", this.error, this);
 
         },
         render: function () {
@@ -308,12 +315,13 @@
             return this;
         },
         add: function (model) {
+            alert("hello");
             var v = this._subviews[model.cid] = new Abi.View.QuoteDisplay({
                 model: model
             });
             this.$el.prepend(v.render().el);
         },
-        remove: function (model) {
+        removeItem: function (model) {
             var v = this._subviews[model.cid];
             v.remove();
             this._subviews[model.cid] = null;
@@ -327,8 +335,8 @@
      */
     Abi.View.QuoteDisplay = Abi.View.Base.extend({
         tagName: "li",
-        initialize: function () {
-            this.model.on("error", this.error, this);
+        bindToModel: {
+            error: "error"
         },
         events: {
             "click .removeButton": function () {
@@ -412,6 +420,7 @@
      * Contains all the logic for the awardlist
      */
     Abi.View.Award = Abi.View.Base.extend({
+        _subviewList: ["_items"],
         initialize: function () {
             this.collection = new Abi.Collection.Awards();
             this.collection.on("add", this.add, this).refetch();
@@ -463,6 +472,7 @@
      */
     Abi.View.AwardItem = Abi.View.Base.extend({
         tagName: "tr",
+        _subviewList: ["maleAuto", "femaleAuto"],
         initialize: function () {
             this.render();
             this._delay = 1000;

@@ -5,9 +5,6 @@ App.user.rights() >= 1 ? (function () {
     App.addNavigationItem(ROUTE, "Alle User anzeigen")
     
     Abi.View.AllUserList = Abi.View.Base.extend({
-        initialize: function () {
-            this._commentViews = {}    
-        },
         template: function () {
             var template = "<span class='allUserError'></span><table><thead><tr>"
             // Table head
@@ -66,6 +63,7 @@ App.user.rights() >= 1 ? (function () {
             , $el = this.$("#allUserComment" + model.get("toid")).val(msg)
             $el.parent().addClass("success")
             window.setTimeout(function () {
+                $el.parent().removeClass("success")
                 if ($el.val() == msg) {
                     $el.val("").parent().removeClass("success")
                 }    
@@ -77,8 +75,9 @@ App.user.rights() >= 1 ? (function () {
             , $el = this.$("#allUserComment" + model.get("toid"))
             $el.val(msg).parent().addClass("error")
             window.setTimeout(function () {
+                $el.parent().removeClass("error")
                 if ($el.val() == msg) {
-                    $el.val("").parent().removeClass("error")
+                    $el.val("")
                 }   
             }, 3000)
         }

@@ -145,6 +145,34 @@ steal("jstree/jquery", "jstree/underscore").then("jstree/backbone").then("jstree
         clearMessage: function () {
             var $message = this.$el.find(".statusField");
             $message.empty().removeClass("success");
+        },
+        // Overwrite for complete cleanup!
+        remove: function () {
+            if (typeof this._subviewList !== "undefined") {
+                for (var i = 0, len = this._subviewList.length, curr; i < len; i++) {
+                    curr = this[this._subviewList[i]];
+                    // Is it a list of views?
+                    if (curr == null) continue;
+                    if (!(curr instanceof Abi.View.Base)) {
+                        var j;
+                        for (j in curr) {
+                            console.log(curr[j]);
+                            curr[j].remove();
+                        }
+                    } else {
+                        curr.remove();
+                    }
+                }
+            }
+            // Call original method
+            return Backbone.View.prototype.remove.apply(this, arguments);
+        },
+        // Sets names of subviews to remove
+        setSubviewStore: function () {
+            this._subviewList || (this._subviewList = []);
+            for (var i = 0, len = arguments.length; i < len; i++) {
+                this._subviewList.push(arguments[i]);
+            }
         }
     });
 
