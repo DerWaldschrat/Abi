@@ -45,11 +45,11 @@
                 "<label for='negativ'>Was war negativ während deiner Schulzeit?</label><textarea id='negativ'></textarea>" +
                 "<label for='zukunft'>Was willst du in Zukunft machen?</label><textarea id='zukunft'></textarea>" +
                 "<label for='semi_thema'>Dein Seminararbeitsthema</label><input type='text' id='semi_thema' />" +
-                "<label for='p_semi'>Dein P-Seminar</label><input type='text' id='p_semi' />" +
-                "<label for='w_semi'>Dein W-Seminar</label><input type='text' id='w_semi' />" +
-                "<label for='abi_schriftlich'>Dein schriftliches Abifach</label><input type='text' id='abi_schriftlich' />" +
-                "<label for='abi_muendlich_1'>Dein mündliches Abifach (I)</label><input type='text' id='abi_muendlich_1' />" +
-                "<label for='abi_muendlich_2'>Dein mündliches Abifach (II)</label><input type='text' id='abi_muendlich_2' />" +
+                "<label for='p_semi'>Dein P-Seminar</label><input type='text' id='p_semi' class='seminar' />" +
+                "<label for='w_semi'>Dein W-Seminar</label><input type='text' id='w_semi' class='seminar' />" +
+                "<label for='abi_schriftlich'>Dein schriftliches Abifach</label><input type='text' id='abi_schriftlich' class='schulfach' />" +
+                "<label for='abi_muendlich_1'>Dein mündliches Abifach (I)</label><input type='text' id='abi_muendlich_1' class='schulfach' />" +
+                "<label for='abi_muendlich_2'>Dein mündliches Abifach (II)</label><input type='text' id='abi_muendlich_2' class='schulfach' />" +
                 "</fieldset>" +
                 "<fieldset class='buttonAndMessage control-group'><button type='submit' class='btn'>Änderungen speichern!</button>" +
                 "<div class='help-block statusField'></div>" +
@@ -63,6 +63,13 @@
                 minDate: "01.01.1992",
                 maxDate: "31.12.1995"
             });
+            // Maybe this could be separated into another file
+            this.$(".schulfach").attr("autocomplete", "off").typeahead({
+                source: ["Englisch", "Französisch", "Italienisch", "Spanisch",
+                        "Physik", "Chemie", "Biologie", "Informatik",
+                        "Wirtschaft & Recht", "Erdkunde", "Religion", "Ethik", "Geschichte", "Geschichte & Sozialkunde",
+                        "Musik", "Kunst", "Sport"]
+            })
             return this.rerender();
         },
         rerender: function () {
