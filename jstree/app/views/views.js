@@ -44,6 +44,12 @@
                 "<label for='positiv'>Was war positiv während deiner Schulzeit?</label><textarea id='positiv'></textarea>" +
                 "<label for='negativ'>Was war negativ während deiner Schulzeit?</label><textarea id='negativ'></textarea>" +
                 "<label for='zukunft'>Was willst du in Zukunft machen?</label><textarea id='zukunft'></textarea>" +
+                "<label for='semi_thema'>Dein Seminararbeitsthema</label><input type='text' id='semi_thema' />" +
+                "<label for='p_semi'>Dein P-Seminar</label><input type='text' id='p_semi' />" +
+                "<label for='w_semi'>Dein W-Seminar</label><input type='text' id='w_semi' />" +
+                "<label for='abi_schriftlich'>Dein schriftliches Abifach</label><input type='text' id='abi_schriftlich' />" +
+                "<label for='abi_muendlich_1'>Dein mündliches Abifach (I)</label><input type='text' id='abi_muendlich_1' />" +
+                "<label for='abi_muendlich_2'>Dein mündliches Abifach (II)</label><input type='text' id='abi_muendlich_2' />" +
                 "</fieldset>" +
                 "<fieldset class='buttonAndMessage control-group'><button type='submit' class='btn'>Änderungen speichern!</button>" +
                 "<div class='help-block statusField'></div>" +
