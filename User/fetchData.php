@@ -11,9 +11,9 @@ defined("__EXEC") or exit;
  */
 function fetchUserData(&$user)
 {
-    $st = db()->prepare("SELECT geburtstag, strasse, wohnort, danksagung, positiv, negativ, zukunft FROM " .USER_DATA . " WHERE userid = ?");
+    $st = db()->prepare("SELECT geburtstag, strasse, wohnort, danksagung, positiv, negativ, zukunft, semi_thema, p_semi, w_semi, abi_schriftlich, abi_muendlich_1, abi_muendlich_2 FROM " .USER_DATA . " WHERE userid = ?");
     $st->bind_param("i", $user->userid);
-    $st->bind_result( $user->geburtstag, $user->strasse, $user->wohnort, $user->danksagung, $user->positiv, $user->negativ, $user->zukunft);
+    $st->bind_result( $user->geburtstag, $user->strasse, $user->wohnort, $user->danksagung, $user->positiv, $user->negativ, $user->zukunft, $user->semi_thema, $user->p_semi, $user->w_semi, $user->abi_schriftlich, $user->abi_muendlich_1, $user->abi_muendlich_2);
     $st->execute();
     $st->fetch();
     $user->geburtstag = dateChangeFromISO($user->geburtstag);

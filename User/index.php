@@ -20,7 +20,8 @@ if (isLoggedin()) {
                 h404();
             } else {
                 $db = db();
-                $toCheck = array("geburtstag" => "s", "strasse" => "s", "wohnort" => "s", "danksagung" => "s", "positiv" => "s", "negativ" => "s", "zukunft" => "s");
+                $toCheck = array("geburtstag" => "s", "strasse" => "s", "wohnort" => "s", "danksagung" => "s", "positiv" => "s", "negativ" => "s", "zukunft" => "s",
+                "semi_thema" => "s", "p_semi" => "s", "w_semi" => "s", "abi_schriftlich" => "s", "abi_muendlich_1" => "s", "abi_muendlich_2" => "s");
                 foreach($toCheck as $checker => $type) {
                     if (!empty($user->$checker)) {
                         if($checker === "geburtstag") {
