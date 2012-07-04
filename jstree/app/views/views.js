@@ -75,7 +75,7 @@
         events: {
             "change input:not([type='file']), textarea": "changeEvent",
             "submit": function (event) {
-                this.cleaMessage();
+                this.clearMessage();
                 this.model.save();
                 this.$(":submit").after(Abi.App.getLoading());
                 event.preventDefault();
