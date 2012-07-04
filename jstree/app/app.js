@@ -128,23 +128,14 @@ steal("jstree/jquery", "jstree/underscore").then("jstree/backbone").then("jstree
      */
     Abi.View.Base = Backbone.View.extend({
         message: function (name, green) {
-            // Simply write the message in the queue, jQuery for president
-            this.$el.find(".statusField").queue(function () {
-                var $this = $(this);
-                if ($this.hasClass("success")) {
-                    if (!green) {
-                        $this.removeClass("success");
-                    }
-                }
-                if (green) {
-                    $this.addClass("success");
-                }
-                $this.text(Abi.App.message(name)).dequeue();
-            }).fadeIn(300).delay(4000).fadeOut(300);
+            this.clearMessage();
+            this.$el.find(".buttonAndMessage").addClass(green ? "success" : "error")
+            .find(".statusField").text(Abi.App.message(name))
+            this.$el.find("[type=submit]").addClass(green ? "btn-success" : "btn-error")
         },
         clearMessage: function () {
-            var $message = this.$el.find(".statusField");
-            $message.empty().removeClass("success");
+            this.$el.find(".buttonAndMessage").removeClass("success error").find(".statusField").text("");
+            this.$el.find("[type=submit]").removeClass("btn-success btn-danger");    
         },
         // Overwrite for complete cleanup!
         remove: function () {

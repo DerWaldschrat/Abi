@@ -36,17 +36,18 @@
         },
         // The template for the profile
         template: function () {
-            return "<ul class='formList'>" +
-                "<li><label for='geburtstag'>Geburtstag</label><input type='text' id='geburtstag' /></li>" +
-                "<li><label for='strasse'>Straße</label><input type='text' id='strasse' /></li>" +
-                "<li><label for='wohnort'>Wohnort</label><input type='text' id='wohnort' /></li>" +
-                "<li><label for='danksagung'>Wem möchtest du danken?</label><textarea id='danksagung'></textarea></li>" +
-                "<li><label for='positiv'>Was war positiv während deiner Schulzeit?</label><textarea id='positiv'></textarea></li>" +
-                "<li><label for='negativ'>Was war negativ während deiner Schulzeit?</label><textarea id='negativ'></textarea></li>" +
-                "<li><label for='zukunft'>Was willst du in Zukunft machen?</label><textarea id='zukunft'></textarea></li>" +
-                "<li><input type='submit' value='Änderungen speichern!' /></li>" +
-                "<li class='statusField'></li>" +
-                "</ul>";
+            return "<fieldset>" +
+                "<label for='geburtstag'>Geburtstag</label><input type='text' id='geburtstag' />" +
+                "<label for='strasse'>Straße</label><input type='text' id='strasse' />" +
+                "<label for='wohnort'>Wohnort</label><input type='text' id='wohnort' />" +
+                "<label for='danksagung'>Wem möchtest du danken?</label><textarea id='danksagung'></textarea>" +
+                "<label for='positiv'>Was war positiv während deiner Schulzeit?</label><textarea id='positiv'></textarea>" +
+                "<label for='negativ'>Was war negativ während deiner Schulzeit?</label><textarea id='negativ'></textarea>" +
+                "<label for='zukunft'>Was willst du in Zukunft machen?</label><textarea id='zukunft'></textarea>" +
+                "</fieldset>" +
+                "<fieldset class='buttonAndMessage control-group'><button type='submit' class='btn'>Änderungen speichern!</button>" +
+                "<div class='help-block statusField'></div>" +
+                "</fieldset>";
         },
         render: function () {
             var self = this;
@@ -68,6 +69,7 @@
         events: {
             "change input:not([type='file']), textarea": "changeEvent",
             "submit": function (event) {
+                this.cleaMessage();
                 this.model.save();
                 this.$(":submit").after(Abi.App.getLoading());
                 event.preventDefault();
@@ -111,6 +113,7 @@
         },
         events: {
             "submit .commentUserForm": function () {
+                this.clearMessage();
                 var val = this.$(".userComment").val();
                 if (!!val) {
                     var model = new Abi.Model.Comment();
@@ -133,11 +136,13 @@
                 "Wohnort: <span class='wohnort'></span>" +
                 "</div>" +
                 "<form action='#' class='commentUserForm'>" +
-                "<ul class='formList'>" +
-                "<li><label for='userComment" + this.cid + "'>Was kannst du über <span class='vorname'></span> <span class='nachname'></span> sagen?</label><textarea id='userComment" + this.cid + "' class='userComment'></textarea></li>" +
-                "<li><input type='submit' value='Abschicken' class='submit' /></li>" +
-                "<li class='statusField'></li>" +
-                "</ul>" +
+                "<fieldset>" +
+                "<label for='userComment" + this.cid + "'>Was kannst du über <span class='vorname'></span> <span class='nachname'></span> sagen?</label><textarea id='userComment" + this.cid + "' class='userComment'></textarea>" +
+                "</fieldset>" +
+                "<fieldset class='control-group buttonAndMessage'>" +
+                "<button type='submit' class='btn'>Abschicken</button>" +
+                "<div class='statusField help-block'></div>" +
+                "</fieldset>" +
                 "</form>";
         },
         render: function () {
@@ -190,7 +195,7 @@
             this._removeLoadingForm();
             model.off();
         },
-        sync: function () {
+        sync: function (model) {
             this.message("commentSaveSucceed", true);
             this.$(".userComment").val("");
             this._removeLoadingForm();
@@ -254,11 +259,13 @@
         },
         render: function () {
             var html = "<form action='#'>" +
-                "<ul class='formList'>" +
-                "<li><label for='qContent'>Dein Spruch</label><textarea id='qContent'></textarea></li>" +
-                "<li><input type='submit' value='Eintragen' /></li>" +
-                "<li class='statusField'></li>" +
-                "</ul>" +
+                "<fieldset>" +
+                "<label for='qContent'>Dein Spruch</label><textarea id='qContent'></textarea>" +
+                "</fieldset>" +
+                "<fieldset class='buttonAndMessage control-group'>"
+                "<input type='submit' value='Eintragen' />" +
+                "<div class='statusField help-block'></div>" +
+                "</fieldset>" +
                 "</form>";
             this.$el.html(html);
             return this;
