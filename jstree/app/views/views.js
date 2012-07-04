@@ -495,7 +495,7 @@
         _subviewList: ["maleAuto", "femaleAuto"],
         initialize: function () {
             this.render();
-            this._delay = 1000;
+            this._delay = 2000;
         },
         render: function () {
             this.cells = new Array(3);
