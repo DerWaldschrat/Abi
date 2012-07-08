@@ -2,6 +2,9 @@
 __*
 # ignore all explain.txt files
 *explain.txt
+# ignore eventual chat software
+himma/
+.nodester.rc
 # ignore the phpstorm project dir
 .idea/
 # do not ignore the registered directory
