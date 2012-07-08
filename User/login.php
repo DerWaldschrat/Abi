@@ -13,10 +13,10 @@ post(function () {
         $db = db();
         $oldPw = $userIn->passwort;
         $userIn->passwort = hashme($userIn->passwort, $userIn->nickname);
-        $st = $db->prepare("SELECT userid, email, vorname, nachname, passwort, profile, rights FROM " . USER . " WHERE nickname = ?");
+        $st = $db->prepare("SELECT userid, email, vorname, nachname, passwort, profile, cat, rights FROM " . USER . " WHERE nickname = ?");
         $st->bind_param("s", $userIn->nickname);
         $user = new stdClass();
-        $st->bind_result($user->userid, $user->email, $user->vorname, $user->nachname, $user->passwort, $user->profile, $user->rights);
+        $st->bind_result($user->userid, $user->email, $user->vorname, $user->nachname, $user->passwort, $user->profile, $user->cat, $user->rights);
         if ($st->execute()) {
             $st->store_result();
             if ($st->num_rows === 1) {
@@ -24,8 +24,19 @@ post(function () {
                 if ($user->passwort === $userIn->passwort) {
                     $user->nickname = $userIn->nickname;
                     $st->close();
+                    
+                    // Create new cat
+                    require IN . "random" . PHP_EX;
+                    $cat = randomString(12);
+                    $st = $db->prepare("UPDATE " . USER . " SET cat = ? WHERE nickname = ?");
+                    $st->bind_param("ss", $cat, $user->nickname);
+                    if (exQuery($st)) {
+                        $user->cat = $cat;
+                    }
+                    
+                    
                     $_SESSTION["user"] = array();
-                    $toSet = array("userid", "email", "vorname", "nachname", "profile", "rights");
+                    $toSet = array("userid", "email", "vorname", "nachname", "profile", "cat", "rights");
                     foreach($toSet as $field) {
                         $_SESSION["user"][$field] = $user->$field;
                     }

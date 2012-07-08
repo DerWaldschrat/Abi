@@ -22,10 +22,6 @@ if (isLoggedin()) {
     require IN . "coreconfig" . PHP_EX;
     require IN . "User/fetchData" . PHP_EX;
     $user = new stdClass();
-    $toSet = array("userid", "email", "vorname", "nachname", "loggedin");
-    foreach($toSet as $field) {
-        $user->$field = $_SESSION["user"][$field];
-    }
     $user = (object)$_SESSION["user"];
     fetchUserData($user);
     echo "window.__User = " . json_encode($user).";";
