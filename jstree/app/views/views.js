@@ -64,11 +64,19 @@
                 maxDate: "31.12.1995"
             });
             // Maybe this could be separated into another file
-            this.$(".schulfach").attr("autocomplete", "off").typeahead({
-                source: ["Englisch", "Französisch", "Italienisch", "Spanisch",
-                        "Physik", "Chemie", "Biologie", "Informatik",
-                        "Wirtschaft & Recht", "Erdkunde", "Religion", "Ethik", "Geschichte", "Geschichte & Sozialkunde",
-                        "Musik", "Kunst", "Sport"]
+            this.$(".schulfach").attr("autocomplete", "off").prop("input", "hidden").select2({
+                data: {
+                    results: _.map([{"id":"Englisch"},{"id":"Französisch"},{"id":"Italienisch"},{"id":"Spanisch"},
+                        {"id":"Physik"},{"id":"Chemie"},{"id":"Biologie"},{"id":"Informatik"},
+                        {"id":"Wirtschaft & Recht"},{"id":"Erdkunde"},{"id":"Religion"},{"id":"Ethik"},
+                        {"id":"Geschichte"},{"id":"Geschichte & Sozialkunde"},
+                        {"id":"Musik"},{"id":"Kunst"},{"id":"Sport"}], function (i){
+                            return {
+                                id: i.id,
+                                text: i.id
+                            }
+                        }),  
+                }    
             })
             return this.rerender();
         },
@@ -434,6 +442,43 @@
             }    
         }
     });
+    
+    /**
+     * @View.AutocompleteUser.select2
+     * Try to reimplement
+     * */
+    Abi.View.AutocompleteUser = Abi.View.Base.extend({
+        events: {
+            change: "change"
+        },
+        initialize: function (options) {
+            // Hide the original formField
+            this.$el.prop("type", "hidden").select2({
+                // The search function
+                query: _.bind(this.query, this),
+                placeholder: "Wähle einen Schüler...",
+                allowClear: true
+                
+            });   
+        },
+        query:  function (request) {
+            var term = request.term.toLowerCase();
+            request.callback({
+                results: this.collection.filter(function (model) {
+                    var label = model.text.toLowerCase();
+                    // We need to be very fast
+                    if (term === label) return true;
+                    return label.indexOf(term) > -1;
+                })    
+            });
+        },
+        value: function () {
+            return this.$el.select2("val");  
+        },
+        change: function () {
+            this.trigger("selected", this.$el.select2("val"));
+        }
+    })
 
     /**
      * @class View.Award

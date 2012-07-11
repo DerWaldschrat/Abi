@@ -2,6 +2,7 @@
  * This is the app file which will be used for the rest of the app excepts from the __faster-object
  */
 steal("jstree/jquery", "jstree/underscore").then("jstree/backbone", "jstree/bootstrap").then("jstree/backbone/bindTo").then(function () {
+    //window.WEB_SOCKET_SWF_LOCATION = "jstree/socket.io/WebSocketMain.swf";
     var getValue = function(object, prop) {
         if (!(object && object[prop])) return null;
         return _.isFunction(object[prop]) ? object[prop]() : object[prop];
@@ -357,7 +358,10 @@ steal("jstree/jquery", "jstree/underscore").then("jstree/backbone", "jstree/boot
     })());
 
     window.Abi = Abi;
-}).then("jstree/app/models", "jstree/app/fileupload").then("jstree/jquery/ui", "jstree/jquery/ui/ui.css").then("jstree/app/views", "jstree/app/messages", "jstree/jquery/ui/localize.js")
+}).then("jstree/app/models", "jstree/app/fileupload").then("jstree/jquery/ui", "jstree/jquery/ui/ui.css")
+// Select2 loaded
+.then("jstree/select2", "jstree/select2/select2.css")
+.then("jstree/app/views", "jstree/app/messages", "jstree/jquery/ui/localize.js")
 // The plugins to be loaded
 // Actually, this is quite simple: A static list of activated plugins is loaded (it can be static or dynamic), 
 // and if the user has the right to use this plugin, it is loaded (on the server side, the right needs to be controlled, too)
