@@ -458,8 +458,11 @@
                 query: _.bind(this.query, this),
                 placeholder: "Wähle einen Schüler...",
                 allowClear: true
-                
-            });   
+            });
+            if (options.startid && options.startid !== "" && (options.startid + "") !== "0") {
+                console.log(options.startid);
+                this.$el.select2("val", this.collection.get(options.startid));
+            }   
         },
         query:  function (request) {
             var term = request.term.toLowerCase();
@@ -558,11 +561,13 @@
             // Create autocompletes
             this.maleAuto = new Abi.View.AutocompleteUser({
                 collection: userList.maleList,
-                el: this.$left.find("input")[0]
+                el: this.$left.find("input")[0],
+                startid: this.model.get("maleid")
             });
             this.femaleAuto = new Abi.View.AutocompleteUser({
                 collection: userList.femaleList,
-                el: this.$right.find("input")[0]
+                el: this.$right.find("input")[0],
+                startid: this.model.get("femaleid")
             });
             //
             this.maleAuto.on("selected", this.changeMale, this).value(this.model.get("maleid"));
