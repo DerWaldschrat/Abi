@@ -148,11 +148,10 @@ steal("jstree/jquery", "jstree/underscore").then("jstree/backbone", "jstree/boot
                     if (!(curr instanceof Abi.View.Base)) {
                         var j;
                         for (j in curr) {
-                            console.log(curr[j]);
-                            curr[j].remove();
+                            curr[j] !== null && typeof curr[j].remove === "function" && curr[j].remove();
                         }
                     } else {
-                        curr.remove();
+                        curr !== null && typeof curr.remove === "function" && curr.remove();
                     }
                 }
             }

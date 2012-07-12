@@ -47,9 +47,9 @@
                 "<label for='semi_thema'>Dein Seminararbeitsthema</label><input type='text' id='semi_thema' />" +
                 "<label for='p_semi'>Dein P-Seminar</label><input type='text' id='p_semi' class='seminar' />" +
                 "<label for='w_semi'>Dein W-Seminar</label><input type='text' id='w_semi' class='seminar' />" +
-                "<label for='abi_schriftlich'>Dein schriftliches Abifach</label><input type='text' id='abi_schriftlich' class='schulfach' />" +
-                "<label for='abi_muendlich_1'>Dein mündliches Abifach (I)</label><input type='text' id='abi_muendlich_1' class='schulfach' />" +
-                "<label for='abi_muendlich_2'>Dein mündliches Abifach (II)</label><input type='text' id='abi_muendlich_2' class='schulfach' />" +
+                "<label for='abi_schriftlich'>Dein schriftliches Abifach</label><input type='text' id='abi_schriftlich' class='schulfach' placeholder='Wähle ein Fach' />" +
+                "<label for='abi_muendlich_1'>Dein mündliches Abifach (I)</label><input type='text' id='abi_muendlich_1' class='schulfach' placeholder='Wähle ein Fach' />" +
+                "<label for='abi_muendlich_2'>Dein mündliches Abifach (II)</label><input type='text' id='abi_muendlich_2' class='schulfach' placeholder='Wähle ein Fach' />" +
                 "</fieldset>" +
                 "<fieldset class='buttonAndMessage control-group'><button type='submit' class='btn'>Änderungen speichern!</button>" +
                 "<div class='help-block statusField'></div>" +
@@ -65,8 +65,7 @@
             });
             // Maybe this could be separated into another file
             this.$(".schulfach").attr("autocomplete", "off").prop("input", "hidden").select2({
-                data: {
-                    results: _.map([{"id":"Englisch"},{"id":"Französisch"},{"id":"Italienisch"},{"id":"Spanisch"},
+                data: _.map([{"id":"Englisch"},{"id":"Französisch"},{"id":"Italienisch"},{"id":"Spanisch"},
                         {"id":"Physik"},{"id":"Chemie"},{"id":"Biologie"},{"id":"Informatik"},
                         {"id":"Wirtschaft & Recht"},{"id":"Erdkunde"},{"id":"Religion"},{"id":"Ethik"},
                         {"id":"Geschichte"},{"id":"Geschichte & Sozialkunde"},
@@ -75,8 +74,16 @@
                                 id: i.id,
                                 text: i.id
                             }
-                        }),  
-                }    
+                }),
+                // A bad but working solution
+                width: "220px"     
+            }).each(function () {
+                var $this = $(this)
+                , val = self.model.get($this.attr("id"))
+                $this.select2("val", {
+                    id: val,
+                    text: val
+                })    
             })
             return this.rerender();
         },
@@ -283,7 +290,7 @@
                 "<fieldset>" +
                 "<label for='qContent'>Dein Spruch</label><textarea id='qContent'></textarea>" +
                 "</fieldset>" +
-                "<fieldset class='buttonAndMessage control-group'>"
+                "<fieldset class='buttonAndMessage control-group'>"+
                 "<input type='submit' value='Eintragen' />" +
                 "<div class='statusField help-block'></div>" +
                 "</fieldset>" +
@@ -343,7 +350,6 @@
             return this;
         },
         add: function (model) {
-            alert("hello");
             var v = this._subviews[model.cid] = new Abi.View.QuoteDisplay({
                 model: model
             });
@@ -387,7 +393,7 @@
     /**
      * @class View.AutocompleteUser
      */
-    Abi.View.AutocompleteUser = Abi.View.Base.extend({
+   /* Abi.View.AutocompleteUser = Abi.View.Base.extend({
         initialize: function (options) {
             this.$el.data("real-value", -1).autocomplete({
                 source: _.bind(this.source, this)
@@ -442,7 +448,7 @@
             }    
         }
     });
-    
+                 */
     /**
      * @View.AutocompleteUser.select2
      * Try to reimplement
@@ -453,14 +459,15 @@
         },
         initialize: function (options) {
             // Hide the original formField
-            this.$el.prop("type", "hidden").select2({
+            this.$el.css("display", "none").select2({
                 // The search function
                 query: _.bind(this.query, this),
                 placeholder: "Wähle einen Schüler...",
-                allowClear: true
-            });
+                allowClear: true,
+                // A bad but working solution
+                width: "220px"
+            })
             if (options.startid && options.startid !== "" && (options.startid + "") !== "0") {
-                console.log(options.startid);
                 this.$el.select2("val", this.collection.get(options.startid));
             }   
         },
