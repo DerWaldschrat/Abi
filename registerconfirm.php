@@ -20,8 +20,10 @@ if (preg_match("/^[a-z0-9]{96,96}$/", $query) == 0) {
         } else {
             // Jetzt können wir den User eintragen
             $db = db();
-            $query = $db->prepare("UPDATE " . USER . " SET nickname = ?, vorname = ?, nachname = ?, passwort = ?, email = ?, geschlecht = ? WHERE userid = ?");
-            $query->bind_param("ssssssi", $user->nickname, $user->vorname, $user->nachname, $user->passwort, $user->email, $user->geschlecht, $user->userid);
+            require IN . "random.php";
+            $cat = randomString(12);
+            $query = $db->prepare("UPDATE " . USER . " SET nickname = ?, vorname = ?, nachname = ?, passwort = ?, email = ?, geschlecht = ?, cat = ? WHERE userid = ?");
+            $query->bind_param("sssssssi", $user->nickname, $user->vorname, $user->nachname, $user->passwort, $user->email, $user->geschlecht, $cat, $user->userid);
             if (exQuery($query)) {
                 unlink($file);
                 header("Location: ".getUrlToPath("succeedRegister.html#" . $user->nickname));
