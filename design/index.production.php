@@ -48,7 +48,9 @@ window.Messages = {
     registrationValid: "Bitte beachte, dass dein Nickname mindestens 3 Zeichen lang ist, du eine gültige E-Mail-Adresse angibts und Vor-, Nachname sowie Passwort wenigstens 2 Zeichen lang sind!",
     needAllFields: "Bitte fülle alle Felder aus!",
     nicknameNotAvailable: "Bitte wähle einen anderen Nicknamen, deiner ist schon vorhanden!",
-    emailNotAvailable: "Bitte nimm eine andere E-Mail-Adresse, diese hier wird schon verwendet!"
+    emailNotAvailable: "Bitte nimm eine andere E-Mail-Adresse, diese hier wird schon verwendet!",
+    passwordRequestSucceed: "Eine E-Mail wurde erfolgreich an dich verschickt!",
+    passwordRequestFail: "Leider konnte dir keine E-Mail zugeschickt werden! Vielleicht hast du dich mit einer anderen E-Mail-Adresse registriert? (Wenn du sie nicht mehr weißt, spreche Hauke an!)"
 };
 window.$loading = document.createElement("span");
 $loading.className = "ajaxLoading";
@@ -224,7 +226,21 @@ __faster.login = function() {
 }
 // The function for the Idiots who have forgotten their password
 __faster.forgot = function() {
-    // TODO
+    var $email = __faster.byId("fEmail")
+    , $passwort = __faster.byId("fPasswort")
+
+    , props = {
+        email: $email.value,
+        passwort: $passwort.value
+    }
+
+    __faster.request("User/forgotPassword.php", props, function () {
+        __faster.message("fStatus", "passwordRequestSucceed")
+    }, function () {
+        $email.value = ""
+        $passwort.value = ""
+        __faster.message("fStatus", "passwordRequestFail")
+    })
 }
 __faster.freeTimer = {};
 __faster.lastExistsRequest = "";
@@ -317,9 +333,10 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
     <div id="passwortIdiotScreen">
         <form action="#" onsubmit="__faster.forgot();return false;">
             <ul class="formList">
-                <li><label for="fNickname">Trage hier deinen Nickname ein, dann erhälts du ein neues Passwort per E-Mail</label><input type="text" name="fNickname" id="fNickname" class="focusfield" /></li>
-                <li><input type="submit" value="Neues Passwort anfordern" /></li>
-                <li class="statusField">Wichtig: Dieses Feature ist noch nicht umgesetzt, vergesst also euer Passwort erstmal nicht oder schick eine Mail an mich!</li>
+                <li><label for="fEmail">Trage hier deine E-Mail-Adresse ein, dann erfährst du, was für einen Nickname du besitzt</label><input type="text" name="fEmail" id="fEmail" class="focusfield" /></li>
+                <li><label for="fPasswort">Hier kannst du ein zusätzlich ein neues Passwort eintragen, du erhälst dann einen Link zugeschickt, um es zu ändern:</label><input type="password" name="fPasswort" id="fPasswort" /></li>
+                <li><input type="submit" value="Anfrage starten" /></li>
+                <li class="statusField" id="fStatus"></li>
             </ul>
         </form>
     </div>
