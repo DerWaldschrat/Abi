@@ -84,7 +84,7 @@
         urlRoot: "Quote/",
         idAttribute: "quoteid",
         validate: function (attr) {
-            if (!_.isUndefined(attr.content) && attr.content.length < 10) {
+            if (!(typeof val === 'undefined') && attr.content.length < 10) {
                 return "quoteTooShort";
             }
         }

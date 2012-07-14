@@ -207,7 +207,7 @@
                 val = this.model.get(curr);
                 if (!!val) {
                     this.$("." + curr).text( (_.isFunction(transforms[curr]) ? transforms[curr](val) : val));
-                } else if (_.isUndefined(val)) {
+                } else if (typeof val === 'undefined')) {
                     this.$("." + curr).empty().append(this.theRestError ? this._nothing :  Abi.App.getLoading())
                 } else {
                     this.$("." + curr).empty().append(this._nothing);
