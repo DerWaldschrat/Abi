@@ -1,7 +1,7 @@
 /**
  * This is the app file which will be used for the rest of the app excepts from the __faster-object
  */
-steal("jstree/jquery", "jstree/underscore").then("jstree/backbone", "jstree/bootstrap").then("jstree/backbone/bindTo").then(function () {
+steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstrap").then("jstree/backbone/bindTo").then(function () {
     //window.WEB_SOCKET_SWF_LOCATION = "jstree/socket.io/WebSocketMain.swf";
     var getValue = function(object, prop) {
         if (!(object && object[prop])) return null;
