@@ -304,8 +304,10 @@ steal("jstree/jquery", "jstree/underscore").then("jstree/backbone", "jstree/boot
     };
 
     Abi.App.reset = function() {
-        this.$main.contents().detach();
-        this.$main.trigger("cleanuppage");
+        if(this.view instanceof Backbone.View) {
+            this.view.remove();
+            this.view = null;
+        } 
         return this.$main;
     };
 
