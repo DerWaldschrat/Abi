@@ -31,7 +31,7 @@ function getUrlToPath($path)
 //Only for testing purposes
 class mysqltest extends mysqli {
     public function __construct() {
-        parent::__construct("localhost", "root", "", "abi");
+        parent::__construct("127.0.0.1", "root", "", "abi");
     }
 
     /*public function prepare($query) {

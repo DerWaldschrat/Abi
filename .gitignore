@@ -1,5 +1,7 @@
 # ignore all files and directories starting with '__'
 __*
+# ignore bootstrap repo
+design/bootstrap-dev/
 # ignore all explain.txt files
 *explain.txt
 # ignore eventual chat software

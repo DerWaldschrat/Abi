@@ -324,7 +324,8 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
         <form action="#" onsubmit="__faster.forgot();return false;">
             <ul class="formList">
                 <li><label for="fEmail">Trage hier deine E-Mail-Adresse ein, dann erfährst du, was für einen Nickname du besitzt</label><input type="text" name="fEmail" id="fEmail" class="focusfield" /></li>
-                <li><label for="fPasswort">Hier kannst du ein zusätzlich ein neues Passwort eintragen, du erhälst dann einen Link zugeschickt, um es zu ändern:</label><input type="password" name="fPasswort" id="fPasswort" /></li>
+                <li><label for="fPasswort">Hier musst du ein zusätzlich ein neues (altes) Passwort eintragen, du erhälst dann einen Link zugeschickt, um es zu ändern:</label><input type="password" name="fPasswort" id="fPasswort" /></li>
+                <li>Wenn du dein altes oder irgendein Passwort eingibst, kannst du den Link ignorieren, und dein altes Passwort beibehalten. Du musst jedoch in jedem Falle eines angeben!</li>
                 <li><input type="submit" value="Anfrage starten" /></li>
                 <li class="statusField" id="fStatus"></li>
             </ul>
@@ -355,6 +356,8 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
         </div>
     </div>
 
+</div>
+<div id="footer">
 </div>
 <script src="../steal/steal.production.js"></script>
 <script>

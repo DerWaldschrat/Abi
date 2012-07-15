@@ -81,7 +81,7 @@ App.user.rights() >= 2 ? (function () {
         events: {
             "blur .rights": function (event) {
                 var $input = $(event.currentTarget), val = parseInt($input.val()), save = true, rights = App.user.rights();
-                if (_.isNaN(val)) {
+                if (isNaN(val)) {
                     $input.val(this.model.get("rights"));
                     // We do not need to save now
                     save = false
