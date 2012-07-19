@@ -82,7 +82,7 @@
     <!-- creates the overlay -->
     <div class='chat-window closed' style='left: 25px;'>
         <div class='chat-head' onclick='this.parentNode.classList.toggle("closed");'>
-            <span class='chat-with'>Simon Bein</span>
+            <span class='chat-with label'>Simon Bein</span>
             <button class='close' type='button' onclick='this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)'>&times;</button>
         </div>
         <div class='chat-content'>
@@ -141,17 +141,17 @@
     </div>
     <div class='chat-window' style='left: 350px;'>
         <div class='chat-head' onclick='this.parentNode.classList.toggle("closed");'>
-            <span class='chat-with'>Adrian Weis</span>
+            <span class='chat-with label'>Adrian Weis</span>
             <span class='badge badge-info'>3</span>
             <button class='close' type='button' onclick='this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)'>&times;</button>
         </div>
         <div class='chat-content'>
             <div class='chat-stream'>
     <ul>
-  <li>Lorem ipsum dolor sit amet, consectetuer adipiscing 
+  <li><span class='chat-from'>Lorem ipsum</span> dolor sit amet, consectetuer adipiscing 
   elit. Aenean commodo ligula eget dolor. Aenean 
   massa.</li>
-  <li>Cum sociis natoque penatibus et magnis dis 
+  <li><span class='chat-from'>Cum sociis</span> natoque penatibus et magnis dis 
   parturient montes, nascetur ridiculus mus. Donec quam 
   felis, ultricies nec, pellentesque eu, pretium quis, 
   sem.</li>

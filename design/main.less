@@ -59,6 +59,7 @@ ul {
 
 // The individual chat boxes
 #footer .chat-window {
+    background: @white;
     border: @footerBorder solid @black;
     border-bottom: none;
     width: @chatItemWidth;
@@ -71,11 +72,15 @@ ul {
     &.closed {
         height: @footerHeightVisible;
         margin-top: 0;
+        .chat-head {
+            border-bottom: none;
+            height: @footerHeightVisible;
+        }
     }
     // The headbar of the chat
     .chat-head {
-        height: @footerHeightVisible;
-        background: @grayLighter;
+        height: @footerHeightVisible - 1px;
+        border-bottom: 1px solid @black;
         cursor: pointer;
         .chat-with {
             margin-left: @chatMarginLeftStream;
@@ -85,13 +90,21 @@ ul {
     .chat-content {
         overflow: hidden;
         height: @footerHeightInvisible;
-        background: @grayLighter;// hello
         .chat-stream {
             overflow-y: scroll;
             overflow-x: hidden;
             height: @footerHeightInvisible - @chatInputHeight;
             ul {
-                margin-left: @chatMarginLeftStream;
+                margin-left: 0;
+                padding-left: 0;
+                li {
+                    .chat-from {
+                        text-transform: uppercase;
+                        display: block;
+                    }
+                    padding-left: @chatMarginLeftStream;
+                    border-bottom: 1px solid @black;
+                }
             }
         }
         .chat-input {

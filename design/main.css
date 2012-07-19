@@ -1,2 +1,123 @@
-.clearfix{*zoom:1}.clearfix:before,.clearfix:after{display:table;content:""}.clearfix:after{clear:both}.hide-text{font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0}.input-block-level{display:block;width:100%;min-height:28px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box}html{overflow-y:scroll}#head{height:40px;-moz-transition:all .5s linear}#head .form-search{margin-bottom:0}body{margin-top:40px}#wrapper{height:100.1%}ul{list-style-type:none}.removeButton{font-weight:700;display:inline-block;margin-left:3em}#wrapper{padding-bottom:40px}#footer{position:fixed;height:31px;width:100%;bottom:0;left:0;overflow:visible}#footer .chat-window{border:1px solid #000;border-bottom:0;width:300px;overflow:hidden;height:280px;float:left;margin-top:-250px;margin-left:30px}#footer .chat-window.closed{height:30px;margin-top:0}#footer .chat-window .chat-head{height:30px;background:#eee;cursor:pointer}#footer .chat-window .chat-head .chat-with{margin-left:8%}#footer .chat-window .chat-content{overflow:hidden;height:250px;background:#eee}#footer .chat-window .chat-content .chat-stream{overflow-y:scroll;overflow-x:hidden;height:226px}#footer .chat-window .chat-content .chat-stream ul{margin-left:8%}#footer .chat-window .chat-content .chat-input{height:24px}#footer .chat-window .chat-content .chat-input input{display:inline-block;width:95%;margin-left:auto;margin-right:auto;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;border:0}
-/* This beautiful CSS-File has been crafted with LESS (lesscss.org) and compiled by simpLESS (wearekiss.com/simpless) */
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both;
+}
+.hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+html {
+  overflow-y: scroll;
+}
+#head {
+  height: 40px;
+  -moz-transition: all 0.5s linear;
+}
+#head .form-search {
+  margin-bottom: 0;
+}
+body {
+  margin-top: 40px;
+}
+#wrapper {
+  height: 100.1%;
+}
+ul {
+  list-style-type: none;
+}
+.removeButton {
+  font-weight: bold;
+  display: inline-block;
+  margin-left: 3em;
+}
+#wrapper {
+  padding-bottom: 40px;
+}
+#footer {
+  position: fixed;
+  height: 31px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  overflow: visible;
+}
+#footer .chat-window {
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-bottom: none;
+  width: 300px;
+  overflow: hidden;
+  height: 280px;
+  float: left;
+  margin-top: -250px;
+  margin-left: 30px;
+}
+#footer .chat-window.closed {
+  height: 30px;
+  margin-top: 0;
+}
+#footer .chat-window.closed .chat-head {
+  border-bottom: none;
+  height: 30px;
+}
+#footer .chat-window .chat-head {
+  height: 29px;
+  border-bottom: 1px solid #000000;
+  cursor: pointer;
+}
+#footer .chat-window .chat-head .chat-with {
+  margin-left: 8%;
+}
+#footer .chat-window .chat-content {
+  overflow: hidden;
+  height: 250px;
+}
+#footer .chat-window .chat-content .chat-stream {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 226px;
+}
+#footer .chat-window .chat-content .chat-stream ul {
+  margin-left: 0;
+  padding-left: 0;
+}
+#footer .chat-window .chat-content .chat-stream ul li {
+  padding-left: 8%;
+  border-bottom: 1px solid #000000;
+}
+#footer .chat-window .chat-content .chat-stream ul li .chat-from {
+  text-transform: uppercase;
+  display: block;
+}
+#footer .chat-window .chat-content .chat-input {
+  height: 24px;
+}
+#footer .chat-window .chat-content .chat-input input {
+  display: inline-block;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: none;
+}
