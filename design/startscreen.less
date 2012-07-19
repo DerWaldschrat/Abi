@@ -75,21 +75,34 @@
     }
 }
 
-@media screen and (max-width: 801px) {
+@media (max-width: 801px), (max-device-width: 801px) {
     #initialOverlay {   
         .transition(none);
-        .border-radius(none);
+        .border-radius(0px);
         position: static;
+        top: 0;
+        left: 0;
         border: none;
+    }
+    #switchBetweenRegisterLogin {
+        position: static;
+        min-width: 400px;
+        li {
+            float: none;
+        }
     }
     #registerScreen, #loginScreen, #passwortIdiotScreen {
         position: static;
         border: none;
         display: none;
         overflow: auto;
-        width: 400px;
+        min-width: 400px;
         &.initial {
             display: block;
         }
+    }
+    .formList {
+        list-style: none inside none;
+        margin: 1em auto 1em 1em;
     }
 }
