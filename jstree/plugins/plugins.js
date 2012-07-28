@@ -12,7 +12,12 @@ window.Plugins = {
         rights: 2,
         route: "usermanager"
     },
-    
+    // The Toskana view plugin
+    "galeria": {
+        js: "jstree/app/galeria",
+        rights: 1,
+        route: "galeria"
+    }
     // Only for testing
     /*"filetester": {
         js: "jstree/filetester",

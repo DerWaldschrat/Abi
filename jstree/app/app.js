@@ -333,6 +333,26 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
         this.view = view;
         this.$main.append(view.render().el);      
     }
+    
+    // Returns a function which itself returns a singleton of the current class
+    Abi.Singleton = function () {
+        var instance = null
+        return function (events, scope) {
+            var i, fetch
+            if (instance === null) {
+                instance = new this()
+                fetch = true
+            }
+            events || (events = {})
+            for (i in events) {
+                instance.on(i, events[i], scope)
+            }
+            if (fetch) {
+                instance.fetch()
+            }
+            return instance;
+        }
+    }
 
     /*
      * A very interesting, but short API:
