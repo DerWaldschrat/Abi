@@ -13,10 +13,10 @@ post(function () {
         $db = db();
         $oldPw = $userIn->passwort;
         $userIn->passwort = hashme($userIn->passwort, $userIn->nickname);
-        $st = $db->prepare("SELECT userid, email, vorname, nachname, passwort, profile, cat, rights FROM " . USER . " WHERE nickname = ?");
+        $st = $db->prepare("SELECT userid, email, vorname, nachname, passwort, profile, cat, rights, galeria FROM " . USER . " WHERE nickname = ?");
         $st->bind_param("s", $userIn->nickname);
         $user = new stdClass();
-        $st->bind_result($user->userid, $user->email, $user->vorname, $user->nachname, $user->passwort, $user->profile, $user->cat, $user->rights);
+        $st->bind_result($user->userid, $user->email, $user->vorname, $user->nachname, $user->passwort, $user->profile, $user->cat, $user->rights, $user->galeria);
         if ($st->execute()) {
             $st->store_result();
             if ($st->num_rows === 1) {
@@ -36,7 +36,7 @@ post(function () {
                     
                     
                     $_SESSTION["user"] = array();
-                    $toSet = array("userid", "email", "vorname", "nachname", "profile", "cat", "rights");
+                    $toSet = array("userid", "email", "vorname", "nachname", "profile", "cat", "rights", "galeria");
                     foreach($toSet as $field) {
                         $_SESSION["user"][$field] = $user->$field;
                     }
