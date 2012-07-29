@@ -1,0 +1,86 @@
+// The chat bottom bar
+@footerBorder: 1px;
+@footerHeightVisible: 30px;
+@footerHeightInvisible: 250px;
+@footerHeight: @footerHeightInvisible + @footerHeightVisible;
+@chatItemWidth: 300px;
+@chatInputHeight: 24px;
+@chatMargin: @chatItemWidth * 0.1;
+@chatMarginLeftStream: 8%;
+// Add some padding to the wrapper
+#wrapper {
+    padding-bottom: @footerHeightVisible + 10px; 
+}
+// Style the footer
+#footer {
+    position: fixed;
+    height: @footerHeightVisible + @footerBorder;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    overflow: visible;
+}
+
+// The individual chat boxes
+#footer .chat-window {
+    background: @white;
+    border: @footerBorder solid @black;
+    border-bottom: none;
+    width: @chatItemWidth;
+    overflow: hidden;
+    height: @footerHeight;
+    float: left;
+    margin-top: @footerHeightInvisible * -1;
+    margin-left: @chatMargin;
+    // Make chat closable
+    &.closed {
+        height: @footerHeightVisible;
+        margin-top: 0;
+        .chat-head {
+            border-bottom: none;
+            height: @footerHeightVisible;
+        }
+    }
+    // The headbar of the chat
+    .chat-head {
+        height: @footerHeightVisible - 1px;
+        border-bottom: 1px solid @black;
+        cursor: pointer;
+        .chat-with {
+            margin-left: @chatMarginLeftStream;
+        }
+    }
+    // The chat stream
+    .chat-content {
+        overflow: hidden;
+        height: @footerHeightInvisible;
+        .chat-stream {
+            overflow-y: scroll;
+            overflow-x: hidden;
+            height: @footerHeightInvisible - @chatInputHeight;
+            ul {
+                margin-left: 0;
+                padding-left: 0;
+                li {
+                    .chat-from {
+                        text-transform: uppercase;
+                        display: block;
+                    }
+                    padding-left: @chatMarginLeftStream;
+                    border-bottom: 1px solid @black;
+                }
+            }
+        }
+        .chat-input {
+            height: @chatInputHeight;
+            input {
+                display: inline-block;
+                width: 95%;
+                margin-left: auto;
+                margin-right: auto;
+                .box-shadow(none);
+                border: none;
+            }
+        }
+    }
+}
