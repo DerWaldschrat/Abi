@@ -61,6 +61,9 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
         // Direct access to the rights property
         rights: function () {
             return this.get("rights");
+        },
+        galeria: function () {
+            return this.get("galeria") === 1;
         }
     });
 

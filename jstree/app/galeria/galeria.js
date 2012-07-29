@@ -1,4 +1,4 @@
-App.user.rights() >= 1 ? function () {
+App.user.galeria() === true ? function () {
     // Only load all the libs if necessary
     var ROUTE = "galeria"
     App.addNavigationItem(ROUTE, "Galerie")
