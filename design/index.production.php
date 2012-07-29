@@ -24,8 +24,6 @@ if (location.href.indexOf(ROOT) === -1) {
 <style type="text/css">
     @import url(design/bootstrap/css/bootstrap.css);
     @import url(design/main.css);
-    @import url(design/startscreen.css);
-    @import url(design/widgets.css);
 </style>
 <script>
 <?php

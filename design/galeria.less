@@ -1,0 +1,26 @@
+// Galeria CSS
+// Based on bootstrap
+@galeriaBase: 50px;
+
+.galeria {
+    li {
+        margin-left: 0;
+        margin-right: 30px;
+        a.thumbnail {
+            width: 3 * @galeriaBase;
+            height: 3 * @galeriaBase;
+            overflow: hidden;
+            /*img {
+                display: inline-block;
+                &.portrait {
+                    min-width: @galeriaBase * 3;
+                    min-height: @galeriaBase * 4;
+                }
+                &.landscape {
+                    min-width: @galeriaBase * 4;
+                    min-height: @galeriaBase * 3;    
+                }
+            }*/
+        }
+    }
+}

@@ -13,8 +13,6 @@ require_once IN . "session" . PHP_EX;
 <style type="text/css">
     @import url(bootstrap/css/bootstrap.css);
     @import url(main.css);
-    @import url(startscreen.css);
-    @import url(widgets.css);
 </style>
 <script>
 <?php
