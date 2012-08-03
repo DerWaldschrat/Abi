@@ -4,7 +4,10 @@ App.user.galeria() === true ? function () {
     App.addNavigationItem(ROUTE, "Galerie")
     App.router.route(ROUTE, ROUTE, function () {
         steal("jstree/app/galeria/main.js").then(function () {
-            App.setView(new Abi.View.Galeria())    
+            var GALERIA = function () {
+                App.setView(new Abi.View.Galeria())   
+            }
+            GALERIA()
         })
     })
 
