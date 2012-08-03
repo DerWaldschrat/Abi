@@ -11,7 +11,8 @@ if (!defined("SESSION_INIT")) {
 error_reporting(0);
 // do not call the mail function directly, because we cant be sure to use it on localhost
 $mail = "mail";
-
+// We do need to encrypt on Linux/Unix
+$crypt = "crypt";
 
 /**
  * Create Url to path, needs configuration

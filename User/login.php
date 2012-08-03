@@ -8,6 +8,7 @@ require IN . "mapper" . PHP_EX;
 require IN . "hasher" . PHP_EX;
 
 post(function () {
+    global $crypt;
     $userIn = bodyAsJSON();
     if (hasAllSet($userIn, array("nickname", "passwort"))) {
         $db = db();
@@ -24,7 +25,6 @@ post(function () {
                 if ($user->passwort === $userIn->passwort) {
                     $user->nickname = $userIn->nickname;
                     $st->close();
-                    
                     // Create new cat
                     require IN . "random" . PHP_EX;
                     $cat = randomString(12);
@@ -33,10 +33,22 @@ post(function () {
                     if (exQuery($st)) {
                         $user->cat = $cat;
                     }
+                    // Create hash of Username
+                    $user->nickhash = md5($user->nickname);
                     
-                    
+                    /*// Create entry for .htpasswd
+                    $file = file_get_contents(IN . ".htpasswd");
+                    $pos = strpos($file, $user->nickhash);
+                    if ($pos === false) {
+                    } else {
+                        $file = preg_replace("|" . $user->nickhash . ':([a-zA-Z0-9/.$]+)|', "", $file);
+                        $file = str_replace("\n\n", "\n", $file);
+                    }
+                    $file .= "\n".$user->nickhash . ":" . $crypt($user->cat);
+                    file_put_contents(IN . ".htpasswd", $file);
+                    //sleep(1);*/
                     $_SESSTION["user"] = array();
-                    $toSet = array("userid", "email", "vorname", "nachname", "profile", "cat", "rights", "galeria");
+                    $toSet = array("userid", "email", "vorname", "nachname", "profile", "cat", "rights", "galeria", "nickhash");
                     foreach($toSet as $field) {
                         $_SESSION["user"][$field] = $user->$field;
                     }

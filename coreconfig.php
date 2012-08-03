@@ -11,6 +11,10 @@ if (!defined("SESSION_INIT")) {
 error_reporting(E_ALL | E_STRICT);
 // do not call the mail function directly, because we cant be sure to use it on localhost
 $mail = "mail_hooking";
+$crypt = "noob";
+function noob ($val) {
+    return $val;
+}
 require IN . "developer/mailhook" . PHP_EX;
 
 
