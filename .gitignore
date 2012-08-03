@@ -1,5 +1,9 @@
 # ignore all files and directories starting with '__'
 __*
+# ignore .htpasswd
+.htpasswd
+# ignore galeria index
+Galeria/protected/x.json
 # ignore bootstrap repo
 design/bootstrap-dev/
 # ignore all explain.txt files
