@@ -45,6 +45,7 @@ define("QUOTE", $pre . "quote");
 define("COMMENT", $pre . "comment");
 define("AWARD", $pre . "award");
 define("CATEGORY", $pre . "category");
+define("KURS", $pre . "kurs");
 
 
 /**
