@@ -288,6 +288,7 @@
         render: function () {
             var html = "<form action='#'>" +
                 "<fieldset>" +
+                "<legend>Einen Spruch eintragen</legend>" +
                 "<label for='qContent'>Dein Spruch</label><textarea id='qContent'></textarea>" +
                 "</fieldset>" +
                 "<fieldset class='buttonAndMessage control-group'>"+
