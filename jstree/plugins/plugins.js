@@ -17,6 +17,12 @@ window.Plugins = {
         js: "jstree/app/galeria",
         rights: 1,
         route: "galeria"
+    },
+    // The timetable plugin
+    "timetable": {
+        js: "jstree/app/timetable",
+        rights: 1,
+        route: "timetable"
     }
     // Only for testing
     /*"filetester": {
