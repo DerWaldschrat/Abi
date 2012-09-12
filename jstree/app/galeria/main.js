@@ -159,7 +159,7 @@ steal("jstree/fancybox", "jstree/fancybox/fancybox.css").then(function () {
             return this
         },
         templateHead: function (model) {
-            return "<h1>" + model.get("name") + "</h1>"
+            return "<h1>" + model.get("name") + "</h1>" + "<div><a href='" + this.collection.url() + "all_img.zip" + "'>Alle Bilder als Zip herunterladen</a></div>";
         },
         templateBody: function (collection, page) {
             var html = "<ul class='thumbnails galeria' style='margin-left: 0; padding-left: 0;'>"
