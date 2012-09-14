@@ -107,9 +107,9 @@
                     "<div>Die Stunden:</div>" +
                     this._chooseOfHour() +
                 "</fieldset>" +
-                "<fieldset>" +
-                    "<input type='submit' value='Neuen Kurs anlegen' class='btn buttonAndMessage' />" +
-                    "<div class='help-block statusField'></div>" +
+                "<fieldset class='buttonAndMessage control-group'>" +
+                    "<input type='submit' value='Neuen Kurs anlegen' class='btn' />" +
+                    "<div class='statusField help-block'></div>" +
                 "</fieldset>" +
                 "</form>"
         },
@@ -137,9 +137,9 @@
             this.$(".createNewLesson input:checkbox").prop("checked", false);
             this.collection.add(this.model)
         },
-        newModelFailed: function (error) {
-            alert("shit")
+        newModelFailed: function (model, error) {
             this.message(error)
+            console.log(error)
             this.model.off()
         },
         render: function () {
