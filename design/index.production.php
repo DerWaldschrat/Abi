@@ -310,7 +310,7 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
                     <option value="male" selected="selected">männlich</option>
                     <option value="female">weiblich</option>
                 </select></li>
-                <li><input type="submit" value="Registrieren" id="rSubmit" /></li>
+                <li><input type="submit" value="Registrieren" id="rSubmit" class='btn' /></li>
                 <li class="statusField" id="rStatus"></li>
             </ul>
         </form>
@@ -321,7 +321,7 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
             <ul class="formList">
                 <li><label for="lNickname">Nickname</label><input type="text" name="lNickname" id="lNickname" autofocus="autofocus" class="focusfield" /></li>
                 <li><label for="lPasswort">Passwort</label><input type="password" name="lPasswort" id="lPasswort" /></li>
-                <li><input type="submit" value="Einloggen" id="lSubmit" /></li>
+                <li><input type="submit" value="Einloggen" id="lSubmit" class='btn' /></li>
                 <li class="statusField" id="lStatus"></li>
             </ul>
         </form>
@@ -334,7 +334,7 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
                 <li><label for="fEmail">Trage hier deine E-Mail-Adresse ein, dann erfährst du, was für einen Nickname du besitzt</label><input type="text" name="fEmail" id="fEmail" class="focusfield" /></li>
                 <li><label for="fPasswort">Hier musst du ein zusätzlich ein neues (altes) Passwort eintragen, du erhälst dann einen Link zugeschickt, um es zu ändern:</label><input type="password" name="fPasswort" id="fPasswort" /></li>
                 <li>Wenn du dein altes oder irgendein Passwort eingibst, kannst du den Link ignorieren, und dein altes Passwort beibehalten. Du musst jedoch in jedem Falle eines angeben!</li>
-                <li><input type="submit" value="Anfrage starten" /></li>
+                <li><input type="submit" value="Anfrage starten" class='btn' /></li>
                 <li class="statusField" id="fStatus"></li>
             </ul>
         </form>
