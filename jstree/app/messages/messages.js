@@ -8,6 +8,9 @@
         nothing: "keine Angabe vorhanden!",
         commentSaveSucceed: "Dein Kommentar wurde erfolgreich gespeichert!",
         commentSaveFail: "Dein Kommentar konnte leider nicht gespeichert werden!",
+
+        lessonSaveFail: "Kurs konnte nicht gespeichert werden!",
+        lessonSaveSucceed: "Kurs erfolgreich gespeichert",
         
         moreInfoOnClick: "Klicke für mehr Informationen...",
         
