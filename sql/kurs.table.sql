@@ -4,5 +4,6 @@ CREATE TABLE abi_kurs (
   kuerzel VARCHAR(10),
   lehrer VARCHAR(80),
   fach VARCHAR(40),
-  stunden VARCHAR(40)
+  stunden VARCHAR(40),
+  fromid INT
 )
