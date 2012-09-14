@@ -70,7 +70,8 @@
      */
     Abi.View.Timetable = Abi.View.Base.extend({
         events: {
-            "submit .createNewLesson": "createNewLesson"
+            "submit .createNewLesson": "createNewLesson",
+            "click .createNewLesson legend": "toggleForm"
         },
         initialize: function () {
             this.collection = Abi.Collection.Lessons.instance()
@@ -97,17 +98,20 @@
         templateCreate: function () {
             return "<form class='createNewLesson' action='#'>" +
                 "<fieldset>" +
-                    "<legend>Neuen Kurs anlegen</legend>" +
-                    "<label for='lessonKuerzel'>Das Kürzel (etwa wr3 oder m1):</label>" +
-                    "<input type='text' id='lessonKuerzel' />" +
-                    "<label for='lessonLehrer'>Der unterrichtende Lehrer:</label>" +
-                    "<input type='text' id='lessonLehrer' />" +
-                    "<label for='lessonFach'>Das Fach des Kurses</label>" +
-                    "<input type='text' id='lessonFach' />" +
-                    "<div>Die Stunden:</div>" +
-                    this._chooseOfHour() +
+                    "<legend class='pointer'>Neuen Kurs anlegen</legend>" +
+                    "<div class='toggler hidden'>" +
+
+                        "<label for='lessonKuerzel'>Das Kürzel (etwa wr3 oder m1):</label>" +
+                        "<input type='text' id='lessonKuerzel' />" +
+                        "<label for='lessonLehrer'>Der unterrichtende Lehrer:</label>" +
+                        "<input type='text' id='lessonLehrer' />" +
+                        "<label for='lessonFach'>Das Fach des Kurses</label>" +
+                        "<input type='text' id='lessonFach' />" +
+                        "<div>Die Stunden:</div>" +
+                        this._chooseOfHour() +
+                    "</div>" +
                 "</fieldset>" +
-                "<fieldset class='buttonAndMessage control-group'>" +
+                "<fieldset class='buttonAndMessage control-group toggler hidden'>" +
                     "<input type='submit' value='Neuen Kurs anlegen' class='btn' />" +
                     "<div class='statusField help-block'></div>" +
                 "</fieldset>" +
@@ -141,6 +145,9 @@
             this.message(error)
             console.log(error)
             this.model.off()
+        },
+        toggleForm: function () {
+            this.$el.find(".createNewLesson .toggler").toggleClass('hidden')
         },
         render: function () {
             this.$el.html(this.templateCreate())
