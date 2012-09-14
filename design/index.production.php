@@ -21,8 +21,10 @@ if (location.href.indexOf(ROOT) === -1) {
 <title>Abizeitung</title>
 
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style type="text/css">
     @import url(design/bootstrap/css/bootstrap.css);
+    @import url(design/bootstrap/css/bootstrap-responsive.css);
     @import url(design/main.css);
 </style>
 <script>

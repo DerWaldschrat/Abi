@@ -10,8 +10,10 @@ require_once IN . "session" . PHP_EX;
 <title>Abizeitung</title>
 
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style type="text/css">
     @import url(bootstrap/css/bootstrap.css);
+    @import url(bootstrap/css/bootstrap-responsive.css);
     @import url(main.css);
 </style>
 <script>
