@@ -135,11 +135,9 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
             this.clearMessage();
             this.$el.find(".buttonAndMessage").addClass(green ? "success" : "error")
             .find(".statusField").text(Abi.App.message(name))
-            this.$el.find("[type=submit]").addClass(green ? "btn-success" : "btn-error")
         },
         clearMessage: function () {
             this.$el.find(".buttonAndMessage").removeClass("success error").find(".statusField").text("");
-            this.$el.find("[type=submit]").removeClass("btn-success btn-danger");    
         },
         // Overwrite for complete cleanup!
         remove: function () {
