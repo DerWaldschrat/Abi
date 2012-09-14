@@ -5,6 +5,7 @@
 .clearfix:after {
   display: table;
   content: "";
+  line-height: 0;
 }
 .clearfix:after {
   clear: both;
@@ -19,10 +20,9 @@
 .input-block-level {
   display: block;
   width: 100%;
-  min-height: 28px;
+  min-height: 30px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
   box-sizing: border-box;
 }
 html {
@@ -48,6 +48,12 @@ ul {
   font-weight: bold;
   display: inline-block;
   margin-left: 3em;
+}
+.hidden {
+  display: none;
+}
+.pointer {
+  cursor: pointer;
 }
 #initialOverlay {
   opacity: 1;
@@ -104,7 +110,6 @@ ul {
   z-index: 0;
   -webkit-transition: opacity 0.8s ease-in;
   -moz-transition: opacity 0.8s ease-in;
-  -ms-transition: opacity 0.8s ease-in;
   -o-transition: opacity 0.8s ease-in;
   transition: opacity 0.8s ease-in;
 }
@@ -132,7 +137,6 @@ ul {
   #initialOverlay {
     -webkit-transition: none;
     -moz-transition: none;
-    -ms-transition: none;
     -o-transition: none;
     transition: none;
     -webkit-border-radius: 0px;
