@@ -9,7 +9,7 @@ if (isLoggedin(1)) {
     // Creating new lessons
     post(function () {
         $lesson = bodyAsJSON();
-        if (hasAllSet($lesson, array("kuerzel, lehrer, fach, stunden")) && is_array($lesson->stunden)) {
+        if (hasAllSet($lesson, array("kuerzel", "lehrer", "fach", "stunden")) && is_array($lesson->stunden)) {
             $valid = true;
             foreach($lesson->stunden as $stunde) {
                 if (!is_int($stunde)) {
@@ -19,8 +19,11 @@ if (isLoggedin(1)) {
             }
             if ($valid === true) {
                 $db = db();
-                $st = $db->prepare("INSERT INTO " . KURS . " (kuerzel, lehrer, fach, stunden, fromid)");
-                $st->bind_param("sssss", $lesson->kuerzel, $lesson->lehrer, $lesson->fach, $lesson->stunden, userField("userid"));
+                $st = $db->prepare("INSERT INTO " . KURS . " (kuerzel, lehrer, fach, stunden, fromid) VALUES (?, ?, ?, ?, ?)");
+                echo $db->error;
+                $_userid = userField("userid");
+                $stunden = json_encode($lesson->stunden);
+                $st->bind_param("sssss", $lesson->kuerzel, $lesson->lehrer, $lesson->fach, $stunden, $_userid);
                 if (exQuery($st)) {
                     hJSON(array("kursid" => $db->insert_id));
                 } else {
@@ -39,6 +42,7 @@ if (isLoggedin(1)) {
         if ($query instanceof mysqli_result) {
             $results = array();
             while ($row = $query->fetch_object()) {
+                $row->stunden = json_decode($row->stunden);
                 $results[] = $row;
             }
             hJSON($results);
