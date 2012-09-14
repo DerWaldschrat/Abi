@@ -292,7 +292,7 @@
                 "<label for='qContent'>Dein Spruch</label><textarea id='qContent'></textarea>" +
                 "</fieldset>" +
                 "<fieldset class='buttonAndMessage control-group'>"+
-                "<input type='submit' value='Eintragen' />" +
+                "<input type='submit' value='Eintragen' class='btn' />" +
                 "<div class='statusField help-block'></div>" +
                 "</fieldset>" +
                 "</form>";
@@ -519,7 +519,7 @@
             return "<form action='#' id='createNewAward'>" +
                 "<ul class='formList'>" +
                 "<li><label for='awardTitle'>Name der neuen Kategorie</label><input type='text' name='awardTitle' id='awardTitle' /></li>" +
-                "<li><input type='submit' value='Erstellen' /></li>" +
+                "<li><input type='submit' value='Erstellen' class='btn' /></li>" +
                 "</ul>" +
                 "</form>";
         },
