@@ -26,17 +26,17 @@
 
     /**
      *
-     * @classs Abi.Collection.Lessons
+     * @class Abi.Collection.Lessons
      */
     Abi.Collection.Lessons = Abi.Collection.Base.extend({
-        urlRoot: "Timetable/",
-        model: Abi.Model.Lesson,
-        initialize: function () {
+        urlRoot:"Timetable/",
+        model:Abi.Model.Lesson,
+        initialize:function () {
             this.times = []
         },
         // Selects only lessons for the specific time
         // Lazy evaluated
-        forTime: function (time) {
+        forTime:function (time) {
             if (this.times[time] != null) {
                 return this.times[time]
             }
@@ -49,8 +49,100 @@
             return this.times[time]
         }
     }, {
-        instance: Abi.Singleton()
+        instance:Abi.Singleton()
     })
+
+    /**
+     * @class Abi.Collection.StaticTimetable
+     */
+    Abi.Collection.StaticTimetable = function () {
+        this._store = new Array(60)
+        this._available = Abi.Collection.Lessons.instance()
+        this._haveChanged = {}
+    }
+
+    _.extend(Abi.Collection.StaticTimetable.prototype, Backbone.Events, {
+        get: function (day) {
+            return this._store[day] !== -1 ? this._available.get(this._store[day]) : null;
+        },
+        set: function (id) {
+            // Remove collisions
+            this._removeCollisions(id)
+            // Set new lesson
+            this._set(id)
+            this.trigger("change", this)
+            this._haveChanged = {}
+            return this
+        },
+        changed: function () {
+            return this._haveChanged
+        },
+        _remove: function (day) {
+            var model = this.get(day)
+            // If no model is set for that day, just return
+            if (!model) return this
+            // Get every hour the model has
+            var arr =  model.get("stunden")
+            // Set every our in our store to -1
+            for (var i = 0, len = arr.length; i < len; i++) {
+                this._store[arr[i]] = this._haveChanged[arr[id]] = -1
+            }
+            return this
+        },
+        _removeCollisions: function (id) {
+            // Get every hour the new model has
+            var arr = this._available.get(id).get("stunden")
+            // Iterate through all hours to remove each collision
+            for (var i = 0, len = arr.length; i < len; i++) {
+                this._remove(arr[i])
+            }
+            return this
+        },
+        _set: function(id) {
+            var arr = this._available.get(id)
+            for (var i = 0, len = arr.length; i < len; i++) {
+                this._store[arr[i]] = this._haveChanged[arr[i]] = id
+            }
+            return this
+        },
+        toJSON: function () {
+            return _.clone(this._store)
+        },
+        url: function () {
+            return ROOT + "Timetable/me"
+        },
+        fetch: function (op) {
+            var options = op ? _.clone(op) : {}
+                , success = options.success
+                , model = this
+            options.success = function (resp) {
+                model._store = model._haveChanged = resp
+                if (success) {
+                    success(model)
+                } else {
+                    model.trigger("change", model)
+                }
+                model._haveChanged = {}
+            }
+            options.error = Backbone.wrapError(options.error, model, options)
+            return Backbone.sync.call(this, "read", this, options)
+        },
+        save: function () {
+            var options = op ? _.clone(op) : {}
+                , success = options.success
+                , model = this
+            options.success = function (resp) {
+                if (success) {
+                    success(model)
+                } else {
+                    model.trigger("sync", model)
+                }
+            }
+            options.error = Backbone.wrapError(options.error, model, options)
+            return Backbone.sync.call(this, "update", this, options)
+        }
+    });
+
 
 
 
@@ -62,23 +154,28 @@
 
     }
 
-
-
     /**
      * @class Abi.View.Timetable
      * Should display the whole timetable
      */
+
     Abi.View.Timetable = Abi.View.Base.extend({
         events: {
             "submit .createNewLesson": "createNewLesson",
-            "click .createNewLesson legend": "toggleForm"
+            "click #createNewLessonLegend": "toggleForm"
         },
         initialize: function () {
             this.collection = Abi.Collection.Lessons.instance()
             this._timeSettings = {
                 hoursADay: 12,
                 days: ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"]
+
             }
+            this.setSubviewStore("mainTable")
+            this.mainTable = new Abi.View.TimetableMain({
+                collection: this.collection,
+                _timeSettings: this._timeSettings
+            })
         },
         // Receive values from this
         // $(".lessonStunden:checked").map(function () {return parseInt($(this).val(), 10)})
@@ -98,7 +195,7 @@
         templateCreate: function () {
             return "<form class='createNewLesson' action='#'>" +
                 "<fieldset>" +
-                    "<legend class='pointer'>Neuen Kurs anlegen</legend>" +
+                    "<legend class='pointer' id='createNewLessonLegend'>Neuen Kurs anlegen</legend>" +
                     "<div class='toggler hidden'>" +
 
                         "<label for='lessonKuerzel'>Das Kürzel (etwa wr3 oder m1):</label>" +
@@ -151,7 +248,79 @@
         },
         render: function () {
             this.$el.html(this.templateCreate())
+                .append(this.mainTable.render().el)
             return this
+        }
+    })
+
+    /**
+     * @class Abi.View.TimetableMain
+     * The class which displays the real table
+     */
+    Abi.View.TimetableMain = Abi.View.Base.extend({
+        tagName: "table",
+        className: "table table-bordered",
+        events: {
+            "click #toggleEditMode": "toggleEditMode"
+        },
+        initialize: function () {
+            this._timeSettings = this.options._timeSettings
+            this.staticFields = new Abi.Collection.StaticTimetable()
+            this.editMode = false;
+            this.buttonBehaviour = {
+                no: {
+                    text: "Bearbeite",
+                    title: "Bearbeite deinen Stundenplan"
+                },
+                yes: {
+                    text: "Speichere",
+                    title: "Speichere deine eben getroffenen Änderungen"
+                }
+            }
+            // The data cell body template renderer
+            this.bodyEditMode = {
+                no: function (i, j) {
+                    return "<td>" + (i + j * this._timeSettings.hoursADay)  + "</td>";
+                },
+                yes: function (i, j) {
+                    return "<td>" + i + "," + j + "</td>"
+                }
+            }
+        },
+        toggleEditMode: function(event) {
+            var $btn = $(event.target)
+                , key = this.editMode ? "no" : "yes"
+
+            $btn.text(this.buttonBehaviour[key].text).attr("title", this.buttonBehaviour[key].title)
+            this.$("tbody").replaceWith(this.templateBody(this.bodyEditMode[key]))
+            this.editMode = !this.editMode
+        },
+        templateHead: function () {
+            var head = "<thead><tr>"
+                head += "<th><button type='button' class='btn' id='toggleEditMode' title='" + this.buttonBehaviour.no.title + "'>" + this.buttonBehaviour.no.text + "</button></th>";
+            for (var i = 0, len = this._timeSettings.days.length; i < len; i++) {
+                head += "<th>" + this._timeSettings.days[i] + "</th>"
+            }
+            head += "</tr></thead>"
+            return head
+        },
+        templateBody: function (fn) {
+            var body = "<tbody>"
+            for (var i = 0, len = this._timeSettings.hoursADay; i < len; i++) {
+                body += "<tr>" +
+                    "<th>" + (i + 1) + ". Stunde</th>"
+                for (var j = 0, jlen = this._timeSettings.days.length; j < jlen; j++) {
+                    body += fn.call(this, i, j)
+                }
+                body += "</tr>"
+            }
+            body += "</tbody>"
+            return body
+        },
+        render: function () {
+            this.$el.html(this.templateHead())
+                .append(this.templateBody(this.bodyEditMode.no))
+            return this;
         }
     })
 
