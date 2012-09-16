@@ -33,10 +33,20 @@
         model:Abi.Model.Lesson,
         initialize:function () {
             this.times = []
+            this.on("add", this._changeTimes, this)
+        },
+        _changeTimes: function (model) {
+            var times = model.get("stunden")
+            for (var i = 0, len = times.length, time; i < len; i++) {
+                time = times[i]
+                if (_.isArray(this.times[time])) {
+                    this.times[time].push(model)
+                }
+            }
         },
         // Selects only lessons for the specific time
         // Lazy evaluated
-        forTime:function (time) {
+        forTime: function (time) {
             if (this.times[time] != null) {
                 return this.times[time]
             }
@@ -49,33 +59,69 @@
             return this.times[time]
         }
     }, {
-        instance:Abi.Singleton()
+        instance: Abi.Singleton()
+    })
+
+    /**
+     * @class HaveChanged
+     * A list which stores all events which have changed
+     */
+    var HaveChanged = function (max) {
+        this._max = max;
+        this.reset()
+
+    }
+    _.extend(HaveChanged.prototype, {
+        reset: function () {
+            this._arr = new Array(this._max)
+        },
+        set: function(at, what) {
+            this._arr[at] = what
+        },
+        get: function () {
+            var results = []
+            for (var i = 0; i < this._max; i++) {
+                if (typeof this._arr[i] !== "undefined") {
+                    results.push(i)
+                }
+            }
+            return results;
+        }
     })
 
     /**
      * @class Abi.Collection.StaticTimetable
      */
     Abi.Collection.StaticTimetable = function () {
+        // Set default values
         this._store = new Array(60)
+        for (var i = 0, len = this._store.length; i < len; i++) {
+            this._store[i] = -1
+        }
         this._available = Abi.Collection.Lessons.instance()
-        this._haveChanged = {}
+        this._haveChanged = new HaveChanged(60)
     }
+    Abi.Collection.StaticTimetable.instance = Abi.Singleton()
 
     _.extend(Abi.Collection.StaticTimetable.prototype, Backbone.Events, {
         get: function (day) {
             return this._store[day] !== -1 ? this._available.get(this._store[day]) : null;
         },
-        set: function (id) {
+        set: function (day, id) {
+            this._haveChanged.reset()
             // Remove collisions
-            this._removeCollisions(id)
-            // Set new lesson
-            this._set(id)
+            if (id === -1) {
+                this._remove(day)
+            } else {
+                this._removeCollisions(id)
+                // Set new lesson
+                this._set(id)
+            }
             this.trigger("change", this)
-            this._haveChanged = {}
             return this
         },
         changed: function () {
-            return this._haveChanged
+            return this._haveChanged.get()
         },
         _remove: function (day) {
             var model = this.get(day)
@@ -85,7 +131,8 @@
             var arr =  model.get("stunden")
             // Set every our in our store to -1
             for (var i = 0, len = arr.length; i < len; i++) {
-                this._store[arr[i]] = this._haveChanged[arr[id]] = -1
+                this._store[arr[i]] =  -1
+                this._haveChanged.set(arr[i], -1)
             }
             return this
         },
@@ -99,9 +146,10 @@
             return this
         },
         _set: function(id) {
-            var arr = this._available.get(id)
+            var arr = this._available.get(id).get("stunden")
             for (var i = 0, len = arr.length; i < len; i++) {
-                this._store[arr[i]] = this._haveChanged[arr[i]] = id
+                this._store[arr[i]] =  id
+                this._haveChanged.set(arr[i], id)
             }
             return this
         },
@@ -109,23 +157,26 @@
             return _.clone(this._store)
         },
         url: function () {
-            return ROOT + "Timetable/me"
+            return ROOT + "Timetable/me/"
         },
         fetch: function (op) {
             var options = op ? _.clone(op) : {}
                 , success = options.success
                 , model = this
             options.success = function (resp, status, xhr) {
-                model._store = model._haveChanged = resp
+                model._haveChanged.reset()
+                model._store = resp
+                for (var i = 0, len = resp.length; i < len; i++) {
+                    model._haveChanged.set(i, resp[i])
+                }
                 if (success) {
                     success(resp, status, xhr)
                 }
                 model.trigger("change", model)
-                model._haveChanged = {}
             }
             return Backbone.sync.call(this, "read", this, options)
         },
-        save: function () {
+        save: function (op) {
             var options = op ? _.clone(op) : {}
             return Backbone.sync.call(this, "update", this, options)
         }
@@ -207,7 +258,6 @@
             this.$(".lessonStunden:checked").each(function () {
                 stunden.push(parseInt($(this).val(), 10))
             })
-            console.log(stunden);
             var lesson = new Abi.Model.Lesson({
                 kuerzel: $("#lessonKuerzel").val(),
                 lehrer: $("#lessonLehrer").val(),
@@ -228,7 +278,6 @@
         },
         newModelFailed: function (model, error) {
             this.message(error)
-            console.log(error)
             this.model.off()
         },
         toggleForm: function () {
@@ -249,39 +298,75 @@
         tagName: "table",
         className: "table table-bordered",
         events: {
-            "click #toggleEditMode": "toggleEditMode"
+            "click #toggleEditMode": "toggleEditMode",
+            "change select": "changeLesson"
         },
         initialize: function () {
             this._timeSettings = this.options._timeSettings
-            this.staticFields = new Abi.Collection.StaticTimetable()
+            this.staticFields = Abi.Collection.StaticTimetable.instance({
+                change: this.change,
+                sync: this.sync,
+                error: this.error
+            }, this)
             this.editMode = false;
             this.buttonBehaviour = {
                 no: {
-                    text: "Bearbeite",
+                    text: "Bearbeiten",
                     title: "Bearbeite deinen Stundenplan"
                 },
                 yes: {
-                    text: "Speichere",
+                    text: "Speichern",
                     title: "Speichere deine eben getroffenen Änderungen"
                 }
             }
             // The data cell body template renderer
             this.bodyEditMode = {
-                no: function (i, j) {
-                    return "<td>" + (i + j * this._timeSettings.hoursADay)  + "</td>";
+                no: function (computed) {
+                    var item = this.staticFields.get(computed),
+                        content = item == null ? "<i>frei</e>" : item.get("fach") + " bei " + item.get("lehrer")
+                    return "<td id='" + this._makeId(computed) + "'>" + content + "</td>";
                 },
-                yes: function (i, j) {
-                    return "<td>" + i + "," + j + "</td>"
+                yes: function (computed) {
+                    return "<td id='" + this._makeId(computed) + "'>" + this.templateSelectField(computed) + "</td>"
                 }
             }
+
+            // Adding new lessons
+            this.collection.on("add", this.add, this).on("reset", this.render, this)
+        },
+        add: function (model) {
+            console.log(model)
+            // If in edit mode, we do not need to change anything when a new lesson is created since it doesnt appear anywhere
+            if (!this.editMode) return
+            var stunden = model.get("stunden");
+            for (var i = 0, len = stunden.length, curr; i < len; i++) {
+                curr = stunden[i]
+                this._byId(curr).html(this.templateSelectField(curr))
+            }
+        },
+        _makeId: function (id) {
+            return this.cid + "-" + id;
+        },
+        _byId: function(id) {
+            return this.$("#" + this._makeId(id))
+        },
+        hasEdit: function () {
+            return this.editMode ? "yes" : "no"
         },
         toggleEditMode: function(event) {
+            if (this.editMode) this.staticFields.save()
+            this.editMode = !this.editMode
             var $btn = $(event.target)
-                , key = this.editMode ? "no" : "yes"
+                , key = this.hasEdit()
 
             $btn.text(this.buttonBehaviour[key].text).attr("title", this.buttonBehaviour[key].title)
             this.$("tbody").replaceWith(this.templateBody(this.bodyEditMode[key]))
-            this.editMode = !this.editMode
+        },
+        changeLesson: function (event) {
+            var $target = $(event.target)
+                , toChange = parseInt($target.attr("data-id"), 10)
+                , newValue = parseInt($target.val())
+            this.staticFields.set(toChange, newValue)
         },
         templateHead: function () {
             var head = "<thead><tr>"
@@ -298,17 +383,43 @@
                 body += "<tr>" +
                     "<th>" + (i + 1) + ". Stunde</th>"
                 for (var j = 0, jlen = this._timeSettings.days.length; j < jlen; j++) {
-                    body += fn.call(this, i, j)
+                    body += fn.call(this, i + j * this._timeSettings.hoursADay)
                 }
                 body += "</tr>"
             }
             body += "</tbody>"
             return body
         },
+        templateSelectField: function (id) {
+            var select = "<select data-id='" + id + "'>" +
+                "<option value='-1'>Wähle einen Kurs...</option>"
+            for (var i = 0, elements = this.collection.forTime(id), len = elements.length, curr; i < len; i++) {
+                curr = elements[i]
+                select += "<option value='" + curr.id + "'" + (this.staticFields.get(id) === curr ? " selected" : "") + ">" + curr.get("kuerzel") + ", " + curr.get("lehrer") + "</option>"
+            }
+            select += "</select>"
+            return select
+        },
+        change: function (model) {
+            var changed = model.changed()
+                , key = this.hasEdit()
+            for (var i = 0, len = changed.length, curr; i < len; i++) {
+                curr = changed[i]
+                this._byId(curr).replaceWith(this.bodyEditMode[key].call(this, curr))
+            }
+        },
         render: function () {
             this.$el.html(this.templateHead())
                 .append(this.templateBody(this.bodyEditMode.no))
             return this;
+        },
+        sync: function () {
+            App.releaseBackgroundProcess()
+        },
+        error: function () {
+            alert("Achtung, das Speichern des Stundenplanes hat wider Erwarten nicht geklappt! Versuche es bitte erneut!")
+            this.toggleEditMode()
+            App.releaseBackgroundProcess()
         }
     })
 
