@@ -1,7 +1,15 @@
 /**
  * This is the app file which will be used for the rest of the app excepts from the __faster-object
  */
-steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstrap").then("jstree/backbone/bindTo").then(function () {
+
+
+steal("jstree/jquery", "jstree/lodash").then(function () {
+    // Lodash does not support _.result, so we manually create it
+    _.result = function(object, prop) {
+        if (!(object && object[prop])) return null;
+        return _.isFunction(object[prop]) ? object[prop]() : object[prop];
+    }
+}).then("jstree/backbone", "jstree/bootstrap").then(function () {
     //window.WEB_SOCKET_SWF_LOCATION = "jstree/socket.io/WebSocketMain.swf";
     var getValue = function(object, prop) {
         if (!(object && object[prop])) return null;

@@ -115,30 +115,18 @@
             var options = op ? _.clone(op) : {}
                 , success = options.success
                 , model = this
-            options.success = function (resp) {
+            options.success = function (resp, status, xhr) {
                 model._store = model._haveChanged = resp
                 if (success) {
-                    success(model)
-                } else {
-                    model.trigger("change", model)
+                    success(resp, status, xhr)
                 }
+                model.trigger("change", model)
                 model._haveChanged = {}
             }
-            options.error = Backbone.wrapError(options.error, model, options)
             return Backbone.sync.call(this, "read", this, options)
         },
         save: function () {
             var options = op ? _.clone(op) : {}
-                , success = options.success
-                , model = this
-            options.success = function (resp) {
-                if (success) {
-                    success(model)
-                } else {
-                    model.trigger("sync", model)
-                }
-            }
-            options.error = Backbone.wrapError(options.error, model, options)
             return Backbone.sync.call(this, "update", this, options)
         }
     });

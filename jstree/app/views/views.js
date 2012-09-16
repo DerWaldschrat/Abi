@@ -51,7 +51,7 @@
                 "<label for='abi_muendlich_1'>Dein mündliches Abifach (I)</label><input type='text' id='abi_muendlich_1' class='schulfach' placeholder='Wähle ein Fach' />" +
                 "<label for='abi_muendlich_2'>Dein mündliches Abifach (II)</label><input type='text' id='abi_muendlich_2' class='schulfach' placeholder='Wähle ein Fach' />" +
                 "</fieldset>" +
-                "<fieldset class='buttonAndMessage control-group'><button type='submit' class='btn'>Änderungen speichern!</button>" +
+                "<fieldset class='buttonAndMessage control-group'><input type='submit' class='btn' value='Änderungen speichern!'>" +
                 "<div class='help-block statusField'></div>" +
                 "</fieldset>";
         },
@@ -327,18 +327,16 @@
      * Contains all the Quotes a user has
      */
     Abi.View.QuoteList = Abi.View.Base.extend({
-        initialize: function () {
-            this.collection.on("reset", this.render, this)
-                .on("add", this.add, this)
-                .on("remove", this.removeItem, this)
-                .on("error", this.error, this)
-        },
         tagName: "ul",
         className: "itemList",
         _subviewList: ["_subviews"],
         initialize: function () {
             this._subviews = {};
             // Set events
+            this.collection.on("reset", this.render, this)
+                .on("add", this.add, this)
+                .on("remove", this.removeItem, this)
+                .on("error", this.error, this)
 
         },
         render: function () {
