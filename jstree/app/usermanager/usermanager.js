@@ -14,11 +14,9 @@ App.user.rights() >= 2 ? (function () {
      * */
     Abi.View.UserManager = Abi.View.Base.extend({
         _subviewList: ["_subviews"],
-        bindToCollection: {
-            "reset": "render"
-        },
         initialize: function () {
-            this.$table = null;   
+            this.$table = null;
+            this.collection.on("reset",this.render, this)
         },
         // Creates the headrow
         _headForRights: function (right) {
@@ -56,15 +54,13 @@ App.user.rights() >= 2 ? (function () {
     });
     
     Abi.View.UserManagerItem = Abi.View.Base.extend({
-        bindToModel: {
-            "change": "render"
-        },
         tagName: "tr",
         initialize: function () {
             // If this is the active user, show that
             if (App.user.id == this.model.id) {
                 this.$el.css("color", "red").addClass("currentUser");   
-            }                
+            }
+            this.model.on("change", this.render, this)
         },
         template: function () {
             return "<td>" + _.escape(this.model.id) + "</td>"

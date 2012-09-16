@@ -327,14 +327,14 @@
      * Contains all the Quotes a user has
      */
     Abi.View.QuoteList = Abi.View.Base.extend({
+        initialize: function () {
+            this.collection.on("reset", this.render, this)
+                .on("add", this.add, this)
+                .on("remove", this.removeItem, this)
+                .on("error", this.error, this)
+        },
         tagName: "ul",
         className: "itemList",
-        bindToCollection: {
-            reset: "render",
-            add: "add",
-            remove: "removeItem",
-            error: "error"
-        },
         _subviewList: ["_subviews"],
         initialize: function () {
             this._subviews = {};
@@ -370,8 +370,8 @@
      */
     Abi.View.QuoteDisplay = Abi.View.Base.extend({
         tagName: "li",
-        bindToModel: {
-            error: "error"
+        initialize: function () {
+            this.model.on("error", this.error, this)
         },
         events: {
             "click .removeButton": function () {
