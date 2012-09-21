@@ -323,7 +323,7 @@
             this.bodyEditMode = {
                 no: function (computed) {
                     var item = this.staticFields.get(computed),
-                        content = item == null ? "<i>frei</e>" : item.get("fach") + " bei " + item.get("lehrer")
+                        content = item == null ? "<i>frei</e>" : item.escape("fach") + " bei " + item.escape("lehrer")
                     return "<td id='" + this._makeId(computed) + "'>" + content + "</td>";
                 },
                 yes: function (computed) {
@@ -395,7 +395,7 @@
                 "<option value='-1'>Wähle einen Kurs...</option>"
             for (var i = 0, elements = this.collection.forTime(id), len = elements.length, curr; i < len; i++) {
                 curr = elements[i]
-                select += "<option value='" + curr.id + "'" + (this.staticFields.get(id) === curr ? " selected" : "") + ">" + curr.get("kuerzel") + ", " + curr.get("lehrer") + "</option>"
+                select += "<option value='" + curr.id + "'" + (this.staticFields.get(id) === curr ? " selected" : "") + ">" + curr.escape("kuerzel") + ", " + curr.escape("lehrer") + "</option>"
             }
             select += "</select>"
             return select
@@ -420,6 +420,11 @@
             alert("Achtung, das Speichern des Stundenplanes hat wider Erwarten nicht geklappt! Versuche es bitte erneut!")
             this.toggleEditMode()
             App.releaseBackgroundProcess()
+        },
+        // Overwrite remove to remove zombie behaviour
+        remove: function () {
+            this.staticFields.off(null, null, this)
+            return Abi.View.Base.prototype.remove.call(this)
         }
     })
 
