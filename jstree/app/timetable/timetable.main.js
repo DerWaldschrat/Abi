@@ -250,7 +250,7 @@
         templateCreate: function () {
             return "<form class='createNewLesson' action='#'>" +
                 "<fieldset>" +
-                    "<legend class='pointer' id='createNewLessonLegend'>Neuen Kurs anlegen</legend>" +
+                    "<legend class='pointer attention' id='createNewLessonLegend'>Neuen Kurs anlegen</legend>" +
                     "<div class='toggler hidden'>" +
 
                         "<label for='lessonKuerzel'>Das Kürzel (etwa wr3 oder m1):</label>" +
