@@ -7,6 +7,9 @@
  */
 // Transformations which should be applied to all lessons
 window.TRANSFORMS = {
+    // Die doppelte Huber
+    19: 31,
+    20: 21
 }
 
 App.user.rights() >= 1 ? function ()  {
