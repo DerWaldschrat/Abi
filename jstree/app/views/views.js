@@ -457,6 +457,7 @@
             change: "change"
         },
         initialize: function (options) {
+            var self = this
             // Hide the original formField
             this.$el.css("display", "none").select2({
                 // The search function
@@ -468,7 +469,7 @@
             })
             if (options.startid && options.startid !== "" && (options.startid + "") !== "0") {
                 this.$el.select2("val", this.collection.get(options.startid));
-            }   
+            }
         },
         query:  function (request) {
             var term = request.term.toLowerCase();
