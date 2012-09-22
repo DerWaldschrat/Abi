@@ -5,6 +5,10 @@
  * Time: 16:26
  * To change this template use File | Settings | File Templates.
  */
+// Transformations which should be applied to all lessons
+window.TRANSFORMS = {
+}
+
 App.user.rights() >= 1 ? function ()  {
     var ROUTE = "timetable"
     App.addNavigationItem(ROUTE, "Deine Fächer")

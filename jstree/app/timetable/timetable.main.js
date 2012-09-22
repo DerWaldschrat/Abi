@@ -163,7 +163,20 @@
             var options = op ? _.clone(op) : {}
                 , success = options.success
                 , model = this
+                , save = false
             options.success = function (resp, status, xhr) {
+                // Inject transformations
+                if (window.TRANSFORMS) {
+                    for (var i = 0, len = resp.length, curr; i < len; i++) {
+                        curr = resp[i]
+                        if (typeof window.TRANSFORMS[curr] !== "undefined") {
+                            resp[i] = window.TRANSFORMS[curr]
+                            // Only change if there is actually anything to transform
+                            save = true
+                        }
+                    }
+                }
+
                 model._haveChanged.reset()
                 model._store = resp
                 for (var i = 0, len = resp.length; i < len; i++) {
@@ -173,6 +186,9 @@
                     success(resp, status, xhr)
                 }
                 model.trigger("change", model)
+                if (save) {
+                    model.save()
+                }
             }
             return Backbone.sync.call(this, "read", this, options)
         },

@@ -13,6 +13,7 @@ require IN . "coreconfig" . PHP_EX;
 require IN . "mapper" . PHP_EX;
 if (isLoggedin(1)) {
     $file = "./__tables/" . userField("userid") . ".json";
+
     put(function () {
         global $file;
         $body = bodyAsJSON();
