@@ -599,7 +599,7 @@
 
             // Add award deletion for users with more rights
             if (App.user.rights() >= 3) {
-                this.$middle.append("<span class='close deleteAwardItem' data-delete='" + this.cid + "'>&times;</span>");
+                this.$middle.append("<span class='close deleteAwardItem' data-delete='" + this.cid + "' title='Award löschen'>&times;</span>");
             }
 
             this.$el.append(this.cells);
