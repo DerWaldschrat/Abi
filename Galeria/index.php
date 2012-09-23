@@ -1,5 +1,5 @@
 <?php
-// Hier kommt eigentlich die Überprüfung herein, wer welche Galerie anschauen kann
+// Hier kommt eigentlich die ÃœberprÃ¼fung herein, wer welche Galerie anschauen kann
 define("__EXEC", true);
 define("IN", "../");
 define("PHP_EX", ".php");

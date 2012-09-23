@@ -530,6 +530,22 @@
             this._items[item.cid] = item;
             this.table.append(item.el);
         },
+        deleteAwardItem: function (event) {
+            var $target = $(event.target)
+                , cid = $target.attr("data-delete")
+                , view = this._items[cid]
+                , model = view.model
+            if (confirm("Willst du den Award \"" + model.escape("title") + "\" wirklich löschen?")) {
+                model.on("destroy", function (model) {
+                    model.off()
+                    view.remove()
+                }, null)
+                    .destroy({
+                        wait: true
+                    })
+            }
+
+        },
         events: {
             "submit #createNewAward": function () {
                 var $title = this.$("#awardTitle"),model = new Abi.Model.Award({
@@ -539,7 +555,8 @@
                 $title.val("");
                 model.on("sync", this.add, this).save();
                 return false;
-            }
+            },
+            "click .deleteAwardItem": "deleteAwardItem"
         }
     });
     /**
@@ -579,6 +596,12 @@
             //
             this.maleAuto.on("selected", this.changeMale, this).value(this.model.get("maleid"));
             this.femaleAuto.on("selected",this.changeFemale, this).value(this.model.get("femaleid"));
+
+            // Add award deletion for users with more rights
+            if (App.user.rights() >= 3) {
+                this.$middle.append("<span class='close deleteAwardItem' data-delete='" + this.cid + "'>&times;</span>");
+            }
+
             this.$el.append(this.cells);
         },
         changeMale: function (id) {

@@ -93,6 +93,41 @@ if(isLoggedin(1)) {
             fail("awardSaveFail");
         }
     });
+
+    // Delete awards, only allowed level 3-members
+    if (isLoggedin(3)) {
+        delete(function () {
+            $q = $_SERVER["QUERY_STRING"];
+            $category = null;
+            if (preg_match("#^[0-9]+$#", $q) == 1) {
+                $db = db();
+                $st = $db->prepare("SELECT categoryid FROM " . AWARD . " WHERE awardid = ?");
+                $st->bind_param("i", $q);
+                $st->bind_result($category);
+                $st->execute();
+                $st->store_result();
+                if ($st->num_rows == 1) {
+                    $st->fetch();
+                    $st->close();
+                    $st = $db->prepare("DELETE FROM " . CATEGORY . " WHERE categoryid = ?");
+                    $st->bind_param("i", $category);
+                    if (exQuery($st)) {
+                        $st->close();
+                        $st = $db->prepare("DELETE FROM " . AWARD . " WHERE categoryid = ?");
+                        $st->bind_param("i", $category);
+                        exQuery($st);
+                    } else {
+                        fail("awardDeleteFail" . $category);
+                    }
+                } else {
+                    fail("awardDeleteFail2");
+                }
+            } else {
+                fail("awardDeleteFail1");
+            }
+        });
+    }
+
 } else {
     h404();
 }
