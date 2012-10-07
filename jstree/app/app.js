@@ -394,27 +394,31 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
     Abi.App.on("finishload", function () {
         var rights = Abi.App.user.rights(), curr, routes = {};
         for (var i in Plugins) {
-            curr = Plugins[i];
-            if (rights >= curr.rights) {
-                // If loading of a plugin fails
-                try {
-                    // Set up the lazyloading
-                    // For the trick see app.explain.txt
-                    routes[i] = false;
-                    Abi.App.router.route(curr.route, i, function () {
-                        routes[i] = true;   
-                    });
-                    steal(curr.js).then(function () {
-                        // Triggered plugin, so we need to restart history
-                        if (routes[i]) {
-                            Backbone.history.stop();
-                            Backbone.history.start();    
-                        }
-                    });    
-                } catch(e) {
-                    
+            // We have to create a closure for that
+            (function (i) {
+                curr = Plugins[i];
+                if (rights >= curr.rights) {
+                    // If loading of a plugin fails
+                    try {
+                        // Set up the lazyloading
+                        // For the trick see app.explain.txt
+                        routes[i] = false;
+                        Abi.App.router.route(curr.route, i, function () {
+                            routes[i] = true;
+                        });
+                        steal(curr.js).then(function () {
+                            // Triggered plugin, so we need to restart history
+                            if (routes[i]) {
+                                Backbone.history.stop();
+                                Backbone.history.start();
+                                console.log("hö?")
+                            }
+                        });
+                    } catch(e) {
+
+                    }
                 }
-            }   
+            })(i)
         }
     });
     

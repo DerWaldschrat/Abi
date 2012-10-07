@@ -102,7 +102,6 @@ steal("jstree/fancybox", "jstree/fancybox/fancybox.css").then(function () {
     Abi.View.Galeria = Abi.View.Base.extend({
         _subViewList: ["gal"],
         initialize: function () {
-
             this.available = Abi.Collection.GaleriaViewable.instance({
                 reset: this.render
             }, this)
