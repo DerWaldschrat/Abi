@@ -1,0 +1,22 @@
+@calendarWidthTd: 100% / 7;
+@calendarHeightTd: 200px;
+.calendar {
+  tbody {
+    td {
+      width: @calendarWidthTd;
+      height: @calendarHeightTd;
+      nth-child(0) {
+        background-color: @red;
+      }
+      .date {
+        color: #999;
+        font-size: 0.8em;
+        padding-bottom: 0.2em;
+      }
+
+      ul {
+        margin-left: 0;
+      }
+    }
+  }
+}

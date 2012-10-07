@@ -204,3 +204,18 @@ ul {
             }*/
 
 }
+.calendar tbody td {
+  width: 14.285714285714286%;
+  height: 200px;
+}
+.calendar tbody td:nth-child(0) {
+  background-color: #9d261d;
+}
+.calendar tbody td .date {
+  color: #999;
+  font-size: 0.8em;
+  padding-bottom: 0.2em;
+}
+.calendar tbody td ul {
+  margin-left: 0;
+}
