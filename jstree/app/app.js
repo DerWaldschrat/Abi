@@ -41,7 +41,7 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
      */
     Abi.Model.Base = Backbone.Model.extend({
         url: function () {
-            var base = (getValue(this.collection, "url") || getValue(this, "urlRoot") || urlError()) + (getValue(this, "urlPage") || "index.php");
+            var base = (getValue(this, "urlRoot") || getValue(this.collection, "url") || urlError()) + (getValue(this, "urlPage") || "index.php");
             if (base.indexOf("http://") === -1) {
                 base = ROOT + base;
             }
