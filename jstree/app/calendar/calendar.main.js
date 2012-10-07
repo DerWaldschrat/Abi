@@ -10,20 +10,13 @@ steal("jstree/moment").then(function () {
         return moment.format("DD.MM.YYYY")
     }
 
-    Abi.Model.CalendarEntry = Abi.Model.Base.extend({
+    Abi.Model.Calendar = Abi.Model.Base.extend({
 
-    })
-
-    Abi.Model.CalendarDay = Abi.Model.Base.extend({
-        urlRoot: "Calendar/",
-        save: App.noop,
-        fetch: App.noop,
-        destroy: App.noop
     })
 
     Abi.Collection.Calendar = Abi.Collection.Base.extend({
         urlRoot: "Calendar/",
-        model: Abi.Model.CalendarDay,
+        model: Abi.Model.Calendar,
         initialize: function (models, options) {
             this.from = options.from
             this.to = options.to
@@ -38,7 +31,8 @@ steal("jstree/moment").then(function () {
     Abi.Collection.Calendar.range = function (from, to, events, context, options) {
         options || (options = {})
         var hash = _hashRange(from, to),
-            collection = cache[hash] instanceof Abi.Collection.Calendar ? cache[hash] : (cache[hash] = new Abi.Collection.Calendar([], {
+            iscached = cache[hash] instanceof Abi.Collection.Calendar,
+            collection = iscached ? cache[hash] : (cache[hash] = new Abi.Collection.Calendar([], {
                 from: from,
                 to: to
             })),
@@ -46,7 +40,7 @@ steal("jstree/moment").then(function () {
         for (i in events) {
             collection.on(i, events[i], context)
         }
-        collection.fetch(options)
+        !iscached && collection.fetch(options)
         return collection
     }
 
