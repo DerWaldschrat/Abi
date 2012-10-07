@@ -18,6 +18,11 @@ window.Plugins = {
         rights: 1,
         route: "galeria"
     },
+    "calendar": {
+        js: "jstree/app/calendar",
+        rights: 1,
+        route: "calendar"
+    },
     // The timetable plugin
     "timetable": {
         js: "jstree/app/timetable",

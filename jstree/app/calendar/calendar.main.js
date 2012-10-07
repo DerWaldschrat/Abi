@@ -12,7 +12,7 @@ steal("jstree/moment").then(function () {
             var html = "<thead>",
                 moment = mom()
             for (var i = 0; i < 7; i++) {
-                html += "<th>" + moment.format("DDDD") + "</th>"
+                html += "<th>" + moment.format("dddd") + "</th>"
             }
             html += "</thead>"
             console.log(html)

@@ -411,7 +411,6 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
                             if (routes[i]) {
                                 Backbone.history.stop();
                                 Backbone.history.start();
-                                console.log("hö?")
                             }
                         });
                     } catch(e) {
