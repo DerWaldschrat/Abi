@@ -2,7 +2,12 @@
  * This is the app file which will be used for the rest of the app excepts from the __faster-object
  */
 
-
+// fix console
+if (!console) {
+    window.console = {
+        log: function () {}
+    }
+}
 steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstrap").then(function () {
     //window.WEB_SOCKET_SWF_LOCATION = "jstree/socket.io/WebSocketMain.swf";
     var getValue = function(object, prop) {
