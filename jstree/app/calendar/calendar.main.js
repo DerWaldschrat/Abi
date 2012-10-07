@@ -10,35 +10,44 @@ steal("jstree/moment").then(function () {
         return moment.format("DD.MM.YYYY")
     }
 
-    Abi.Model.Calendar = Abi.Model.Base.extend({
-        urlRoot: "Calendar/"
+    Abi.Model.CalendarEntry = Abi.Model.Base.extend({
+
+    })
+
+    Abi.Model.CalendarDay = Abi.Model.Base.extend({
+        urlRoot: "Calendar/",
+        save: App.noop,
+        fetch: App.noop,
+        destroy: App.noop
     })
 
     Abi.Collection.Calendar = Abi.Collection.Base.extend({
         urlRoot: "Calendar/",
-        model: Abi.Model.Calendar,
+        model: Abi.Model.CalendarDay,
         initialize: function (models, options) {
             this.from = options.from
             this.to = options.to
         },
         url: function () {
-            return ROOT + _.result(this, "urlRoot") + "?from=" + encodeURIComponent(asDate(this.from)) + "&to=" + encodeURIComponent(asDate(this.to))
+            return ROOT + _.result(this, "urlRoot") + "index.php?from=" + encodeURIComponent(asDate(this.from)) + "&to=" + encodeURIComponent(asDate(this.to))
         }
     })
 
     // Cache all calendar collections in this var
     var cache = {}
-    Abi.Collection.Calendar.range = function (from, to) {
-        var hash = _hashRange(from, to)
-        if (cache[hash] instanceof Abi.Collection.Calendar) {
-            return cache[hash]
+    Abi.Collection.Calendar.range = function (from, to, events, context, options) {
+        options || (options = {})
+        var hash = _hashRange(from, to),
+            collection = cache[hash] instanceof Abi.Collection.Calendar ? cache[hash] : (cache[hash] = new Abi.Collection.Calendar([], {
+                from: from,
+                to: to
+            })),
+            i
+        for (i in events) {
+            collection.on(i, events[i], context)
         }
-        cache[hash] = new Abi.Collection.Calendar([], {
-            from: from,
-            to: to
-        })
-        cache[hash].fetch()
-        return cache[hash]
+        collection.fetch(options)
+        return collection
     }
 
     Abi.View.CalendarMainView = Abi.View.Base.extend({
@@ -47,7 +56,9 @@ steal("jstree/moment").then(function () {
         initialize: function () {
             this.from = this.options.from || mom()
             this.to = this.from.clone().add("d", 28)
-            this.collection = Abi.Collection.Calendar.range(this.from, this.to)
+            this.collection = Abi.Collection.Calendar.range(this.from, this.to, {
+                reset: this.reset
+            }, this)
         },
         templateHead: function () {
             var html = "<thead>",
@@ -59,9 +70,15 @@ steal("jstree/moment").then(function () {
             html += "</thead>"
             return html
         },
+        templateBody: function () {
+            return "<tbody></tbody>";
+        },
         render: function () {
-            this.$el.html(this.templateHead()).append("<tbody></tbody>")
+            this.$el.html(this.templateHead()).append(this.templateBody())
             return this
+        },
+        reset: function () {
+            this.$el.find("tbody").replaceWith(this.templateBody())
         }
     })
 
