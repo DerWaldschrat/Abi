@@ -16,10 +16,15 @@ if (isLoggedin(1)) {
 
     put(function () {
         global $file;
-        $body = bodyAsJSON();
+        $_body = bodyAsJSON();
+        $body = $_body[0];
         if (count($body) === 60 && strlen(body()) <= 2048) {
-            file_put_contents($file, body());
-
+            file_put_contents($file, json_encode($body));
+            $namedBody = json_encode($_body[1]);
+            // Save list of kuerzels
+            if (strlen($namedBody) <= 8192) {
+                file_put_contents($file . ".named", json_encode($namedBody));
+            }
         } else {
             fail("timetableSaveFail");
         }

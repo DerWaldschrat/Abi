@@ -1,4 +1,4 @@
-steal("jstree/moment").then(function () {
+steal("jstree/moment", "jstree/app/timetable/timetable.main.js").then(function () {
     var mom = moment
     function _hashRange(from, to) {
         return asDate(from) + "h" + asDate(to)
@@ -20,9 +20,22 @@ steal("jstree/moment").then(function () {
         initialize: function (models, options) {
             this.from = options.from
             this.to = options.to
+            this._cache = {}
         },
         url: function () {
             return ROOT + _.result(this, "urlRoot") + "index.php?from=" + encodeURIComponent(asDate(this.from)) + "&to=" + encodeURIComponent(asDate(this.to))
+        },
+        getByDate: function(date) {
+            if (_.isArray(this._cache[date])) return this._cache[date]
+            this._cache[date] = this.filter()
+        },
+        _dateFilter: function (model) {
+            var target = model.get("target")
+            if (target === "all") return true
+            if (false) {
+                return true;
+            }
+            return false;
         }
     })
 

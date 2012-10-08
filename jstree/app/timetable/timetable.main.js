@@ -29,9 +29,9 @@
      * @class Abi.Collection.Lessons
      */
     Abi.Collection.Lessons = Abi.Collection.Base.extend({
-        urlRoot:"Timetable/",
-        model:Abi.Model.Lesson,
-        initialize:function () {
+        urlRoot: "Timetable/",
+        model: Abi.Model.Lesson,
+        initialize: function () {
             this.times = []
             this.on("add", this._changeTimes, this)
         },
@@ -100,6 +100,7 @@
         }
         this._available = Abi.Collection.Lessons.instance()
         this._haveChanged = new HaveChanged(60)
+        this._allAbbreviations = false
     }
     Abi.Collection.StaticTimetable.instance = Abi.Singleton()
 
@@ -154,7 +155,17 @@
             return this
         },
         toJSON: function () {
-            return _.clone(this._store)
+            return [_.clone(this._store), this._createNamedList()]
+        },
+        // Returns a list which is contains the names of the lessons instead of the ids
+        _createNamedList: function () {
+            var result = {}
+            for (var i = 0, len = this._store.length, curr; i < len; i++) {
+                curr = this._store[i]
+                if (curr === -1) continue
+                result[this._available.get(curr).get("kuerzel")] = 1
+            }
+            return result
         },
         url: function () {
             return ROOT + "Timetable/me/"
@@ -434,7 +445,6 @@
         },
         error: function () {
             alert("Achtung, das Speichern des Stundenplanes hat wider Erwarten nicht geklappt! Versuche es bitte erneut!")
-            this.toggleEditMode()
             App.releaseBackgroundProcess()
         },
         // Overwrite remove to remove zombie behaviour
