@@ -10,13 +10,13 @@ steal("jstree/moment").then(function () {
         return moment.format("DD.MM.YYYY")
     }
 
-    Abi.Model.Calendar = Abi.Model.Base.extend({
+    Abi.Model.Term = Abi.Model.Base.extend({
 
     })
 
     Abi.Collection.Calendar = Abi.Collection.Base.extend({
         urlRoot: "Calendar/",
-        model: Abi.Model.Calendar,
+        model: Abi.Model.Term,
         initialize: function (models, options) {
             this.from = options.from
             this.to = options.to
