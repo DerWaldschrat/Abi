@@ -23,7 +23,7 @@ if (isLoggedin(1)) {
             $namedBody = json_encode($_body[1]);
             // Save list of kuerzels
             if (strlen($namedBody) <= 8192) {
-                file_put_contents($file . ".named", json_encode($namedBody));
+                file_put_contents($file . ".named", $namedBody);
             }
         } else {
             fail("timetableSaveFail");
@@ -31,6 +31,10 @@ if (isLoggedin(1)) {
     });
     get(function () {
         global $file;
+        // Optionally get named list
+        if (isset($_GET["named"])) {
+            $file .= ".named";
+        }
         if (!file_exists($file)) {
             $arr = array_fill(0, 60, -1);
             $json = json_encode($arr);
