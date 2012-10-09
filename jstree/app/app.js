@@ -71,9 +71,20 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
         },
         galeria: function () {
             return this.get("galeria") === 1;
+        },
+        fetchNamedLessons: function () {
+            if (this.has("namedLessons")) {
+                return;
+            }
+            var self = this
+            $.ajax({
+                url: ROOT + "Timetable/me/?named=1",
+                success: function (resp) {
+                    self.set("namedLessons", resp)
+                }
+            })
         }
     });
-
     /**
      * @class Collection.Base
      * At the moment a noop, but we dont know, maybe we will need this later

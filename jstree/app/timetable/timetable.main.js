@@ -165,6 +165,7 @@
                 if (curr === -1) continue
                 result[this._available.get(curr).get("kuerzel")] = 1
             }
+            App.user.set("namedLessons", result)
             return result
         },
         url: function () {
