@@ -4,4 +4,6 @@ CREATE TABLE abi_comment (
   fromid INT,
   toid INT,
   content TEXT
-)
+);
+ALTER TABLE `abi_comment` ADD INDEX `fromid_index` ( `fromid` );
+ALTER TABLE `abi_comment` ADD INDEX `toid_index` ( `toid` )
