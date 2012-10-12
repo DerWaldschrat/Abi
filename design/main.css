@@ -115,6 +115,7 @@ ul {
   -moz-transition: opacity 0.8s ease-in;
   -o-transition: opacity 0.8s ease-in;
   transition: opacity 0.8s ease-in;
+  overflow-y: scroll;
 }
 #registerScreen.initial,
 #loginScreen.initial,
@@ -208,7 +209,7 @@ ul {
   width: 14.285714285714286%;
   height: 200px;
 }
-.calendar tbody td:nth-child(0) {
+.calendar tbody td nth-child(0) {
   background-color: #9d261d;
 }
 .calendar tbody td .date {
