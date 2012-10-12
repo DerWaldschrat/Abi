@@ -6,4 +6,7 @@ CREATE TABLE abi_kurs (
   fach VARCHAR(40),
   stunden VARCHAR(40),
   fromid INT
+);
+ALTER TABLE `abi`.`abi_kurs` ADD UNIQUE (
+`kuerzel` ( 10 )
 )
