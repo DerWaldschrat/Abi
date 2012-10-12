@@ -359,7 +359,7 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
     }
     
     // Returns a function which itself returns a singleton of the current class
-    Abi.Singleton = function () {
+    Abi.Singleton = function (defaults) {
         var instance = null
         return function (events, scope, opts) {
             var i, fetch
@@ -373,7 +373,7 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
                 instance.on(i, events[i], scope)
             }
             if (fetch) {
-                instance.fetch(opts)
+                instance.fetch(_.extend({}, defaults || {}, opts))
             }
             return instance;
         }

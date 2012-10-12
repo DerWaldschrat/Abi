@@ -105,7 +105,16 @@
      */
     Abi.Model.Comment = Abi.Model.Base.extend({
         idAttribute: "commentid",
-        urlRoot: "Comment/"
+        urlRoot: "Comment/",
+        save: function (attributes, options) {
+            options || (options = {})
+            var success = options.success, self = this
+            options.success = function () {
+                typeof success === 'function' && success.apply(this, arguments)
+                Abi.Collection.OwnComments.instance().delayAdd(self)
+            }
+            return Abi.Model.Base.prototype.save.call(this, attributes, options)
+        }
     });
 
     /**
@@ -121,7 +130,34 @@
     * Instead of searching for comments someone has sent to you, this searches for comments you have sent out
     */
     Abi.Collection.OwnComments = Abi.Collection.Comments.extend({
-        urlRoot: "Comment/mine/"
+        urlRoot: "Comment/mine/",
+        initialize: function () {
+            this._addAfterFetch = []
+            this._fetched = false;
+        },
+        fetch: function (options) {
+            options || (options = {})
+            var success = options.success, self = this
+            options.success = function () {
+                typeof success === 'function' && success.apply(this, arguments)
+                self._resolveDelayed()
+            }
+            return Abi.Collection.Base.prototype.fetch.call(this, options)
+        },
+        delayAdd: function (model) {
+                if (this._fetched) {
+                    this.add(model)
+                    return
+                } else {
+                    this._addAfterFetch.push(model)
+                }
+        },
+        _resolveDelayed: function () {
+            for (var i = 0, len = this._addAfterFetch.length; i < len; i++) {
+                this.add(this._addAfterFetch[i])
+            }
+            this._fetched = true
+        }
     }, {
         // Mixin singleton
         instance: Abi.Singleton()
