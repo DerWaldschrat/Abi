@@ -11,7 +11,7 @@ if (isLoggedin(1)) {
        /* hJSON();
         echo file_get_contents("stress.json");
         exit;*/
-        $dateRegex = "/[0-9]{4,4}-[0-1][0-9]-[0-3][1-9]/";
+        $dateRegex = "/[0-9]{4,4}-[0-1][0-9]-[0-3][0-9]/";
         // if it is valid date, we will (probably) not raise an sql error for that
         if (isset($_GET["from"]) && preg_match($dateRegex, $_GET["from"]) == 1 && isset($_GET["to"]) && preg_match($dateRegex, $_GET["to"]) == 1) {
             $from = $_GET["from"];
