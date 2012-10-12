@@ -69,7 +69,7 @@
                         {"id":"Physik"},{"id":"Chemie"},{"id":"Biologie"},{"id":"Informatik"},
                         {"id":"Wirtschaft & Recht"},{"id":"Erdkunde"},{"id":"Religion"},{"id":"Ethik"},
                         {"id":"Geschichte"},{"id":"Geschichte & Sozialkunde"},
-                        {"id":"Musik"},{"id":"Kunst"},{"id":"Sport"}], function (i){
+                        {"id":"Musik"},{"id":"Kunst"},{"id":"Sport"},{"id":"Russisch"}], function (i){
                             return {
                                 id: i.id,
                                 text: i.id
