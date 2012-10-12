@@ -254,6 +254,43 @@
             return this;
         }
     });
+    
+    /**
+    * @class View.OwnComments
+    */
+    Abi.View.OwnComments = Abi.View.Base.extend({
+        events: {
+            "click .commentToUser a": function (event){
+                event.preventDefault()
+                var $target = $(event.target)
+                App.router.navigate($target.attr("href"), {
+                    trigger: true
+                })
+            }
+        },
+        initialize: function () {
+            this.collection = Abi.Collection.OwnComments.instance({
+                reset: this.render,
+                add: this.add
+            }, this)
+        },
+        render: function () {
+            var html = "<h1>Du über andere</h1><ul>", self = this
+            this.collection.each(function (model) {
+                html += self.templateItem(model)
+            })
+            html += "</ul>"
+            this.$el.html(html)
+            return this
+        },
+        templateItem: function (model) {
+            var user = userList.get(model.get("toid"))
+            return "<li><span class='commentToUser'><a href='profile/" + user.id + "'>" + user.escape("vorname") + " " + user.escape("nachname") + "</a></span>" + model.escape("content") + "</li>"
+        },
+        add: function (model) {
+            this.$el.append(this.templateItem(model))
+        }
+    })
 
     /**
      * @class View.Quote

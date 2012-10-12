@@ -115,6 +115,17 @@
         urlRoot: "Comment/",
         model: Abi.Model.Comment
     });
+    
+    /**
+    * @class Collection.OwnComments
+    * Instead of searching for comments someone has sent to you, this searches for comments you have sent out
+    */
+    Abi.Collection.OwnComments = Abi.Collection.Comments.extend({
+        urlRoot: "Comment/mine/"
+    }, {
+        // Mixin singleton
+        instance: Abi.Singleton()
+    })
 
     /**
      * @class Model.Award

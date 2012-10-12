@@ -43,6 +43,14 @@ ul {
   }
 }
 
+.commentToUser {
+    font-style: italic;
+    color: @blue;
+    &:after {
+        content: " > ";
+    }
+}
+
 @import "startscreen.less";
 @import "widgets.less";
 @import "galeria.less";

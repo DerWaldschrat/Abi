@@ -58,6 +58,13 @@ ul {
 .pointer.attention {
   color: #9d261d;
 }
+.commentToUser {
+  font-style: italic;
+  color: #049cdb;
+}
+.commentToUser:after {
+  content: " > ";
+}
 #initialOverlay {
   opacity: 1;
   z-index: 1000;

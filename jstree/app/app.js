@@ -112,6 +112,7 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
             "award": "award",
             "quote": "quote",
             "yourcomments": "yourcomments",
+            "posted": "posted",
             "": "ownprofile"
         },
         ownprofile: function () {
@@ -141,6 +142,9 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
         },
         yourcomments: function () {
             Abi.App.setView(new Abi.View.Comments());
+        },
+        posted: function () {
+            Abi.App.setView(new Abi.View.OwnComments());
         }
     });
 
@@ -270,7 +274,8 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
             "ownprofile": ["Dein Profil", 0],
             "award": ["Die Abi-Awards", 1],
             "quote": ["Füge einen Lehrerspruch hinzu", 1],
-            "yourcomments": ["Andere über dich", 0]
+            "yourcomments": ["Andere über dich", 0],
+            "posted": ["Du über andere", 1]
 
         }, i, r = this.user.rights();
         for (i in inits) {
