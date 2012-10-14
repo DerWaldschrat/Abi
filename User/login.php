@@ -68,7 +68,7 @@ post(function () {
     } else {
         h404();
     }
-});
+}, true);
 
 
 ?>

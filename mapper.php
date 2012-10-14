@@ -30,36 +30,48 @@ function get($file) {
     }
 }
 
-function post($file) {
+function post($file, $inReadMode = false) {
     global $__METHOD;
-    if ($__METHOD === "post") {
-        if (is_callable($file)) {
-            $file();
-        } else {
-            require $file;
+    if (WRITEMODE !== true || $inReadMode !== true) {
+        h404();
+    } else {
+        if ($__METHOD === "post") {
+            if (is_callable($file)) {
+                $file();
+            } else {
+                require $file;
+            }
         }
     }
 }
 
 function put($file) {
     global $__METHOD;
-    if ($__METHOD === "put") {
-        if (is_callable($file)) {
-            $file();
-        } else {
-            require $file;
+    if (WRITEMODE === false) {
+        if ($__METHOD === "put") {
+            if (is_callable($file)) {
+                $file();
+            } else {
+                require $file;
+            }
         }
+    } else {
+        h404();
     }
 }
 
 function delete($file) {
     global $__METHOD;
-    if ($__METHOD === "delete") {
-        if (is_callable($file)) {
-            $file();
-        } else {
-            require $file;
+    if (WRITEMODE === false) {
+        if ($__METHOD === "delete") {
+            if (is_callable($file)) {
+                $file();
+            } else {
+                require $file;
+            }
         }
+    } else {
+        h404();
     }
 }
 

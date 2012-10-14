@@ -41,7 +41,7 @@ post(function () {
     } else {
         fail("needAllFields");
     }
-});
+}, true);
 
 
 
