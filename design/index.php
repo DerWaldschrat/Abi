@@ -31,6 +31,7 @@ if (isLoggedin()) {
 }
 ?>
 window.ROOT = "http://localhost/abi/";
+window.WRITEMODE = <?php echo WRITEMODE === true ? "true" : "false"; ?>;
 window.Messages = {
     loginFail: "Der Login ist fehlgeschlagen. Bitte probiere es mit einem anderen Benutzernamen oder einem anderem Passwort!",
     registrationFail: "Bei deiner Registrierung ist leider ein Fehler aufgetreten. Überprüfe bitte deine Daten und versuche es bitte noch einmal!",
@@ -288,7 +289,6 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
             <a href="#"  onclick="__faster.switch_.call(this.parentNode);return false;">Passwort vergessen?</a>
         </li>
     </ul>
-
     <div id="registerScreen">
         <form action="#" onsubmit="__faster.register();return false;">
             <ul class="formList">
@@ -307,7 +307,6 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
             </ul>
         </form>
     </div>
-
     <div id="loginScreen" class="initial">
         <form action="#" onsubmit="__faster.login();return false;">
             <ul class="formList">
@@ -359,6 +358,12 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
 </div>
 <div id="footer">
 </div>
+<script>
+if (WRITEMODE !== true) {
+    __faster.byId("registerScreen").className = 'hidden';
+    __faster.byId("to-registerScreen").className = 'hidden';
+}
+</script>
 <script src="../steal/steal.production.js"></script>
 <script>
 steal.rootUrl(ROOT);
