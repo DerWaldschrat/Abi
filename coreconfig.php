@@ -3,7 +3,6 @@
  * This config file prepares everything for PRODUCTION.
  * */
 defined("__EXEC") or die;
-define("WRITEMODE", true);
 // Start a session
 if (!defined("SESSION_INIT")) {
     require IN . "session" . PHP_EX;

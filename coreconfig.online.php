@@ -4,7 +4,6 @@
  * You should change this in a productive area to the coreconfig.production.php, make sure you rename it after deleting this file!
  * */
 defined("__EXEC") or die;
-define("WRITEMODE", true);
 // Start a session
 if (!defined("SESSION_INIT")) {
     require IN . "session" . PHP_EX;
