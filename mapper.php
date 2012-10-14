@@ -32,46 +32,46 @@ function get($file) {
 
 function post($file, $inReadMode = false) {
     global $__METHOD;
-    if (WRITEMODE !== true || $inReadMode !== true) {
-        h404();
-    } else {
-        if ($__METHOD === "post") {
+    if ($__METHOD === "post") {
+        if (WRITEMODE === true || $inReadMode === true) {    
             if (is_callable($file)) {
                 $file();
             } else {
                 require $file;
             }
+        } else {
+            fail("inReadMode");
         }
     }
 }
 
 function put($file) {
     global $__METHOD;
-    if (WRITEMODE === false) {
-        if ($__METHOD === "put") {
+    if ($__METHOD === "put") {
+        if (WRITEMODE === true) {
             if (is_callable($file)) {
                 $file();
             } else {
                 require $file;
             }
+        } else {
+            fail("inReadMode");
         }
-    } else {
-        h404();
     }
 }
 
 function delete($file) {
     global $__METHOD;
-    if (WRITEMODE === false) {
-        if ($__METHOD === "delete") {
+    if ($__METHOD === "delete") {
+        if (WRITEMODE === true) {
             if (is_callable($file)) {
                 $file();
             } else {
                 require $file;
             }
+        } else {
+            fail("inReadMode");
         }
-    } else {
-        h404();
     }
 }
 
