@@ -144,6 +144,10 @@ ul {
   height: 0px;
   overflow: hidden;
 }
+.write-off #registerScreen,
+.write-off #to-registerScreen {
+  display: none;
+}
 @media (max-width: 801px), (max-device-width: 801px) {
   #initialOverlay {
     -webkit-transition: none;

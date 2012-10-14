@@ -274,7 +274,7 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
 </script>
 </head>
 
-<body>
+<body id='body'>
 <div id="initialOverlay">
     <!-- <div class="o-close" onclick="__faster.closeOverlay();">X</div> -->
 
@@ -360,8 +360,7 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
 </div>
 <script>
 if (WRITEMODE !== true) {
-    __faster.byId("registerScreen").className = 'hidden';
-    __faster.byId("to-registerScreen").className = 'hidden';
+    __faster.byId("body").className = "write-off"
 }
 </script>
 <script src="../steal/steal.production.js"></script>
