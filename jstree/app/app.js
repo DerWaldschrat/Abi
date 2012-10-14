@@ -232,8 +232,11 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
     // Mixin the events hash
     _.extend(Abi.App, Backbone.Events);
     Abi.App.init = function () {
+        // Map over messages
+        this.Messages = Messages;
+        this.checkWriteMode();
         this.initUserLists();
-        // close the overlay
+        // Close the overlay
         __faster.closeOverlay();
         // Take the loading button
         this.$loading = $loading;
@@ -241,8 +244,6 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
         this.user = new Abi.Model.User(window.__User);
         // The active view
         this.view = null;
-        // Map over messages
-        this.Messages = Messages;
         // Find main dom element
         this.$main = $("#content");
         // Find navigation dom element
@@ -299,6 +300,12 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
         // This is something we really need, so map it over to the global context
         window.userList = userList;
     };
+    
+    Abi.App.checkWriteMode = function () {
+        if (window.WRITEMODE !== true) {
+            alert(Abi.App.message("inReadMode"))
+        }
+    }
 
     Abi.App.getValue = getValue;
     Abi.App.urlError = urlError;

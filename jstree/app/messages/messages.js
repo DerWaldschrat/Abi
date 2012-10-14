@@ -18,6 +18,6 @@
         browserUpgradeFileUpload: "Beachte bitte: Von Smartphones und Tablets lassen sich in vielen Fällen keine Dateien hochladen, insbesondere von iOS-Geräten.\n"
         + "Außerdem benötigst du für den Datei-Upload vom PC oder Mac aus eine aktuelle Version deines Browser, aktualisiere also bitte diesen!\n"
         + "Und der Internet Explorer ist kein Browser, sondern eine Krücke!",
-        inReadMode: "Achtung, die Seite befindet sich momentan im Lese-Modus, d.h. du kannst momentan keine Änderungen vornehmen!"
+        inReadMode: "Achtung, die Seite befindet sich im Lese-Modus, d.h. du kannst keine Änderungen vornehmen!"
     });
 })();
