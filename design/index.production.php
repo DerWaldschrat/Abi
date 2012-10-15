@@ -358,8 +358,10 @@ if(window.__User && window.__User.loggedin && window.__User.loggedin === true) {
         </div>
     </div>
     <div id="main" class="row-fluid">
-        <ul id="navi" class="span3 nav nav-list">
-        </ul>
+        <div class='span3'>
+            <ul id="navi" class="span3 nav nav-list">
+            </ul>
+        </div>
         <div id="content" class="span9">
 
         </div>

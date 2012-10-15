@@ -279,6 +279,7 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
             "posted": ["Du über andere", 1]
 
         }, i, r = this.user.rights();
+        this.$navigation.affix();
         for (i in inits) {
             if(inits[i][1] <= r) 
             this.addNavigationItem(i, inits[i][0]);
@@ -347,7 +348,7 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
             link: link,
             text: text
         }).render();
-        this.$navigation.append(link.$el);
+        this.$navigation.append(link.$el)
         return this;
     };
     
