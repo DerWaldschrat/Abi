@@ -69,12 +69,12 @@ steal("jstree/moment", "jstree/app/timetable/timetable.main.js").then(function (
         className: "table table-bordered table-striped calendar",
         initialize: function () {
             this.from = this.options.from || mom()
-            this.to = this.from.clone().add("d", 28)
+            this.to = this.from.clone().add("d", 27)
             this.collection = Abi.Collection.Calendar.range(this.from, this.to, this._filter, {
                 reset: this.reset
             }, this)
             // Always rerender when courses change
-            App.user.on("change:namedLessons", this.reset, this)
+            App.user.on("change:namedLessons", this.changeNamedLessons, this)
         },
         templateHead: function () {
             var html = "<thead>",
@@ -87,7 +87,6 @@ steal("jstree/moment", "jstree/app/timetable/timetable.main.js").then(function (
             return html
         },
         templateBody: function () {
-            console.log(this.collection)
             var str = "<tbody>", t = 0
             for (var i = 0; i < 4; i++) {
                 str += "<tr>"
@@ -115,12 +114,14 @@ steal("jstree/moment", "jstree/app/timetable/timetable.main.js").then(function (
             this.$el.html(this.templateHead()).append(this.templateBody())
             return this
         },
+        changeNamedLessons: function () {
+            this.reset()
+        },
         reset: function () {
-            console.log("faq")
             this.$el.find("tbody").replaceWith(this.templateBody())
         },
         remove: function () {
-            App.user.off("change:namedLessons", this.reset, this)
+            App.user.off("change:namedLessons", this.changeNamedLessons, this)
             return Abi.View.Base.prototype.remove.apply(this, arguments)
         },
         _filter: function (model) {

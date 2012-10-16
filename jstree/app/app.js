@@ -452,4 +452,4 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
     
     // Finish loading
     __faster.unlockPageLoad();
-}).then("jstree/special/special.css").then("jstree/special");
+});
