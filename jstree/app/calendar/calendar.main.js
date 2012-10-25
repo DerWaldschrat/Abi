@@ -65,11 +65,21 @@ steal("jstree/moment", "jstree/app/timetable/timetable.main.js").then(function (
     }
 
     Abi.View.CalendarMainView = Abi.View.Base.extend({
-        tagName: "table",
-        className: "table table-bordered table-striped calendar",
+        events: {
+            "click a.nav": "navigate"
+        },
+        navigate: function (event) {
+            var $target = $(event.target)
+            App.router.navigate($target.attr("href"), {
+                trigger: true
+            })
+            event.preventDefault()
+        },
         initialize: function () {
-            this.from = this.options.from || mom()
+            this.from = mom(this.options.from) || mom()
             this.to = this.from.clone().add("d", 27)
+            this.forInTime = this.from.clone().add("d", 28)
+            this.backInTime = this.from.clone().subtract("d", 28)
             this.collection = Abi.Collection.Calendar.range(this.from, this.to, this._filter, {
                 reset: this.reset
             }, this)
@@ -110,8 +120,15 @@ steal("jstree/moment", "jstree/app/timetable/timetable.main.js").then(function (
             str += "</ul>"
             return str
         },
+        templateTableBone: function () {
+            return "<table class='table table-bordered table-striped calendar'></table>";
+        },
+        templateTimeLinks: function () {
+            return "<a href='calendar/" + asDate(this.backInTime) + "' class='backInTime nav'>Frühere Termine</a> - <a href='calendar/" + asDate(this.forInTime) + "' class='forInTime nav'>Spätere Termine</a>";
+        },
         render: function () {
-            this.$el.html(this.templateHead()).append(this.templateBody())
+            this.$el.html(this.templateTimeLinks() + this.templateTableBone())
+            .find("table").html(this.templateHead()).append(this.templateBody())
             return this
         },
         changeNamedLessons: function () {

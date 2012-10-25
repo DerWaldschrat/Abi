@@ -21,7 +21,7 @@ window.Plugins = {
     "calendar": {
         js: "jstree/app/calendar",
         rights: 1,
-        route: "calendar"
+        route: "calendar(/:time)"
     },
     // The timetable plugin
     "timetable": {
