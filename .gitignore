@@ -24,3 +24,6 @@ jstree/jquery/ui
 !jstree/jquery/ui/ui.css
 !jstree/jquery/ui/localize.js
 !jstree/jquery/ui/images/
+
+# log file for php errors
+User/log/
