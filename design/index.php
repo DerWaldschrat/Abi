@@ -32,6 +32,12 @@ if (isLoggedin()) {
 ?>
 window.ROOT = "http://localhost/abi/";
 window.WRITEMODE = <?php echo WRITEMODE === true ? "true" : "false"; ?>;
+// fix console
+if (!window.console) {
+    window.console = {
+        log: function () {}
+    }
+}
 window.Messages = {
     loginFail: "Der Login ist fehlgeschlagen. Bitte probiere es mit einem anderen Benutzernamen oder einem anderem Passwort!",
     registrationFail: "Bei deiner Registrierung ist leider ein Fehler aufgetreten. Überprüfe bitte deine Daten und versuche es bitte noch einmal!",

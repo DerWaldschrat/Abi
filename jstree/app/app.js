@@ -2,12 +2,6 @@
  * This is the app file which will be used for the rest of the app excepts from the __faster-object
  */
 
-// fix console
-if (!console) {
-    window.console = {
-        log: function () {}
-    }
-}
 steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstrap").then(function () {
     //window.WEB_SOCKET_SWF_LOCATION = "jstree/socket.io/WebSocketMain.swf";
     var getValue = function(object, prop) {
@@ -257,6 +251,7 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
         this.on("__history", function () {
             Backbone.history.start();
         })
+        this.showNewVoteMessage();
         // delete the raw user data
         delete window.__User;
         // delete the faster object
@@ -410,9 +405,35 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
             releaseBackgroundProcess: release
         }
     })());
+    // Disable feature for the moment
+    Abi.App.showNewVoteMessage = function () {
+        return;
+        if (Abi.App.user.rights() <= 1) return;
+        var vote = Abi.App.user.get("new_vote");
+        if (vote == 0) {
+            var handle = function (value) {
+                $("#voteAlert").remove();
+                var model = new Abi.Model.Base({
+                    new_vote: value
+                }).save({},{
+                    url: ROOT + "User/newVote.php",
+                    error: function () {
+                        alert("Speichern fehlgeschlagen!");
+                    }
+                })
+            }
+            $("#head").after("<div class='alert alert-block' id='voteAlert'><h4>Bitte genau überlegen:</h4>Möchtest du, dass nochmal ein neues Motto für die Abizeitung gewählt wird? <button type='button' class='btn btn-warning yes' onclick='Abi.App.demandNewVote();'>Ja</button> <button type='button' class='btn btn-warning no' onclick='Abi.App.refuseNewVote();'>Nein</div>")
+            this.refuseNewVote = function () {
+                handle(1);
+            }
+            this.demandNewVote = function () {
+                handle(2);
+            }
+        }
+    };
 
     window.Abi = Abi;
-}).then("jstree/app/models", "jstree/app/fileupload").then("jstree/jquery/ui", "jstree/jquery/ui/ui.css")
+}).then("jstree/app/models", "jstree/app/fileupload").then("jstree/jquery/ui/ui.js", "jstree/jquery/ui/ui.css")
 // Select2 loaded
 .then("jstree/select2", "jstree/select2/select2.css")
 .then("jstree/app/views", "jstree/app/messages", "jstree/jquery/ui/localize.js")

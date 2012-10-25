@@ -6,6 +6,8 @@ require IN . "coreconfig" . PHP_EX;
 require IN . "validator" . PHP_EX;
 require IN . "mapper" . PHP_EX;
 require IN . "hasher" . PHP_EX;
+ini_set("log_errors", 1);
+ini_set("error_log", "log/log.txt");
 
 post(function () {
     global $crypt;
@@ -14,10 +16,10 @@ post(function () {
         $db = db();
         $oldPw = $userIn->passwort;
         $userIn->passwort = hashme($userIn->passwort, $userIn->nickname);
-        $st = $db->prepare("SELECT userid, email, vorname, nachname, passwort, profile, cat, rights, galeria FROM " . USER . " WHERE nickname = ?");
+        $st = $db->prepare("SELECT userid, email, vorname, nachname, passwort, profile, cat, rights, galeria, new_vote FROM " . USER . " WHERE nickname = ?");
         $st->bind_param("s", $userIn->nickname);
         $user = new stdClass();
-        $st->bind_result($user->userid, $user->email, $user->vorname, $user->nachname, $user->passwort, $user->profile, $user->cat, $user->rights, $user->galeria);
+        $st->bind_result($user->userid, $user->email, $user->vorname, $user->nachname, $user->passwort, $user->profile, $user->cat, $user->rights, $user->galeria, $user->new_vote);
         if ($st->execute()) {
             $st->store_result();
             if ($st->num_rows === 1) {
@@ -48,7 +50,7 @@ post(function () {
                     file_put_contents(IN . ".htpasswd", $file);
                     //sleep(1);*/
                     $_SESSTION["user"] = array();
-                    $toSet = array("userid", "email", "vorname", "nachname", "profile", "cat", "rights", "galeria", "nickhash");
+                    $toSet = array("userid", "email", "vorname", "nachname", "profile", "cat", "rights", "galeria", "nickhash", "new_vote");
                     foreach($toSet as $field) {
                         $_SESSION["user"][$field] = $user->$field;
                     }

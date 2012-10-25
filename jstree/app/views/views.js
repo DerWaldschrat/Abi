@@ -76,7 +76,7 @@
                             }
                 }),
                 // A bad but working solution
-                width: "220px"     
+                width: "220px"
             }).each(function () {
                 var $this = $(this)
                 , val = self.model.get($this.attr("id"))
@@ -428,8 +428,8 @@
 
     /**
      * @class View.AutocompleteUser
-     */
-   /* Abi.View.AutocompleteUser = Abi.View.Base.extend({
+     *//*
+    Abi.View.AutocompleteUser = Abi.View.Base.extend({
         initialize: function (options) {
             this.$el.data("real-value", -1).autocomplete({
                 source: _.bind(this.source, this)
@@ -457,7 +457,7 @@
         source: function (request, response) {
             var term = request.term.toLowerCase();
             response(this.collection.filter(function (model) {
-                var label = model.label.toLowerCase();
+                var label = model.text.toLowerCase();
                 // We need to be very fast
                 if (term === label) return true;
                 return label.indexOf(term) > -1;
@@ -484,11 +484,57 @@
             }    
         }
     });
-                 */
+                 
     /**
      * @View.AutocompleteUser.select2
      * Try to reimplement
      * */
+    /*Abi.View.AutocompleteUser = Abi.View.Base.extend({
+        events: {
+            change: "change"
+        },
+        initialize: function (options) {
+            var self = this
+            // Hide the original formField
+            this.$el.css("display", "none").select2({
+                initSelection: function (element, callback) {
+                    console.log(arguments);
+                    callback();
+                },
+                // The search function
+                query: _.bind(this.query, this),
+                placeholder: "Wähle einen Schüler...",
+                allowClear: true,
+                // A bad but working solution
+                width: "220px"
+            })
+            if (options.startid && options.startid !== "" && (options.startid + "") !== "0") {
+                //this.$el.select2("val", this.collection.get(options.startid));
+            }
+        },
+        query:  function (request) {
+            var term = request.term.toLowerCase();
+            request.callback({
+                results: this.collection.filter(function (model) {
+                    var label = model.text.toLowerCase();
+                    // We need to be very fast
+                    if (term === label) return true;
+                    return label.indexOf(term) > -1;
+                })    
+            });
+        },
+        value: function () {
+            return this.$el.select2("val");  
+        },
+        change: function () {
+            this.trigger("selected", this.$el.select2("val"));
+        },
+        initSelection: function () {
+            console.log(arguments);
+        }
+    })*/
+    /**
+    Old version of AutocompleteUser*/
     Abi.View.AutocompleteUser = Abi.View.Base.extend({
         events: {
             change: "change"
@@ -525,7 +571,7 @@
         change: function () {
             this.trigger("selected", this.$el.select2("val"));
         }
-    })
+    })/**/
 
     /**
      * @class View.Award

@@ -7,4 +7,5 @@ CREATE TABLE abi_user (
     vorname VARCHAR(60),
     nachname VARCHAR(60),
     passwort VARCHAR(140)        
-)
+);
+ALTER TABLE abi_user ADD column new_vote TINYINT NOT NULL DEFAULT 0;

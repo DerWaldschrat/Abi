@@ -65,6 +65,11 @@ ul {
 .commentToUser:after {
   content: " > ";
 }
+@media (max-width: 768px), (max-device-width: 768px) {
+  .affix {
+    position: static;
+  }
+}
 #initialOverlay {
   opacity: 1;
   z-index: 1000;

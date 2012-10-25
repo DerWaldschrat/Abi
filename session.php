@@ -20,4 +20,7 @@ function isLoggedin($required = 0) {
 function userField($field) {
     return $_SESSION["user"][$field];
 }
+function setUserField($field, $value) {
+    $_SESSION["user"][$field] = $value;
+}
 ?>
