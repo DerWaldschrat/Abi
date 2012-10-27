@@ -432,7 +432,8 @@
     Abi.View.AutocompleteUser = Abi.View.Base.extend({
         initialize: function (options) {
             this.$el.data("real-value", -1).autocomplete({
-                source: _.bind(this.source, this)
+                source: _.bind(this.source, this),
+                minLength: 0
             });
         },
         // Override the default implementation of the autocomplete events
