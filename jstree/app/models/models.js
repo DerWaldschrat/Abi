@@ -35,7 +35,7 @@
             this._fetchedRest = false;
         },
         setOuter: function () {
-            this.text = this.get("vorname") + " " + this.get("nachname");
+            this.label = this.text = this.get("vorname") + " " + this.get("nachname");
             this.value = this.id;
         },
         fetchrest: function () {

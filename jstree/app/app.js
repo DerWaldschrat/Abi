@@ -435,7 +435,7 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
     window.Abi = Abi;
 }).then("jstree/app/models", "jstree/app/fileupload").then("jstree/jquery/ui/ui.js", "jstree/jquery/ui/ui.css")
 // Select2 loaded
-.then("jstree/select2", "jstree/select2/select2.css")
+.then("jstree/select2", "jstree/select2/select2.css", "design/jquery-ui.css")
 .then("jstree/app/views", "jstree/app/messages", "jstree/jquery/ui/localize.js")
 // The plugins to be loaded
 // Actually, this is quite simple: A static list of activated plugins is loaded (it can be static or dynamic), 

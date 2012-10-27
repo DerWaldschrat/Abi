@@ -428,7 +428,7 @@
 
     /**
      * @class View.AutocompleteUser
-     *//*
+     */
     Abi.View.AutocompleteUser = Abi.View.Base.extend({
         initialize: function (options) {
             this.$el.data("real-value", -1).autocomplete({
@@ -478,7 +478,7 @@
                 this.store({
                     item: {
                         label: "",
-                        value: 0
+                        value: -1
                     }
                 })
             }    
@@ -534,7 +534,7 @@
         }
     })*/
     /**
-    Old version of AutocompleteUser*/
+    Old version of AutocompleteUser*//*
     Abi.View.AutocompleteUser = Abi.View.Base.extend({
         events: {
             change: "change"
