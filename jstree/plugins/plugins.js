@@ -1,6 +1,11 @@
 // At the moment, this is a static file
 // Later on it will be editable by a PHP script
 window.Plugins = {
+    "imagination": {
+        js: "jstree/app/imagination",
+        rights: 1,
+        route: "imagination"
+    },
     "alluser": {
         js: "jstree/app/alluser",
         rights: 1,
