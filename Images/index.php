@@ -68,10 +68,30 @@ if (isLoggedin(1)) {
                 }            
             }
             //echo json_encode(array("files" => $files, "count" => $allowed, "response" => $json));
-            hJSON($json)
+            hJSON($json);
         } else {
             fail("noFilesSpecified");
         }
+    });
+    
+    //
+    get(function () {
+        $db = db();
+        $userid = userField("userid");
+        $sql = "SELECT imageid, name, origname FROM " . IMAGE . " WHERE fromid = " . $userid;
+        $result = $db->query($sql);
+        $images = array();
+        while ($row = $result->fetch_object()) {
+            $images[] = $row;
+        }
+        
+        $sql = "SELECT markid, imageid, x, y, toid FROM " . MARK . " WHERE fromid = " . $userid;
+        $result = $db->query($sql);
+        $marks = array();
+        while($row = $result->fetch_object()) {
+            $marks[] = $row;
+        }
+        hJSON(array("images" => $images, "marks" => $marks));
     });
 }
 ?>
