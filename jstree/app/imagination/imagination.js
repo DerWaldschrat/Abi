@@ -59,7 +59,13 @@
     })
     
     Abi.Model.Image = Abi.Model.Base.extend({
-        rootUrl: "Images/"
+        rootUrl: "Images/",
+        imgUrl: function () {
+            return ROOT + "__images/" + this.get("name");
+        },
+        thumbUrl: function () {
+            return ROOT + "__images/thumbs/" + this.get("name");
+        }
     })
     
     Abi.Collection.Marks = Abi.Collection.Base.extend({
@@ -111,7 +117,7 @@
             
         },
         uploaded: function (data) {
-            console.log(data)
+            this.images.add(data)
         },
         failed: function (error) {
             console.log(error)
@@ -124,9 +130,20 @@
             this.handler = null
             // The amount of files currently uploaded
             this.count = 0
+            this.images = Abi.Collection.Images.instance({
+                reset: this.resetImages,
+                add: this.addImage
+            }, this)
+            this.marks = Abi.Collection.Marks.instance()
+        },
+        resetImages: function () {
+            this.$(".thumbnails").replaceWith(this.templateImages())
+        },
+        addImage: function (model) {
+            this.$(".thumbnails").append(this.templateImage(model))
         },
         render: function () {
-            this.$el.html(this.templateForm())
+            this.$el.html(this.templateForm()).append(this.templateImages())
             return this
         },
         templateForm: function () {
@@ -141,6 +158,18 @@
                     + "</fieldset>"
                 + "</form>"
             return html
+        },
+        templateImages: function () {
+            var html = "<ul class='thumbnails'>"
+            for (var i = 0, len = this.images.length, curr; i < len; i++) {
+                curr = this.images.models[i]
+                html += this.templateImage(curr)
+            }
+            html += "</ul>"
+            return html
+        },
+        templateImage: function (curr) {
+            return "<li class='thumbnail span3'><img src='" + curr.thumbUrl() + "' /></li>"
         }
     })
 
