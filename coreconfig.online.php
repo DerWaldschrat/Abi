@@ -47,6 +47,8 @@ define("AWARD", $pre . "award");
 define("CATEGORY", $pre . "category");
 define("KURS", $pre . "kurs");
 define("TERM", $pre . "term");
+define("IMAGE", $pre . "images");
+define("MARK", $pre . "images_mark");
 
 
 /**
