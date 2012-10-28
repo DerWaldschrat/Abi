@@ -74,7 +74,6 @@ if (isLoggedin(1)) {
         }
     });
     
-    //
     get(function () {
         $db = db();
         $userid = userField("userid");
