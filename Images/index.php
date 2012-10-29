@@ -47,7 +47,7 @@ if (isLoggedin(1)) {
                     continue;
                 }
                 $info = getimagesize($tmp);
-                if ($info[2] !== IMAGETYPE_JPEG && $info[2] !== IMAGETYPE_PNG) {
+                if ($info[2] !== IMAGETYPE_JPEG) {
                     continue;
                 }
                 $i++;
