@@ -4,7 +4,7 @@ window.Plugins = {
     "imagination": {
         js: "jstree/app/imagination",
         rights: 1,
-        route: "imagination"
+        route: "imagination(/:image)"
     },
     "alluser": {
         js: "jstree/app/alluser",
