@@ -92,5 +92,42 @@ if (isLoggedin(1)) {
         }
         hJSON(array("images" => $images, "marks" => $marks));
     });
+    
+    delete(function () {
+        $query = $_SERVER["QUERY_STRING"];
+        if (is_numeric($query)) {
+            // First select information from image
+            $sql = "SELECT name, fromid FROM " . IMAGE . " WHERE imageid = ?";
+            $db = db();
+            $st = $db->prepare($sql);
+            $st->bind_param("i", $query);
+            $st->bind_result($name, $fromid);
+            $st->execute();
+            $st->fetch();
+            $st->close();
+            if ($fromid == userField("userid")) {
+                $img = "DELETE FROM " . IMAGE . " WHERE imageid = ?";
+                $st = $db->prepare($img);
+                $st->bind_param("i", $query);
+                if (exQuery($st)) {
+                    $path = IN . "__images/";
+                    // just unlink all images
+                    unlink($path . $name);
+                    unlink($path . "orig/" . $name);
+                    unlink($path . "thumbs/" . $name);
+                    $mark = "DELETE FROM " . MARK . " WHERE imageid = ?";
+                    $st = $db->prepare($mark);
+                    $st->bind_param("i", $query);
+                    exQuery($st);
+                } else {
+                    h404();
+                }
+            } else {
+                h404();
+            }
+        } else {
+            h404();
+        }
+    });
 }
 ?>
