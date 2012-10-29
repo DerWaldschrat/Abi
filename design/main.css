@@ -200,6 +200,27 @@ ul {
   width: 1em;
   height: 1em;
 }
+.imagination .thumbnail {
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+}
+.imagination .thumbnail img {
+  width: 200px;
+}
+.imaginationContainer {
+  position: relative;
+  margin-bottom: 1em;
+}
+.imaginationContainer #mark {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+}
+.editMode .imaginationContainer {
+  cursor: crosshair;
+}
 .galeria li {
   margin-left: 0;
   margin-right: 30px;
