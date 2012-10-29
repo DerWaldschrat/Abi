@@ -168,7 +168,7 @@
         },
         progress: function (progress) {
             if (progress.lengthComputable) {
-                var percent = progress.loaded / progress.total;
+                var percent = 100 * progress.loaded / progress.total;
                 $(".buttonAndMessage .bar").css({
                     width: percent + "%"
                 })
@@ -511,7 +511,7 @@
     })
 
     var ROUTE = "imagination"
-    App.addNavigationItem(ROUTE, "Deine Profilbilder")
+    App.addNavigationItem(ROUTE, "Deine Steckbriefbilder")
     ROUTE += "(/:image)"
     App.router.route(ROUTE, ROUTE, function (image) {
         if (typeof FormData !== 'function') {
