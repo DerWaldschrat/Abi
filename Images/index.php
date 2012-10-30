@@ -50,8 +50,12 @@ if (isLoggedin(1)) {
                 if ($info[2] !== IMAGETYPE_JPEG) {
                     continue;
                 }
-                $i++;
                 $name = $file["name"];
+                // Others than jpeg not allowed
+                if (preg_match("#(.*?)\.jpe?g$#", $name) == 0) {
+                    continue;
+                }
+                $i++;
                 // Create new filename from randomString
                 $newName = randomString(100) . md5(microtime()) . image_type_to_extension($info[2]);
                 // move uploaded file
