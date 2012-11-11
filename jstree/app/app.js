@@ -195,7 +195,7 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
             this.text = options.text;
         },
         render: function () {
-            this.$el.html("<a href='#" + this.link + "'>" + this.text + "</a>");
+            this.$el.html("<a href='#" + this.link + "' id='" + this.link + "'>" + this.text + "</a>");
             return this;
         },
         change: function(o) {
@@ -473,4 +473,4 @@ steal("jstree/jquery", "jstree/lodash").then("jstree/backbone", "jstree/bootstra
     
     // Finish loading
     __faster.unlockPageLoad();
-});
+})

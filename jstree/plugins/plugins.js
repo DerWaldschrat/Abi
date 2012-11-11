@@ -33,6 +33,11 @@ window.Plugins = {
         js: "jstree/app/timetable",
         rights: 1,
         route: "timetable"
+    },
+    "statistica": {
+        js: "jstree/app/statistica",
+        rights: 3,
+        route: "statistica(/:stats)"
     }
     // Only for testing
     /*"filetester": {
