@@ -22,10 +22,12 @@ if (location.href.indexOf(ROOT) === -1) {
 
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="design/favicon.ico" type="image/x-icon" />
 <style type="text/css">
     @import url(design/bootstrap/css/bootstrap.css);
     @import url(design/bootstrap/css/bootstrap-responsive.css);
     @import url(design/main.css);
+    @import url(print.css) print;
 </style>
 <script>
 <?php

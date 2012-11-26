@@ -1,0 +1,8 @@
+/* Drucksheet für die Auswertung */
+#head, #navi, .no-print {
+    display: none;
+}
+
+#content {
+    width: 100%;
+}
