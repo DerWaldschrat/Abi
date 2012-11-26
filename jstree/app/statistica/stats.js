@@ -271,7 +271,7 @@ steal("jstree/highcharts").then(function () {
             this.$(".content").append(this.tabview.render().el)
         },
         render: function () {
-            var html = "<ul class='nav nav-tabs'>", i
+            var html = "<ul class='nav nav-tabs no-print'>", i
             for (i in this.tabs) {
                 html += this.templateTab(i, this.tabs[i].title)
             }
@@ -289,6 +289,48 @@ steal("jstree/highcharts").then(function () {
         }
     })
     
+    Abi.View.UserAlphabetic = Abi.View.Base.extend({
+        initialize: function () {
+            this.collection = userList
+            this.collection.on("reset", this.render, this)
+        },
+        render: function () {
+            var ordered = this.collection.sortBy(function (model) {
+                return model.get("nachname").toLowerCase()
+            })
+            /*var html = "<table class='table table-bordered table-striped'>"
+            + "<thead><tr>"
+                + "<th>Nachname</th><th>Vorname</th>"
+            + "</tr></thead>"
+            + "<tbody>"
+            for (var i = 0, len = ordered.length; i < len; i++) {
+                html += "<tr><td>" + ordered[i].escape("nachname") + "</td><td>" + ordered[i].escape("vorname") + "</td></tr>"
+            }
+            html += "</tbody></table>"*/
+            var arr = ordered.map(function (el) {
+                return el.escape("nachname") + " " + el.escape("vorname")
+            })
+            this.$el.text(arr.join(", ")).prepend("<h1>Alle Angemeldeten</h1>")
+            return this
+        }
+    })
+    
+    Abi.View.AwardsAlphabetic = Abi.View.Base.extend({
+        initialize: function () {
+        },
+        render: function () {
+            var self = this
+            $query("categories").done(function (data) {
+                var arr = _.sortBy(data, function (model) {
+                    return model.title
+                })
+                self.$el.text(_.map(arr, function (el) {
+                    return el.title
+                }).join(", ")).prepend("<h1>Alle Awards</h1>")
+            })
+            return this
+        }
+    })
     
     // Main routing function
     App.StatsRoute = function (page) {
@@ -303,6 +345,8 @@ steal("jstree/highcharts").then(function () {
             view.addTab("helloWorld", "Was ist das?", Abi.View.HelloWorld)
             view.addTab("awards", "Awards", Abi.View.ChartAwards)
             view.addTab("commentCount", "Kommentare", Abi.View.ChartCommentCount)
+            view.addTab("orderedUsers", "User alphabetisch", Abi.View.UserAlphabetic)
+            view.addTab("orderedCategories", "Awards alphabetisch", Abi.View.AwardsAlphabetic)
             
         }
         view.setActive(page)
