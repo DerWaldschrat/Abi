@@ -6,6 +6,11 @@ window.Plugins = {
         rights: 1,
         route: "imagination(/:image)"
     },
+	"abiball": {
+		js: "jstree/app/abiball",
+		rights: 1,
+		route: "abiball"
+	},
     "alluser": {
         js: "jstree/app/alluser",
         rights: 1,
