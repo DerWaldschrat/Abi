@@ -95,9 +95,12 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
         this.view = null
         this.router = new Abi.Router()
         // Find main dom element
-        this.$main = $("#content");
+        this.$main = $("#content")
+        // Setup navigation
+        this.setupNavigation()
         __faster.closeOverlay()
-
+        // Trigger finishload, plugins have to be initialized
+        this.trigger("finishload")
         // Start history
         Backbone.history.start()
         return this
@@ -131,6 +134,25 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
     }
 
     /**
+     * Sets up the navigation, including event delegation and adding the first item
+     */
+    function setupNavigation() {
+        this.$navi = $("#navi")
+        // Trigger route instead of navigating through the link
+        this.$navi.on("click", "a", function(event) {
+            event.preventDefault()
+            var $target = $(event.currentTarget)
+            App.router.navigate($target.attr("href"), {
+                trigger: true
+            })
+        })
+        // Make it stay at the top
+        this.$navi.affix()
+        // Add first item, the ownprofile
+        this.createNavigationItem("ownprofile", "Dein Profil")
+    }
+
+    /**
      * returns a message
      */
     function message(name) {
@@ -160,6 +182,12 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
     }
 
     /**
+     * Creates navigation item
+     * */
+    function createNavigationItem(route, name) {
+        this.$navi.append('<li><a href="' + _.escape(route) + '">' + _.escape(name) + '</a></li>')
+    }
+    /**
      * App namespace
      * @type {Object}
      */
@@ -168,11 +196,49 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
         checkWriteMode: checkWriteMode,
         initUserList: initUserList,
         message: message,
-        setView: setView
+        setView: setView,
+        setupNavigation: setupNavigation,
+        createNavigationItem: createNavigationItem
     }
+    // Make it possible to fire events
+    _.extend(App, Backbone.Events)
 
     // Map over Abi to the global namespace
     window.Abi = Abi
-}).then("js/app/user", "js/jquery/ui", "js/jquery/ui/ui.css").then("js/jquery/ui/localize.js").then(function () {
+}).then("js/app/user", "js/jquery/ui", "js/jquery/ui/ui.css", "js/app/plugins.js").then("js/jquery/ui/localize.js").then(function () {
+    // Init all plugins on finishload
+    Abi.App.on("finishload", function () {
+        var rights = Abi.App.user.rights(), curr, routes = {}
+        for (var i in Plugins) {
+            // We have to create a closure for that
+            (function (i) {
+                curr = Plugins[i]
+                if (rights >= curr.rights) {
+                    // If loading of a plugin fails
+                    try {
+                        // Add navigation item if existent
+                        if (curr.nav) {
+                            Abi.App.addNavigationItem(curr.nav.route, curr.nav.name)
+                        }
+                        // Set up the lazyloading
+                        // For the trick see app.explain.txt
+                        routes[i] = false
+                        Abi.App.router.route(curr.route, i, function () {
+                            routes[i] = true
+                        })
+                        steal(curr.js).then(function () {
+                            // Triggered plugin, so we need to restart history
+                            if (routes[i]) {
+                                Backbone.history.stop()
+                                Backbone.history.start()
+                            }
+                        })
+                    } catch(e) {
+
+                    }
+                }
+            })(i)
+        }
+    })
     __faster.unlockPageLoad()
 })
