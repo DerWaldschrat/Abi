@@ -22,7 +22,7 @@ require IN . "developer/mailhook" . PHP_EX;
  * */
 function getUrlToPath($path)
 {
-    return "http://localhost/abi/" . $path;
+    return "http://localhost/abi_redesign/" . $path;
 }
 
 
