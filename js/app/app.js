@@ -76,7 +76,7 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
      */
     function init() {
         this.Messages = Messages
-        this.initUserLists()
+        this.initUserList()
         this.checkWriteMode()
         // Create user
         this.user = new Abi.Model.User(window.__User)
