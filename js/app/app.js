@@ -45,6 +45,8 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
         }
     })
     // Extend Backbone.View
+    // Therefore we have to cache the remove function since it is overriden
+    var _remove = Backbone.View.prototype.remove
     _.extend(Backbone.View.prototype, {
         message: function (name, green) {
             this.clearMessage();
@@ -53,6 +55,26 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
         },
         clearMessage: function () {
             this.$el.find(".buttonAndMessage").removeClass("success error").find(".statusField").text("");
+        },
+        // Overwrite for complete cleanup!
+        remove: function () {
+            if (typeof this._subview !== "undefined") {
+                for (var i = 0, len = this._subview.length, curr; i < len; i++) {
+                    curr = this[this._subview[i]]
+                    // Is it a list of views?
+                    if (curr == null) continue;
+                    if (!(curr instanceof Backbone.View)) {
+                        var j
+                        for (j in curr) {
+                            curr[j] !== null && typeof curr[j].remove === "function" && curr[j].remove();
+                        }
+                    } else {
+                        curr !== null && typeof curr.remove === "function" && curr.remove();
+                    }
+                }
+            }
+            // Call original method
+            return _remove.apply(this, arguments);
         }
     })
 
@@ -210,16 +232,16 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
     Abi.App.on("finishload", function () {
         var rights = Abi.App.user.rights(), curr, routes = {}
         for (var i in Plugins) {
+            curr = Plugins[i]
+            // Add navigation item if existent
+            if (curr.nav) {
+                Abi.App.createNavigationItem(curr.nav.route, curr.nav.name)
+            }
             // We have to create a closure for that
-            (function (i) {
-                curr = Plugins[i]
+            (function (i, curr) {
                 if (rights >= curr.rights) {
                     // If loading of a plugin fails
                     try {
-                        // Add navigation item if existent
-                        if (curr.nav) {
-                            Abi.App.addNavigationItem(curr.nav.route, curr.nav.name)
-                        }
                         // Set up the lazyloading
                         // For the trick see app.explain.txt
                         routes[i] = false
@@ -233,11 +255,9 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
                                 Backbone.history.start()
                             }
                         })
-                    } catch(e) {
-
-                    }
+                    } catch(e) {}
                 }
-            })(i)
+            })(i, curr)
         }
     })
     __faster.unlockPageLoad()
