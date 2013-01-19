@@ -1,0 +1,4 @@
+<FilesMatch "\.gz$">
+    Header set Content-Encoding gzip
+    Header set Content-Type text/javascript
+</FilesMatch>
