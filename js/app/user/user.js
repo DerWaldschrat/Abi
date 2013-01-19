@@ -32,7 +32,7 @@
 
     /**
      * The limited user class, represents all other users
-     * @type {*}
+     * @class Abi.Model.LimitedUser
      */
     Abi.Model.LimitedUser = Backbone.Model.extend({
         urlRoot: "User/",
@@ -68,4 +68,24 @@
             })
         }
     })
+
+    /**
+     * Collection for the corresponding model
+     * @class Abi.Collection.LimitedUsers
+     */
+    Abi.Collection.LimitedUsers = Backbone.Collection.extend({
+        model: Abi.Model.LimitedUser,
+        urlRoot: "User/",
+        // Get only the male users
+        male: function () {
+            return this.filter(function (model) {
+                return model.get("geschlecht") === "male";
+            })
+        },
+        female: function () {
+            return this.filter(function (model) {
+                return model.get("geschlecht") === "female";
+            })
+        }
+    });
 })()
