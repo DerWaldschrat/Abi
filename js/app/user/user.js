@@ -150,6 +150,7 @@
         error: function (model, error) {
             this.message(error)
         },
+        // Called when model properties change
         change: function (model) {
             var changed = model.changedAttributes(), i
             for (var i in changed) {
@@ -158,9 +159,11 @@
                 }
             }
         },
+        // Called after each sync
         sync: function () {
             this.message("userSaveSucceed", true)
         },
+        // Called when user input changes
         changeModel: function (event) {
             var $this = $(event.currentTarget)
             this.model.set($this.attr("id"), $this.val())
