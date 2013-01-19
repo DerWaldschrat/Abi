@@ -82,7 +82,13 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
         this.user = new Abi.Model.User(window.__User)
         this.view = null
         this.router = new Abi.Router()
+        // Find main dom element
+        this.$main = $("#content");
         __faster.closeOverlay()
+
+        // Start history
+        Backbone.history.start()
+        return this
     }
 
     /**
@@ -126,6 +132,22 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
     }
 
     /**
+     * Sets the app view to the given one
+     */
+    function setView(view) {
+        var old = this.view
+        if (old instanceof Backbone.View) {
+            // Just hide view
+            old.$el.css("display", "none")
+        }
+        this.view = view
+        this.$main.append(view.render().el)
+        if (old instanceof Backbone.View) {
+            old.remove()
+        }
+    }
+
+    /**
      * App namespace
      * @type {Object}
      */
@@ -133,9 +155,12 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
         init: init,
         checkWriteMode: checkWriteMode,
         initUserList: initUserList,
-        message: message
+        message: message,
+        setView: setView
     }
 
     // Map over Abi to the global namespace
     window.Abi = Abi
-}).then("js/app/user")
+}).then("js/app/user", "js/jquery/ui", "js/jquery/ui/ui.css").then("js/jquery/ui/localize.js").then(function () {
+    __faster.unlockPageLoad()
+})
