@@ -30,4 +30,42 @@
         }
     })
 
+    /**
+     * The limited user class, represents all other users
+     * @type {*}
+     */
+    Abi.Model.LimitedUser = Backbone.Model.extend({
+        urlRoot: "User/",
+        // Never use these on LimitedUsers
+        destroy: null,
+        save: null,
+        idAttribute: "userid",
+        // Prepare for autocomplete feature
+        initialize: function () {
+            this.setOuter();
+            this.listenTo(this, "change", this.setOuter);
+            this._fetchedRest = false;
+        },
+        setOuter: function () {
+            this.label = this.text = this.get("vorname") + " " + this.get("nachname");
+            this.value = this.id;
+        },
+        // Fetches the rest of the data because we have only loaded the id and names
+        fetchrest: function () {
+            if (this._fetchedRest) return;
+            var self = this;
+            $.ajax({
+                url: ROOT + this.urlRoot + "rest.php?" + this.id,
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    self.set(data);
+                    self._fetchedRest = true;
+                },
+                error: function (error) {
+                    self.trigger("resterror", error);
+                }
+            })
+        }
+    })
 })()
