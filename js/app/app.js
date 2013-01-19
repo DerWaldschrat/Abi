@@ -30,7 +30,7 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
     _.extend(Backbone.Model.prototype, {
         // our own url function
         url: function () {
-            var base = (getValue(this, "urlRoot") || getValue(this.collection, "url") || urlError()) + (getValue(this, "urlPage") || "index.php");
+            var base = (_.result(this, "urlRoot") || _.result(this.collection, "url") || urlError()) + (_.result(this, "urlPage") || "index.php");
             if (base.indexOf("http://") === -1) {
                 base = ROOT + base;
             }
@@ -44,6 +44,16 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
             return ROOT + (_.result(this, "urlRoot") || urlError());
         }
     })
+    // Extend Backbone.View
+    _.extend(Backbone.View.prototype, {
+        message: function () {
+            // TODO
+        },
+        clearMessage: function () {
+            // TODO
+        }
+    })
+
     /**
      * Abi namespace, contains all classes in subnamespaces and the main app object
      * @type {Object}
