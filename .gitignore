@@ -17,13 +17,13 @@ himma/
 !__registered/
 # ignore the developer dir
 developer/
-# ignore jstree/jquery/ui
+# ignore js/jquery/ui
 jstree/jquery/ui
 # do not ignore the necessary stuff for jqueryui
-!jstree/jquery/ui/ui.js
-!jstree/jquery/ui/ui.css
-!jstree/jquery/ui/localize.js
-!jstree/jquery/ui/images/
+!js/jquery/ui/ui.js
+!js/jquery/ui/ui.css
+!js/jquery/ui/localize.js
+!js/jquery/ui/images/
 
 # log file for php errors
 User/log/
