@@ -32,7 +32,7 @@ if (isLoggedin()) {
     }
 }
 ?>
-window.ROOT = "http://localhost/abi/";
+window.ROOT = "http://localhost/abi_redesign/";
 window.WRITEMODE = <?php echo WRITEMODE === true ? "true" : "false"; ?>;
 // fix console
 if (!window.console) {
@@ -376,7 +376,7 @@ if (WRITEMODE !== true) {
 <script src="../steal/steal.production.js"></script>
 <script>
 steal.rootUrl(ROOT);
-steal("jstree/app");
+steal("js/app");
 </script>
 </body>
 </html>
