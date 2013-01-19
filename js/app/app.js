@@ -138,4 +138,4 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
 
     // Map over Abi to the global namespace
     window.Abi = Abi
-})
+}).then("js/app/user")
