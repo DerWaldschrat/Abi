@@ -46,11 +46,13 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
     })
     // Extend Backbone.View
     _.extend(Backbone.View.prototype, {
-        message: function () {
-            // TODO
+        message: function (name, green) {
+            this.clearMessage();
+            this.$el.find(".buttonAndMessage").addClass(green ? "success" : "error")
+                .find(".statusField").text(Abi.App.message(name))
         },
         clearMessage: function () {
-            // TODO
+            this.$el.find(".buttonAndMessage").removeClass("success error").find(".statusField").text("");
         }
     })
 
