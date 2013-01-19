@@ -44,4 +44,98 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(functio
             return ROOT + (_.result(this, "urlRoot") || urlError());
         }
     })
+    /**
+     * Abi namespace, contains all classes in subnamespaces and the main app object
+     * @type {Object}
+     */
+    var Abi = {
+        View: {},
+        Model: {},
+        Collection: {},
+        Mixin: {}
+    }
+
+    /**
+     * The main router
+     */
+    Abi.Router = Backbone.Router.extend({
+        routes: {
+            "ownprofile": "ownprofile",
+            "": "ownprofile"
+        },
+        ownprofile: function ownprofile() {
+            // Create main profile
+            App.setView(new Abi.View.Profile({
+                model: App.user
+            }))
+        }
+    })
+
+    /**
+     * Init function, called once after user has loggedin
+     */
+    function init() {
+        this.Messages = Messages
+        this.initUserLists()
+        this.checkWriteMode()
+        // Create user
+        this.user = new Abi.Model.User(window.__User)
+        this.view = null
+        this.router = new Abi.Router()
+        __faster.closeOverlay()
+    }
+
+    /**
+     * Checks whether the writemode is enabled or not
+     */
+    function checkWriteMode () {
+        if (window.WRITEMODE !== true) {
+            alert(App.message("inReadMode"))
+        }
+    }
+
+    /**
+     * Inits the userlist
+     */
+    function initUserList() {
+        var Abi = window.Abi;
+        var userList = new Abi.Collection.LimitedUsers();
+        userList.fetch();
+        // Actually, we need three user lists: all, male, female
+        userList.maleList = new Abi.Collection.LimitedUsers(userList.male());
+        userList.femaleList = new Abi.Collection.LimitedUsers(userList.female());
+        userList.on("reset", function () {
+            userList.maleList.reset(userList.male());
+            userList.femaleList.reset(userList.female());
+        });
+        // This is something we really need, so map it over to the global context
+        window.userList = userList;
+    }
+
+    /**
+     * returns a message
+     */
+    function message(name) {
+        var ret = name;
+        if (name.responseText) {
+            try {
+                ret = JSON.parse(name.responseText).message;
+            } catch(e) {}
+        }
+        return this.Messages[ret] || "Unbekannter Fehler!";
+    }
+
+    /**
+     * App namespace
+     * @type {Object}
+     */
+    var App = Abi.App = {
+        init: init,
+        checkWriteMode: checkWriteMode,
+        initUserList: initUserList,
+        message: message
+    }
+
+    // Map over Abi to the global namespace
+    window.Abi = Abi
 })
