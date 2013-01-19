@@ -18,7 +18,7 @@ himma/
 # ignore the developer dir
 developer/
 # ignore js/jquery/ui
-jstree/jquery/ui
+js/jquery/ui
 # do not ignore the necessary stuff for jqueryui
 !js/jquery/ui/ui.js
 !js/jquery/ui/ui.css
