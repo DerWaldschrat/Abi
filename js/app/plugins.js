@@ -13,5 +13,13 @@
  *
  */
 window.Plugins = {
-
+    "quote": {
+        js: "js/app/quote",
+        rights: 0,
+        route: "quote",
+        nav: {
+            route: "quote",
+            name: "Füge einen Lehrerspruch hinzu"
+        }
+    }
 }
