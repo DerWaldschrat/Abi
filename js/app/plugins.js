@@ -31,6 +31,15 @@ window.Plugins = {
             name: "Andere über dich"
         }
     },
+    "alluser": {
+        js: "js/app/alluser",
+        rights: 1,
+        route: "alluser",
+        nav: {
+            route: "alluser",
+            name: "Alle User anzeigen"
+        }
+    },
     "usermanager": {
         js: "js/app/usermanager",
         rights: 2,
