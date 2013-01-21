@@ -235,7 +235,7 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap", "js/app/mess
 
     // Map over Abi to the global namespace
     window.Abi = Abi
-}).then("js/app/user", "js/jquery/ui", "js/jquery/ui/ui.css", "js/app/plugins.js").then("js/jquery/ui/localize.js").then(function () {
+}).then("js/jquery/ui", "js/jquery/ui/ui.css", "js/app/plugins.js").then("js/jquery/ui/localize.js", "js/app/user").then(function () {
     // Init all plugins on finishload
     Abi.App.on("finishload", function () {
         var rights = Abi.App.user.rights(), curr, routes = {}
