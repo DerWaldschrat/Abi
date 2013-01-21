@@ -2,7 +2,7 @@
  * This is the app file which will be used for the rest of the app excepts from the __faster-object
  */
 
-steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap").then(function () {
+steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap", "js/app/messages.js").then(function () {
     /**
      * Some useful Backbone extensions
      */
