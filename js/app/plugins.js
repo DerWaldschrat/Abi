@@ -30,5 +30,14 @@ window.Plugins = {
             route: "yourcomments",
             name: "Andere über dich"
         }
+    },
+    "usermanager": {
+        js: "js/app/usermanager",
+        rights: 2,
+        route: "usermanager",
+        nav: {
+            route: "usermanager",
+            name: "User freischalten"
+        }
     }
 }
