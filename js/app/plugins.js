@@ -21,5 +21,14 @@ window.Plugins = {
             route: "quote",
             name: "Füge einen Lehrerspruch hinzu"
         }
+    },
+    "yourcomments": {
+        js: "js/app/yourcomments",
+        rights: 0,
+        route: "yourcomments",
+        nav: {
+            route: "yourcomments",
+            name: "Andere über dich"
+        }
     }
 }
