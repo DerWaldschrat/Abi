@@ -13,6 +13,11 @@
  *
  */
 window.Plugins = {
+    "profile": {
+        js: "js/app/profile",
+        rights: 1,
+        route: "profile/:id"
+    },
     "quote": {
         js: "js/app/quote",
         rights: 0,
