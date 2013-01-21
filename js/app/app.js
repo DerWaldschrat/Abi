@@ -209,6 +209,13 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap", "js/app/mess
     function createNavigationItem(route, name) {
         this.$navi.append('<li><a href="' + _.escape(route) + '">' + _.escape(name) + '</a></li>')
     }
+
+    /**
+     * Logs the user out
+     */
+    function logout() {
+        location.href = ROOT + "User/logout.php"
+    }
     /**
      * App namespace
      * @type {Object}
@@ -220,7 +227,8 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap", "js/app/mess
         message: message,
         setView: setView,
         setupNavigation: setupNavigation,
-        createNavigationItem: createNavigationItem
+        createNavigationItem: createNavigationItem,
+        logout: logout
     }
     // Make it possible to fire events
     _.extend(App, Backbone.Events)
