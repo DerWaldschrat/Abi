@@ -90,6 +90,22 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap", "js/app/mess
     }
 
     /**
+    * @abstract Mixin.DelaySave
+    * Useful for models when you acually want to delay the saving a bit
+    */
+    Abi.Mixin.DelaySave = {
+        delaySave: function (delay, props, options) {
+            var self = this;
+            if (this._ii) {
+                window.clearInterval(this._ii);
+            }
+            this._ii = window.setTimeout(function() {
+                self.save(props, options)
+            }, delay)
+        }
+    }
+
+    /**
      * The main router
      */
     Abi.Router = Backbone.Router.extend({

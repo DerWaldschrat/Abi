@@ -36,6 +36,15 @@ window.Plugins = {
             name: "Andere über dich"
         }
     },
+    "award": {
+        js: "js/app/award",
+        rights: 1,
+        route: "award",
+        nav: {
+            route: "award",
+            name: "Die Abi-Awards"
+        }
+    },
     "alluser": {
         js: "js/app/alluser",
         rights: 1,
