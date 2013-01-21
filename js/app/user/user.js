@@ -90,6 +90,23 @@
     })
 
     /**
+     * Used for commenting other users
+     * @class Abi.Model.Comment
+     */
+    Abi.Model.Comment = Backbone.Model.extend({
+        idAttribute: "commentid",
+        urlRoot: "Comment/"
+    })
+
+    /**
+     * @class Abi.Collection.Comments
+     */
+    Abi.Collection.Comments = Backbone.Collection.extend({
+        urlRoot: "Comment/",
+        model: Abi.Model.Comment
+    })
+
+    /**
      * View for displaying the own profile
      * @class Abi.View.Profile
      */
