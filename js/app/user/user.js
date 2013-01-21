@@ -186,4 +186,67 @@
             this.model.set($this.attr("id"), $this.val())
         }
     })
+
+    /**
+     * @class View.AutocompleteUser
+     */
+    Abi.View.AutocompleteUser = Backbone.View.extend({
+        initialize: function () {
+            this.$el.data("real-value", -1).autocomplete({
+                source: _.bind(this.source, this),
+                minLength: 0
+            })
+        },
+        // Override the default implementation of the autocomplete events
+        events: {
+            "autocompletefocus": function (event, ui) {
+                return this.store(ui)
+            },
+            "autocompleteselect": function (event, ui) {
+                return this.store(ui)
+            },
+            "keyup": "_storeNil"
+        },
+        // Stores the actual value
+        store: function (ui, op) {
+            this.$el.val(ui.item.label).data("real-value", ui.item.value)
+            // Trigger only when it is nessecary
+            if(!op || !op.silent) {
+                this.trigger("selected", ui.item.value, this.$el)
+            }
+            return false
+        },
+        source: function (request, response) {
+            var term = request.term.toLowerCase()
+            response(this.collection.filter(function (model) {
+                var label = model.text.toLowerCase()
+                // We need to be very fast
+                if (term === label) return true
+                return label.indexOf(term) > -1
+            }));
+        },
+        // Both setter and getter
+        value: function (attr) {
+
+            if (arguments.length > 0) {
+                this.store({
+                    item: this.collection.get(attr) || {label: "", value: -1}
+                }, {silent: true})
+            }
+            return this.$el.data("real-value")
+        },
+        _storeNil: function() {
+            if (this.$el.val() === "") {
+                this.store({
+                    item: {
+                        label: "",
+                        value: -1
+                    }
+                })
+            }
+        },
+        remove: function () {
+            this.$el.autocomplete("destroy")
+        }
+    })
 })()
