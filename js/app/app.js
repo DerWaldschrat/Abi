@@ -118,6 +118,10 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap", "js/app/mess
         this.router = new Abi.Router()
         // Find main dom element
         this.$main = $("#content")
+        // Create head view
+        this.headView = new Abi.View.HeadView({
+            el: document.getElementById("head")
+        });
         // Setup navigation
         this.setupNavigation()
         __faster.closeOverlay()

@@ -107,6 +107,30 @@
     })
 
     /**
+     * Keeps track of the top search bar
+     * @class Abi.View.HeadView
+     */
+    Abi.View.HeadView = Backbone.View.extend({
+        initialize: function () {
+            // We have to watch out whether the user is allowed to search for others
+            if (Abi.App.user.rights() > 0) {
+                this.userSearchView = new Abi.View.AutocompleteUser({
+                    el: document.getElementById("searchPupil"),
+                    collection: userList
+                })
+            } else {
+                $("#searchPupil, #searchPupilStart").remove()
+            }
+        },
+        events: {
+            "click #searchPupilStart": function () {
+                // Start the user search
+                Abi.App.router.navigate("profile/" + this.userSearchView.value(), {trigger: true})
+            }
+        }
+    })
+
+    /**
      * View for displaying the own profile
      * @class Abi.View.Profile
      */
