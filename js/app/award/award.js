@@ -27,14 +27,19 @@
     Abi.View.AwardView = Backbone.View.extend({
         _subview: ["_autocompletes"],
         events: {
-            "focusin input": "createAutocomplete"
+            "focusin input": "createAutocomplete",
+            "submit #createNewAward": "createNewAward",
+            "click .deleteAwardItem": "deleteAward"
         },
         initialize: function () {
             this.collection = new Abi.Collection.Awards()
             this.listenTo(this.collection, "reset", this.reset)
                 .listenTo(this.collection, "add", this.add)
+                .listenTo(this.collection, "remove", this.destroy)
             this.collection.fetch()
             this._autocompletes = {}
+            // Delay for saving the models
+            this._delay = 1000
         },
         // Two opposite functions
         _id: function(model) {
@@ -73,9 +78,10 @@
         templateAward: function (model) {
             var male = userList.get(model.get("maleid"))
                 , female = userList.get(model.get("femaleid"))
+                , removeIfAllowed = App.user.rights() >= 3 ? "<span class='close deleteAwardItem' data-delete='" + model.cid + "' title='Award löschen'>&times;</span>" : ""
             return "<tr id='" + this._id(model) + "'>" +
                     "<td><input type='text' class='maleUser' data-id='" + model.cid + "' value='" + (male ? male.text : "")+ "' /></td>" +
-                    "<td class='center'>" + model.escape("title") + "</td>" +
+                    "<td class='center'>" + model.escape("title") + removeIfAllowed + "</td>" +
                     "<td><input type='text' class='femaleUser' data-id='" + model.cid + "' value='" + (female ? female.text : "") + "' /></td>" +
                 "</tr>"
         },
@@ -97,8 +103,23 @@
         reset: function () {
             this.render()
         },
-        add: function () {
-
+        // Because of the event delegation and the lazyloading of the autocomplete, adding rows is blasting simple
+        add: function (model) {
+            this.$("tbody").append(this.templateAward(model))
+        },
+        destroy: function (model) {
+            var $row = $("#" + this._id(model))
+                , mHash = this.boolToGender(true) + model.cid
+                , fHash = this.boolToGender(false) + model.cid
+            if (this._autocompletes[mHash]) {
+                console.log("remove auto")
+                this._autocompletes[mHash].remove()
+            }
+            if (this._autocompletes[fHash]) {
+                this._autocompletes[fHash].remove()
+            }
+            $row.remove()
+            this.stopListening(model)
         },
 
         // Events
@@ -129,6 +150,30 @@
         changeFemale: function (id, el, model) {
             model.set("femaleid", id);
             model.delaySave(this._delay);
+        },
+        // Create new award
+        createNewAward: function (event) {
+            event.preventDefault()
+            var $title = this.$("#awardTitle"), model = new Abi.Model.Award({
+                title: $title.val(),
+                userid: Abi.App.user.id
+            })
+                , self = this
+            $title.val("")
+            // On sync, add to this collection
+            model.on("sync", function () {
+                model.off()
+                self.collection.add(model)
+            })
+            model.save()
+        },
+        // Deletes an award
+        deleteAward: function (event) {
+            var $target = $(event.currentTarget)
+                , model = this.collection.get($target.attr("data-delete"))
+            if (confirm("Willst du den Award \"" + model.escape("title") + "\" wirklich löschen?")) {
+                model.destroy()
+            }
         }
     })
 
