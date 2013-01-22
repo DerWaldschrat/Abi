@@ -26,12 +26,25 @@
 
     Abi.View.AwardView = Backbone.View.extend({
         _subview: ["_autocompletes"],
+        events: {
+            "focusin input": "createAutocomplete"
+        },
         initialize: function () {
             this.collection = new Abi.Collection.Awards()
             this.listenTo(this.collection, "reset", this.reset)
                 .listenTo(this.collection, "add", this.add)
             this.collection.fetch()
             this._autocompletes = {}
+        },
+        // Two opposite functions
+        _id: function(model) {
+            return "row" + model.cid
+        },
+        _extract: function (id) {
+            return this.collection.get(id.substr(3))
+        },
+        boolToGender: function (bool) {
+            return bool ? "male" : "female"
         },
         templateAddForm: function () {
             return "<form action='#' id='createNewAward'>" +
@@ -58,14 +71,21 @@
             return html
         },
         templateAward: function (model) {
-            return "<tr>" +
-                    "<td><input type='text' class='maleUser' /></td>" +
+            var male = userList.get(model.get("maleid"))
+                , female = userList.get(model.get("femaleid"))
+            return "<tr id='" + this._id(model) + "'>" +
+                    "<td><input type='text' class='maleUser' data-id='" + model.cid + "' value='" + (male ? male.text : "")+ "' /></td>" +
                     "<td class='center'>" + model.escape("title") + "</td>" +
-                    "<td><input type='text' class='femaleUser' /></td>" +
+                    "<td><input type='text' class='femaleUser' data-id='" + model.cid + "' value='" + (female ? female.text : "") + "' /></td>" +
                 "</tr>"
         },
         prepareBody: function () {
-            this.$("tbody").empty()
+            var $body = this.$("tbody")
+                , html = ""
+            for (var i = 0, len = this.collection.length; i < len; i++) {
+                html += this.templateAward(this.collection.models[i])
+            }
+            $body.html(html)
         },
         render: function () {
             this.$el.html(this.templateAddForm()).append(this.templateTable())
@@ -75,10 +95,29 @@
 
         // Collection events
         reset: function () {
-
+            this.render()
         },
         add: function () {
 
+        },
+
+        // Events
+        // Create autocomplete only when necessary :D, this allows us to have a blasting fast performance
+        createAutocomplete: function (event) {
+            var el = $(event.currentTarget)
+                , male = el.hasClass("maleUser") ? true : false
+                , id = el.attr("data-id")
+                , hash = this.boolToGender(male) + id
+                , startid = this.collection.get(id).get(this.boolToGender(male) + "id")
+            console.log(startid)
+            if (!this._autocompletes[hash]) {
+                this._autocompletes[hash] = new Abi.View.AutocompleteUser({
+                    collection: male ? userList.maleList : userList.femaleList,
+                    el: event.currentTarget,
+                    startid: startid
+                })
+                this._autocompletes[hash].value(startid)
+            }
         }
     })
 
