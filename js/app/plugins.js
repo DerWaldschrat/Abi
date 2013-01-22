@@ -62,5 +62,14 @@ window.Plugins = {
             route: "usermanager",
             name: "User freischalten"
         }
+    },
+    "statistica": {
+        js: "js/app/statistica",
+        rights: 3,
+        route: "statistica(/:stats)",
+        nav: {
+            route: "statistica",
+            name: "Auswerten"
+        }
     }
 }
