@@ -108,16 +108,27 @@
                 , male = el.hasClass("maleUser") ? true : false
                 , id = el.attr("data-id")
                 , hash = this.boolToGender(male) + id
-                , startid = this.collection.get(id).get(this.boolToGender(male) + "id")
+                , model = this.collection.get(id)
+                , startid = model.get(this.boolToGender(male) + "id")
             console.log(startid)
             if (!this._autocompletes[hash]) {
-                this._autocompletes[hash] = new Abi.View.AutocompleteUser({
+                var auto = this._autocompletes[hash] = new Abi.View.AutocompleteUser({
                     collection: male ? userList.maleList : userList.femaleList,
                     el: event.currentTarget,
-                    startid: startid
+                    startid: startid,
+                    model: model
                 })
-                this._autocompletes[hash].value(startid)
+                auto.value(startid)
+                this.listenTo(auto, "selected", male ? this.changeMale : this.changeFemale)
             }
+        },
+        changeMale: function (id, el, model) {
+            model.set("maleid", id);
+            model.delaySave(this._delay);
+        },
+        changeFemale: function (id, el, model) {
+            model.set("femaleid", id);
+            model.delaySave(this._delay);
         }
     })
 
