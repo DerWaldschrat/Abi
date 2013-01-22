@@ -236,7 +236,7 @@
             this.$el.val(ui.item.label).data("real-value", ui.item.value)
             // Trigger only when it is nessecary
             if(!op || !op.silent) {
-                this.trigger("selected", ui.item.value, this.$el)
+                this.trigger("selected", ui.item.value, this.$el, this.model)
             }
             return false
         },
@@ -271,6 +271,7 @@
         },
         remove: function () {
             this.$el.autocomplete("destroy")
+            return Backbone.View.prototype.remove.apply(this, arguments)
         }
     })
 })()
