@@ -45,6 +45,15 @@ window.Plugins = {
             name: "Die Abi-Awards"
         }
     },
+    "imagination": {
+        js: "js/app/imagination",
+        rights: 1,
+        route: "imagination(/:image)",
+        nav: {
+            route: "imagination",
+            name: "Bilder hochladen"
+        }
+    },
     "alluser": {
         js: "js/app/alluser",
         rights: 1,
