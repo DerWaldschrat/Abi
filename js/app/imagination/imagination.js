@@ -2,6 +2,7 @@
 
     var msg = {
         "markSaveFail": "Markierung konnte nicht gespeichert werden!",
+        "markUpdateFail": "Markierung konnte nicht aktualisiert werden!",
         "markSaveSucceed": "Markierung erfolgreich gespeichert!",
         "markUpdateSucceed": "Markierung erfolgreich aktualisiert!",
         "markNameMissing": "Bitte gib an, wen du überhaupt markiert hast!",
@@ -77,9 +78,6 @@
     Abi.Model.Mark = Backbone.Model.extend({
         urlRoot: "Images/Marks/",
         idAttribute: "markid",
-        validate: function () {
-            if (!this.has("toid") || this.get("toid") === -1) return "markNameMissing"
-        },
         defaults: {
             x: 0,
             y: 0
@@ -248,8 +246,13 @@
             event.preventDefault()
             this.listenTo(this.mark, "sync", this.sync)
                 .listenTo(this.mark, "error", this.error)
+            var toid = this.autoUser.value()
+            if (toid <= 0) {
+                this.error(this.mark, "markNameMissing")
+                return
+            }
             this.mark.set({
-                toid: this.autoUser.value(),
+                toid: toid,
                 imageid: this.model.id
             }, {
                 silent: true
@@ -264,7 +267,7 @@
             this._creating ? this.markList.mayAdd(this.mark) : this.markList.update(this.mark)
             this.setMark()
         },
-        error: function (model,error) {
+        error: function (model, error) {
             if (error.responseText) {
             } else {
             }
@@ -280,6 +283,8 @@
         },
         togglePositioning: function (event) {
             var $target = $(event.currentTarget)
+            // First hide mark
+            this.hideMark(this.mark, true)
             // User has finished positioning
             if (this._positionMode) {
                 $target.text("Markierung positionieren")
@@ -328,8 +333,6 @@
             this.render()
         },
         showMark: function (mark) {
-            if (this._force === mark) return;
-            this._force = null;
             var $mark = this.$("#mark")
                 , css = {
                     top: (mark.get("y") - $mark.outerHeight() / 2) + "px",
@@ -337,21 +340,19 @@
                 }
             $mark.removeClass("hidden").css(css)
         },
-        hideMark: function (mark) {
-            !this._force && this.$("#mark").addClass("hidden")
+        hideMark: function (mark, nokeep) {
+            nokeep && (this._keep = false)
+            !this._keep && this.$("#mark").addClass("hidden")
         },
         forceMark: function (mark) {
             this.showMark(mark)
-            this._force = mark
+            this._keep = true
         },
         destroyedMark: function (mark) {
-            if (mark === this._force) {
-                this._force = null
-                this.hideMark(mark)
-            }
             if (mark === this.mark) {
                 this.setMark()
             }
+            this.hideMark(mark, true)
         },
         render: function () {
             this.autoUser !== null && this.autoUser.remove()
@@ -412,11 +413,6 @@
         getControlTitle: function () {
             var user = userList.get(this.mark.get("toid"))
             return this.mark.isNew() ? "erstellen" : "von " + user.escape("vorname") + " " + user.escape("nachname")  +" bearbeiten"
-        },
-        remove: function () {
-            this.markList && this.markList.off(null, null, this)
-            this.mark && this.mark.off(null, null, this)
-            return Backbone.View.prototype.remove.apply(this, arguments)
         },
         destroyImage: function () {
             if (confirm("Möchtest du dieses Bild wirklich löschen?")) {
@@ -483,7 +479,6 @@
             return this
         },
         mayAdd: function (model) {
-            console.log(model)
             if (model.get("imageid") == this.model.id) {
                 this.collection.add(model)
                 this.$el.append(this.templateMark(model))
