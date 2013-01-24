@@ -48,10 +48,10 @@
         templateItem: function (model) {
             var user = userList.get(model.get("toid"))
             return "<li id='" + this._id(model) + "'>" +
+                "<i class='removeButton icon-trash' title='Diesen Kommentar löschen' data-id='" + model.cid + "'></i> " +
                 "<span class='commentToUser'>" +
                     "<a href='profile/" + user.id + "'>" + user.escape("vorname") + " " + user.escape("nachname") + "</a>" +
                 "</span>" + model.escape("content") +
-                "<i class='removeButton icon-trash' title='Diesen Kommentar löschen' data-id='" + model.cid + "'></i>" +
                 "</li>"
         },
         add: function (model) {
