@@ -384,7 +384,7 @@ if (WRITEMODE !== true) {
 <script src="steal/steal.production.js"></script>
 <script>
 steal.rootUrl(window.ROOT<?php echo $gzip ? "+ 'gz/'" : ""; ?>);
-steal("jstree/app");
+steal("js/app");
 </script>
 </body>
 </html>
