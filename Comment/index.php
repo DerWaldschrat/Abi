@@ -29,6 +29,24 @@ if (isLoggedin()) {
                 fail("commentSaveFail");
             }
         });
+        // Delete own comment
+        delete(function () {
+            $commentid = $_SERVER["QUERY_STRING"];
+            if (is_numeric($commentid)) {
+                $db = db();
+                $fromid = userField("userid");
+                $sql = "DELETE FROM " . COMMENT . " where fromid = ? AND commentid = ?";
+                $st = $db->prepare($sql);
+                $st->bind_param("ii", $fromid, $commentid);
+                if (exQuery($st)) {
+
+                } else {
+                    fail("commentDestroyFail");
+                }
+            } else {
+                fail("commentDestroyFail");
+            }
+        });
     }
     // Very simple here
     get(function () {
