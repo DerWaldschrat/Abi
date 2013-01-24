@@ -200,7 +200,7 @@
             this.$(".thumbnails").append(this.templateImage(model))
         },
         render: function () {
-            this.$el.html(this.templateForm()).append(this.templateImages())
+            this.$el.html(this.templateForm()).append(this.templateImages()).append(this.templateExplanation())
             return this
         },
         templateForm: function () {
@@ -230,6 +230,17 @@
         },
         templateImage: function (curr) {
             return "<li><a href='imagination/" + curr.id + "' class='thumbnail'><img src='" + curr.thumbUrl() + "' /></a></li>"
+        },
+        // Returns the explanation for this tool
+        templateExplanation: function () {
+            return "<div>Hier kannst du das Profilbild, das du zusammen mit einem oder zwei Mitschülern aufgenommen hast, hochladen.<br />" +
+                "Bitte sprich dich mit den anderen ab, wer hochlädt, das spart mir Speicherkapazität.<br />" +
+                "Bitte nimm dafür das Bild in Originalauflösung, damit wir möglichst viel damit anfangen können.<br />" +
+                "Das Format der Bilder ist JPEG, stelle hier die Qualität des Bildes ebenfalls auf maximal.<br />" +
+                "Nachdem du das Bild hochgeladen hast, kannst du jeweils markieren, wessen Profile mit dem Bild verknüpft werden sollen.<br />" +
+                "Dazu klickst du einfach auf die Miniaturansicht über diesem Text und kannst jeweils die Markierungen erstellen.<br />" +
+                "Diese Markierungen haben zwei Gründe: Zum einen dürfen sich auf den Bildern theoretisch noch weitere Personen befinden, die aber ein anderes Profilbild haben werden.<br />" +
+                "Zum anderen ist unsere Schule derart groß, dass wir nicht unbedingt mehr alle Mitschüler kennen, auch wenn das normalerweise natürlich schon der Fall ist.</div>"
         }
     })
 
