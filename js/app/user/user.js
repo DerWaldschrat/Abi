@@ -107,6 +107,14 @@
     })
 
     /**
+     *
+     * @class Abi.Collection.OwnComments
+     */
+    Abi.Collection.OwnComments = Abi.Collection.Comments.extend({
+        urlRoot: "Comment/mine/"
+    })
+
+    /**
      * Keeps track of the top search bar
      * @class Abi.View.HeadView
      */

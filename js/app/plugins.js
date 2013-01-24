@@ -36,6 +36,15 @@ window.Plugins = {
             name: "Andere über dich"
         }
     },
+    "posted": {
+        js: "js/app/posted",
+        rights: 1,
+        route: "posted",
+        nav: {
+            route: "posted",
+            name: "Du über andere"
+        }
+    },
     "award": {
         js: "js/app/award",
         rights: 1,
