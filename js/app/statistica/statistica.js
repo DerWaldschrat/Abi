@@ -230,7 +230,7 @@ steal("js/highcharts").then(function () {
 
 
     Abi.View.Chart = Backbone.View.extend({
-        _subview: "tabview",
+        _subview: ["tabview"],
         events: {
             "click .nav a": "goToTab"
         },
