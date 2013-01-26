@@ -3,7 +3,7 @@
     var ROUTE = "usermanager"
 
     Abi.View.UserManager = Backbone.View.extend({
-        _subviewList: ["_subviews"],
+        _subview: ["_subviews"],
         initialize: function () {
             this.$table = null
             this.listenTo(this.collection, "reset", this.render)
