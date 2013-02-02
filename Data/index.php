@@ -26,7 +26,7 @@ if (isLoggedin()) {
         $body = bodyAsJSON();
         if (hasAllSetIsset($body, array("categoryid", "value"))) {
             $db = db();
-            $sql = "INSERT INTO ". DATA . " categoryid, `value`, userid VALUES(?, ?, " . userField("userid") . ")";
+            $sql = "INSERT INTO ". DATA . " (categoryid, `value`, userid) VALUES(?, ?, " . userField("userid") . ")";
             $st = $db->prepare($sql);
             $st->bind_param("is", $body->categoryid, $body->value);
             if (exQuery($st)) {
