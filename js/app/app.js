@@ -98,6 +98,7 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap", "js/app/mess
             var self = this;
             if (this._ii) {
                 window.clearInterval(this._ii);
+                this.trigger("clearSave", this)
             }
             this._ii = window.setTimeout(function() {
                 self.save(props, options)
