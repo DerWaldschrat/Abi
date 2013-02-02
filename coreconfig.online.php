@@ -49,6 +49,7 @@ define("KURS", $pre . "kurs");
 define("TERM", $pre . "term");
 define("IMAGE", $pre . "images");
 define("MARK", $pre . "images_mark");
+define("DATA", $pre . "data");
 
 
 /**
