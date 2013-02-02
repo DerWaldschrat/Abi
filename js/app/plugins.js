@@ -54,6 +54,15 @@ window.Plugins = {
             name: "Die Abi-Awards"
         }
     },
+    "data": {
+        js: "js/app/data",
+        rights: 0,
+        route: "data",
+        nav: {
+            route: "data",
+            name: "Ein paar Daten zu dir"
+        }
+    },
     "imagination": {
         js: "js/app/imagination",
         rights: 1,
