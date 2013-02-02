@@ -20,6 +20,7 @@ if (isLoggedin()) {
         }
         hJSON($json);
     });
+
     // Create new instance
     post(function () {
         $body = bodyAsJSON();
@@ -37,6 +38,7 @@ if (isLoggedin()) {
             fail("dataSaveFail");
         }
     });
+
     // Update an instance
     put(function () {
         $body = bodyAsJSON();
