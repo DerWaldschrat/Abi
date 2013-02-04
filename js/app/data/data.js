@@ -15,7 +15,7 @@ steal("js/app/data/items.js").then(function () {
         model: Abi.Model.Data,
         urlRoot: "Data/",
         byC: function (c) {
-            return this._categories[c]
+            return this._categories && this._categories[c]
         },
         // Overwrite add to create a map of the categories
         add: function (model, options) {
@@ -84,6 +84,7 @@ steal("js/app/data/items.js").then(function () {
         },
         render: function () {
             this.$el.html(this.templateHead())
+            this.replaceBody()
             return this
         },
         replaceBody: function () {
