@@ -63,6 +63,9 @@
         category: 17,
         name: "Taschengeld pro Monat",
         unit: "€"
+    }, {
+        category: 18,
+        name: "Handy abgenommen bekommen"
     }]
 
 
