@@ -233,7 +233,10 @@
         },
         // Returns the explanation for this tool
         templateExplanation: function () {
-            return "<div>Hier kannst du das Profilbild, das du zusammen mit einem oder zwei Mitschülern aufgenommen hast, hochladen.<br />" +
+            return "<div class='alert alert-info'><h4>Beachte:</h4>" +
+                "Mit dem Upload bist du damit einverstanden, dass das Bild in der Abizeitung des FDG-Abiturjahrgangs 2011/2013 zusammen mit deinem Namen veröffentlicht wird!" +
+                "</div>" +
+                "<div>Hier kannst du das Profilbild, das du zusammen mit einem oder zwei Mitschülern aufgenommen hast, hochladen.<br />" +
                 "Bitte sprich dich mit den anderen ab, wer hochlädt, das spart mir Speicherkapazität.<br />" +
                 "Bitte nimm dafür das Bild in Originalauflösung, damit wir möglichst viel damit anfangen können.<br />" +
                 "Das Format der Bilder ist JPEG, stelle hier die Qualität des Bildes ebenfalls auf maximal.<br />" +
