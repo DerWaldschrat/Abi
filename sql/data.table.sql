@@ -6,3 +6,4 @@ CREATE TABLE abi_data (
   userid INT NOT NULL
 );
 ALTER TABLE `abi_data` ADD INDEX `userid_index` ( `userid` );
+ALTER TABLE `abi_data` ADD INDEX `categoryid_index` (`categoryid`);
