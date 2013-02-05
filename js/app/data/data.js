@@ -102,7 +102,7 @@ steal("js/app/data/items.js").then(function () {
             }
             var value = parseValue($target.val())
             $target.val(value)
-            model.delaySave(1000, {
+            model.save({
                 value: value
             })
         },
