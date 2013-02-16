@@ -11,4 +11,6 @@ CREATE TABLE abi_user_data (
   positiv TEXT,
   negativ TEXT,
   zukunft TEXT
-)
+);
+ALTER TABLE abi_user_data ADD COLUMN german VARCHAR(3) NULL NULL;
+ALTER TABLE abi_user_data ADD COLUMN math VARCHAR(3) NULL NULL;
