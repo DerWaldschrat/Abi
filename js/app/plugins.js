@@ -63,6 +63,15 @@ window.Plugins = {
             name: "Ein paar Daten zu dir"
         }
     },
+    "rating": {
+        js: "js/app/rating",
+        rights: 0,
+        route: "rating",
+        nav: {
+            route: "rating",
+            name: "Bewerte deine Hauptkurse"
+        }
+    },
     "imagination": {
         js: "js/app/imagination",
         rights: 1,
