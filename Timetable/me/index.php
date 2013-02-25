@@ -39,10 +39,10 @@ if (isLoggedin(1)) {
             $arr = array_fill(0, 60, -1);
             $json = json_encode($arr);
             file_put_contents($file, $json);
-            hJSON();
-            echo $json;
+            hJSON($arr);
         } else {
-            hJSON();
+            // hJSON();
+			header("Content-type: application/json");
             readfile($file);
         }
     });

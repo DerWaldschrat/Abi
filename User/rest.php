@@ -21,8 +21,8 @@ if (isLoggedin(1)) {
                 $user->wohnort = null;
                 $user->geburtstag = null;
             }
-            header("Content-type: application/json");
-            echo json_encode(array("geburtstag" => $user->geburtstag, "strasse" => $user->strasse, "wohnort" => $user->wohnort));
+            
+            hJSON(array("geburtstag" => $user->geburtstag, "strasse" => $user->strasse, "wohnort" => $user->wohnort));
         }
     });
 } else {

@@ -18,8 +18,7 @@ if (isLoggedin()) {
                     $st->bind_param("iis", $comment->fromid, $comment->toid, $comment->content);
                     if (exQuery($st)) {
                         $id = $st->insert_id;
-                        hJSON();
-                        echo json_encode(array("commentid" => $id));
+                        hJSON(array("commentid" => $id));
                     } else {
                         fail("commentSaveFail");
                     }    
@@ -39,7 +38,7 @@ if (isLoggedin()) {
                 $st = $db->prepare($sql);
                 $st->bind_param("ii", $fromid, $commentid);
                 if (exQuery($st)) {
-
+					
                 } else {
                     fail("commentDestroyFail");
                 }
@@ -57,8 +56,7 @@ if (isLoggedin()) {
             while ($r = $result->fetch_object()) {
                 $row[] = $r;
             }
-            hJSON();
-            echo json_encode($row);
+            hJSON($row);
         }
     });
 } else {

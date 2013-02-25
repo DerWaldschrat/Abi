@@ -14,8 +14,7 @@ if(isLoggedin(1)) {
         $categories = fetchCategoriesAll();
         // There are no categories at all, we leave it at this
         if ($categories === array()) {
-            hJSON();
-            echo "[]";
+            hJSON(array());
         } else {
             $userid = userField("userid");
             $db = db();
@@ -42,8 +41,7 @@ if(isLoggedin(1)) {
                 $award->title = $category->title;
                 $json[] = $award;
             }
-            hJSON();
-            echo json_encode($json);
+            hJSON($json);
         }
     });
 
@@ -55,7 +53,6 @@ if(isLoggedin(1)) {
             $st = $db->prepare("INSERT INTO " . CATEGORY . " (title, userid) VALUES (?, ?)");
             $st->bind_param("si", $category->title, $category->userid);
             if (exQuery($st)) {
-                hJSON();
                 $categoryid = $st->insert_id;
                 require IN . "Award/createAward" . PHP_EX;
                 $awardid = createAward($categoryid, $category->userid);
@@ -66,7 +63,7 @@ if(isLoggedin(1)) {
                     awardDefaults($award);
                     $award->categoryid = $categoryid;
                     $award->awardid = $awardid;
-                    hJSON();
+                    hJSON($award);
                     echo json_encode($award);
                 }
             } else {

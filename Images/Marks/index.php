@@ -54,7 +54,6 @@ if(isLoggedin(1)) {
                 $st->bind_param("iiiii", $body->toid, $body->x, $body->y, $body->markid, $fromid);
                 if (exQuery($st)) {
                     hJSON();
-                    echo "{}";
                 } else {
                     fail("markUpdateFail");
                 }

@@ -50,6 +50,7 @@ define("TERM", $pre . "term");
 define("IMAGE", $pre . "images");
 define("MARK", $pre . "images_mark");
 define("DATA", $pre . "data");
+define("RATING", $pre . "rating");
 
 
 /**
@@ -86,7 +87,10 @@ function hJSON($json = null)
     header("Content-Type: application/json");
     if ($json !== null) {
         echo json_encode($json);
-    }
+    } else {
+		// Empty string is no valid json, so just respond with empty object
+		echo "{}";
+	}
 }
 
 function dateChangeFromISO($date) {

@@ -16,8 +16,7 @@ if (isLoggedin(1)) {
             while ($r = $result->fetch_object()) {
                 $row[] = $r;
             }
-            hJSON();
-            echo json_encode($row);
+            hJSON($row);
         }
     });
 } else {

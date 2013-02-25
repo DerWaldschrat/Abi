@@ -57,7 +57,7 @@ post(function () {
                     $_SESSION["user"]["loggedin"] = true;
                     require IN . "User/fetchData" . PHP_EX;
                     fetchUserData($user);
-                    echo json_encode($user);
+                    hJSON($user);
                 } else {
                     h404();
                 }

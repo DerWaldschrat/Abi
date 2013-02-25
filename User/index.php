@@ -36,7 +36,7 @@ if (isLoggedin()) {
                 $usr = new stdClass();
                 $usr->userid = $userid;
                 fetchUserData($usr);
-                echo json_encode($usr);
+                hJSON($usr);
             }
         }
     });
@@ -51,7 +51,7 @@ if (isLoggedin()) {
                 while($row = $result->fetch_object()) {
                     $json[] = $row;
                 }
-                echo json_encode($json);
+                hJSON($json);
             }
         });
     // All other getrequests get an empty list   

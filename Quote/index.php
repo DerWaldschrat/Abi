@@ -26,7 +26,7 @@ if (isLoggedin(1)) {
                     $st = $db->prepare($sql);
                     $st->bind_param("is", $quote->userid, $quote->content);
                     if (exQuery($st)) {
-                        echo json_encode(array("quoteid" => $st->insert_id));
+                        hJSON(array("quoteid" => $st->insert_id));
                     } else {
                         fail("quoteSaveFail");
                     }
@@ -48,7 +48,7 @@ if (isLoggedin(1)) {
             while($res = $result->fetch_object()) {
                 $json[] = $res;
             }
-            echo json_encode($json);
+            hJSON(json_encode($json));
         } else {
             fail("quotesNotFound");
         }
