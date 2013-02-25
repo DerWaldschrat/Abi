@@ -263,7 +263,7 @@ steal("js/jquery", "js/lodash").then("js/backbone", "js/bootstrap", "js/app/mess
         for (var i in Plugins) {
             curr = Plugins[i]
             // Add navigation item if existent
-            if (curr.nav) {
+            if (curr.nav && rights >= curr.rights) {
                 Abi.App.createNavigationItem(curr.nav.route, curr.nav.name)
             }
             // We have to create a closure for that
