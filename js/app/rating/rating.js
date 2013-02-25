@@ -1,5 +1,10 @@
 steal("js/app/rating/mainLessons.js").then(function () {
     var ROUTE = "rating"
+	
+	_.extend(Messages, {
+		ratingSaveFailed: "Deine Bewertung konnte leider nicht gespeichert werden!",
+		ratingSaveSucceed: "Deine Bewertung wurde erfolgreich gespeichert!"
+	})
 
     App.router.route(ROUTE, ROUTE, function () {
         App.setView(new Abi.View.Rating())
@@ -46,26 +51,51 @@ steal("js/app/rating/mainLessons.js").then(function () {
             })
         }
     })
+	
+	Abi.Model.RatingItem = Backbone.Model.extend({
+		idAttribute: "ratingid",
+		urlRoot: "Rating/"
+	})
+	
+	Abi.Collection.RatingItems = Backbone.Collection.extend({
+		urlRoot: "Rating/",
+		model: Abi.Model.RatingItem,
+		fromLesson: function (lesson) {
+			return this.where({
+				lesson: lesson
+			})[0]
+		}
+	}, {
+		instance: Backbone.Singleton()
+	})
 
     Abi.View.Rating = Backbone.View.extend({
         events: {
             "change #selectGerman": "selectGerman",
-            "change #selectMath": "selectMath"
+            "change #selectMath": "selectMath",
+			"click .saveRating": "saveRating"
         },
         initialize: function () {
             // User is this´ model
             this.model = new Abi.Model.RatingUser({}, {
                 fromUser: App.user
             })
+			this.collection = Abi.Collection.RatingItems.instance({
+				reset: this.resetRating
+			}, this)
         },
         template: function () {
             var html = "<form action='#'>" +
-                "<fieldset>" +
+                "<fieldset class='buttonAndMessage'>" +
                     "<legend>Bewerte deine Kurse</legend>" +
                     "<div id='selectGermanContainer'></div>" +
                     "<div id='selectMathContainer'></div>" +
-                    "<div id='inputValues'></div>" +
+					"<div id='explanation' class='alert alert-info'>" +
+					"<h4>Hinweis:</h3>" +
+					"Vergib bitte Punktzahlen von 0 bis 15" +
+					"</div>" +
                 "</fieldset>" +
+				"<div id='inputValues'></div>" +
                 "</form>"
             return html
         },
@@ -99,7 +129,6 @@ steal("js/app/rating/mainLessons.js").then(function () {
             return this.$("#inputValues")
         },
         render: function () {
-            alert("render")
             this.$el.html(this.template())
             this.findGerman().html(this.templateGermanSelect())
 
@@ -107,7 +136,7 @@ steal("js/app/rating/mainLessons.js").then(function () {
             var german = this.model.get("german")
             if (german) {
                 this.findGerman().find("select").val(german)
-                if (_.isArray(window.LESSONS[german].math)) {
+                if (window.LESSONS[german] && _.isArray(window.LESSONS[german].math)) {
                     this.findMath().html(this.templateMathSelect(window.LESSONS[german].math))
                     var math = this.model.get("math")
                     if (math) {
@@ -115,7 +144,7 @@ steal("js/app/rating/mainLessons.js").then(function () {
                     }
                 }
             }
-            this.findInput().html(this.templateInput())
+            this.resetRating()
             return this
         },
         selectGerman: function (event) {
@@ -148,7 +177,121 @@ steal("js/app/rating/mainLessons.js").then(function () {
         },
 
         templateInput: function() {
-
-        }
+			// Which fields can be rated?
+			var fields = {
+				kursklima: {
+					label: "Kursklima"
+				},
+				zusammenhalt: {
+					label: "Zusammenhalt"
+				},
+				kreativitaet: {
+					label: "Kreativität"
+				},
+				fairness: {
+					label: "Fairness"
+				},
+				motivation: {
+					label: "Motivation"
+				}
+			}
+			, types = {
+				german: {
+					label: "Deutsch"
+				},
+				math: {
+					label: "Mathematik"
+				},
+				history: {
+					label: "Geschichte"
+				}
+			}
+			, html = ""
+			, typei, fieldi, type, field, model
+			for (typei in types) {
+				type = types[typei]
+				html += "<fieldset class='control-group'>"
+				+ "<legend>" + type.label + "</legend>"
+				model = this.collection.fromLesson(typei)
+				for (fieldi in fields) {
+					field = fields[fieldi]
+					html += "<label class='control-label'>"
+					+ "<input type='text' value='" + (model ? model.get(fieldi) : "") + "' class='" + fieldi + "' name='" + fieldi + "' /> "
+					+ field.label 
+					+ "</label>"
+				}
+				html += "<div class='control-group' id='" + typei + "Message'><input class='saveRating btn' data-lesson='" + typei + "' type='button' value='Speichern' />"
+				+ "<div class='help-block'></div></div>"
+				+ "</fieldset>"
+			}
+			return html
+        },
+		resetRating: function () {
+			this.findInput().html(this.templateInput())
+		},
+		saveRating: function(event) {
+			var $target = $(event.currentTarget)
+			, $fieldset = $target.closest("fieldset")
+			, lesson = $target.attr("data-lesson")
+			, fields = [
+				"kursklima", 
+				"zusammenhalt",
+				"kreativitaet",
+				"fairness",
+				"motivation"
+			]
+			, values = {}
+			, model
+			, isNew = false
+			// Receive values
+			for (var i = 0, len = fields.length; i < len; i++) {
+				values[fields[i]] = this._receive($fieldset, fields[i])
+			}
+			// Write back changed values
+			this._restore($fieldset, values)
+			
+			model = this.collection.fromLesson(lesson)
+			// Need to create a new model
+			if (!model) {
+				model = new Abi.Model.RatingItem({
+					lesson: lesson
+				})
+				isNew = true
+			}
+			console.log(model.cid)
+			this.listenTo(model, "sync", isNew ? this.newSync : this.sync)
+				.listenTo(model, "error", this.error)
+			model.save(values)
+		},
+		_receive: function ($fieldset, name) {
+			var val = parseInt($fieldset.find("." + name).val(), 10)
+			return _.isNaN(val) ? "" : 
+				(val < 0 ? 0 : 
+				(val > 15 ? 15 : val))
+		},
+		_restore: function ($fieldset, values) {
+			var i
+			for (i in values) {
+				$fieldset.find("." + i).val(values[i])
+			}
+		},
+		newSync: function (model, resp, op) {
+			this.collection.add(model)
+			this.sync(model, resp, op)
+		},
+		sync: function (model) {
+			this.modelMessage("ratingSaveSucceed", model, true)
+			this.stopListening(model)
+		},
+		error: function (model) {
+			this.modelMessage("ratingSaveFailed", model)
+			this.stopListening(model)
+		},
+		modelMessage: function (message, model, green) {
+			var message = App.message(message)
+			, $el = this.$("#" + model.get("lesson") + "Message")
+			$el.removeClass("success error").addClass(green ? "success" : "error")
+			$el.find(".help-block").text(message)
+		}
     })
 })
