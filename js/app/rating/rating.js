@@ -216,7 +216,7 @@ steal("js/app/rating/mainLessons.js").then(function () {
 				for (fieldi in fields) {
 					field = fields[fieldi]
 					html += "<label class='control-label'>"
-					+ "<input type='text' value='" + (model ? model.get(fieldi) : "") + "' class='" + fieldi + "' name='" + fieldi + "' /> "
+					+ "<input type='text' value='" + (model ? (model.get(fieldi) == -1 ? "" : model.get(fieldi)) : "") + "' class='" + fieldi + "' name='" + fieldi + "' /> "
 					+ field.label 
 					+ "</label>"
 				}
@@ -265,7 +265,7 @@ steal("js/app/rating/mainLessons.js").then(function () {
 		},
 		_receive: function ($fieldset, name) {
 			var val = parseInt($fieldset.find("." + name).val(), 10)
-			return _.isNaN(val) ? "" : 
+			return _.isNaN(val) ? -1 : 
 				(val < 0 ? 0 : 
 				(val > 15 ? 15 : val))
 		},
