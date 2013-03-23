@@ -50,7 +50,7 @@ if (isLoggedin(1)) {
                 if ($info[2] !== IMAGETYPE_JPEG) {
                     continue;
                 }
-                $name = $file["name"];
+                $name = strtolower($file["name"]);
                 // Others than jpeg not allowed
                 if (preg_match("#(.*?)\.jpe?g$#", $name) == 0) {
                     continue;

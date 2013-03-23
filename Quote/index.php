@@ -48,7 +48,7 @@ if (isLoggedin(1)) {
             while($res = $result->fetch_object()) {
                 $json[] = $res;
             }
-            hJSON(json_encode($json));
+            hJSON($json);
         } else {
             fail("quotesNotFound");
         }
