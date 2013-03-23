@@ -126,6 +126,11 @@
                     el: document.getElementById("searchPupil"),
                     collection: userList
                 })
+				// Append publish data settings
+				this.$("form").append("<input type='button' class='btn btn-info publishSettings' value='Veröffentlichungseinstellungen bearbeiten' title='Hier kannst du angeben, was nicht von dir veröffentlicht werden soll!' />")
+				if (Abi.App.user.get("publish_ok") == 0) {
+					this.showOverlay()
+				}
             } else {
                 $("#searchPupil, #searchPupilStart").remove()
             }
@@ -134,9 +139,56 @@
             "click #searchPupilStart": function () {
                 // Start the user search
                 Abi.App.router.navigate("profile/" + this.userSearchView.value(), {trigger: true})
-            }
-        }
+            },
+			"click .publishSettings": "showOverlay"
+        },
+		showOverlay: function () {
+			var view = new Abi.View.PublishSettingsView();
+			$("body").append(view.render().el)
+		}
     })
+	
+	Abi.View.PublishSettingsView = Backbone.View.extend({
+		events: {
+			"submit form": "save",
+			"click .close": function () {
+				this.remove()
+			}
+		},
+		save: function (event) {
+			event.preventDefault()
+			var data = {
+				publish_ok: this.$("#publishAllowed").prop("checked") ? 1 : 0,
+				publish_problems: this.$("#publishForbidden").val()
+			}, self = this
+			App.user.set(data)
+			$.ajax(ROOT + "User/publishSettings.php", {
+				type: "POST",
+				data: JSON.stringify(data),
+				processData: false,
+				contentType: "application/json"
+			}).done(function () {
+				alert("Einstellungen erfolgreich gespeichert!");
+			}).fail(function () {
+				alert("Einstellungen konnten nicht gespeichert werden! Versuche es bitte über den Button in der oberen Leiste in ein paar Minuten erneut!");
+			}).always(function () {
+				self.remove()
+			})
+		},
+		render: function () {
+			var content = "<div style='padding: 10px;'><span class='close'>&times;</span><h1>Deine Veröffentlichungseinstellungen</h1>"
+			+ "<div class='alert alert-warning'><h3>Beachte:</h3> Du musst der Veröffentlichung deiner Daten in der Abizeitung zustimmen. Dafür bitte einfach unten das entsprechende Feld markieren. "
+			+ "Weiterhin kannst du hier angeben, was nicht von dir veröffentlicht werden soll, etwa irgendwelche besonders blöden Kommentare.</div>"
+			+ "<form class=''>"
+			+ "<label><input type='checkbox' id='publishAllowed' " + (Abi.App.user.get("publish_ok") == 0 ? "" : "checked='checked' ") + "/> Hiermit stimme ich der Veröffentlichung meiner über diese Seite gesammelten Daten in der Abizeitung des Jahrganges 2011/2013 des Friedrich-Dessauer-Gymnasiums zu, mit folgenden Ausnahmen:</label>"
+			+ "<label>Diese Ausnahmen sind:<br /><textarea id='publishForbidden'>" + (Abi.App.user.get("publish_problems") == null ? "" : Abi.App.user.get("publish_problems")) + "</textarea>"
+			+ "<br /><input type='submit' value='Einstellungen speichern!' class='btn' />"
+			+ "</form></div>"
+			this.$el.html("<div style='position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; opacity: 0.5;z-index: 9999'></div>"
+			+ "<div style='position: absolute;position: fixed; top: 5%; left: 5%; width: 90%; height: 90%; background: white; border: 1px solid black; z-index: 10000;'>"+content+"</div>")
+			return this
+		}
+	})
 
     /**
      * View for displaying the own profile
