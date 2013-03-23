@@ -107,7 +107,7 @@ steal("js/highcharts").then(function () {
                     return [user ? (user.get("vorname") + " " + user.get("nachname") ) : "Unbekannter User", $num(obj.cm)]
                 })
             }, [{
-                name: "Erhaltende Stimmen"
+                name: "Erhaltene Stimmen"
             }], function (categories) {
                 var map = $toMap(categories[0]);
                 return {
@@ -336,6 +336,22 @@ steal("js/highcharts").then(function () {
             return this
         }
     })
+	
+	Abi.View.ImagePreview = Backbone.View.extend({
+		initialize: function () {
+		},
+		render: function () {
+			var self = this
+			$query("imagePreview").done(function (data) {
+				var html = "<ul class='thumbnails imagination'>" + (_.map(data, function (el) {
+					var url = ROOT + "/__images/"
+					return "<li><a class='thumbnail' href='" + url + el.name + "' target='_blank'><image src='" + url + "thumbs/" + el.name + "' /></a></li>"
+				}).join("")) + "</ul>"
+				self.$el.html(html)
+			})
+			return this
+		}
+	})
 
     // Main routing function
     App.StatsRoute = function (page) {
@@ -350,6 +366,7 @@ steal("js/highcharts").then(function () {
             view.addTab("helloWorld", "Was ist das?", Abi.View.HelloWorld)
             view.addTab("awards", "Awards", Abi.View.ChartAwards)
             view.addTab("commentCount", "Kommentare", Abi.View.ChartCommentCount)
+			view.addTab("imagePreview", "Bildervorschau", Abi.View.ImagePreview)
             view.addTab("orderedUsers", "User alphabetisch", Abi.View.UserAlphabetic)
             view.addTab("orderedCategories", "Awards alphabetisch", Abi.View.AwardsAlphabetic)
 

@@ -12,7 +12,8 @@ if (isLoggedin(3)) {
                          "awardMale" => "SELECT COUNT(maleid) AS cm, maleid AS id FROM `" . AWARD . "` WHERE maleid !=0 AND maleid != -1 AND categoryid = ?? GROUP BY categoryid, maleid ORDER BY cm DESC",
                          "categories" => "SELECT categoryid AS id, title FROM " . CATEGORY,
                          "commentFrom" => "SELECT COUNT( fromid ) AS fc, fromid AS id FROM " . COMMENT . " GROUP BY fromid ORDER BY fromid ASC",
-                         "commentTo" => "SELECT COUNT( toid ) AS tc, toid AS id FROM " . COMMENT . " GROUP BY toid ORDER BY toid ASC");
+                         "commentTo" => "SELECT COUNT( toid ) AS tc, toid AS id FROM " . COMMENT . " GROUP BY toid ORDER BY toid ASC",
+						 "imagePreview" => "SELECT name FROM " . IMAGE . " ORDER BY imageid");
         if (isset($allowed[$_GET["query"]])) {
             $sql = $allowed[$_GET["query"]];
             if (isset($_GET["param"]) && is_numeric($_GET["param"])) {
