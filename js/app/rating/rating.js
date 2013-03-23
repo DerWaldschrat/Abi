@@ -193,6 +193,9 @@ steal("js/app/rating/mainLessons.js").then(function () {
 				},
 				motivation: {
 					label: "Motivation"
+				},
+				fachkompetenz: {
+					label: "Fachkompetenz"
 				}
 			}
 			, types = {
@@ -216,7 +219,7 @@ steal("js/app/rating/mainLessons.js").then(function () {
 				for (fieldi in fields) {
 					field = fields[fieldi]
 					html += "<label class='control-label'>"
-					+ "<input type='text' value='" + (model ? (model.get(fieldi) == -1 ? "" : model.get(fieldi)) : "") + "' class='" + fieldi + "' name='" + fieldi + "' /> "
+					+ "<input type='text' value='" + (model ? (model.get(fieldi) == -1 || typeof model.get(fieldi) === 'undefined' ? "" : model.get(fieldi)) : "") + "' class='" + fieldi + "' name='" + fieldi + "' /> "
 					+ field.label 
 					+ "</label>"
 				}
@@ -238,7 +241,8 @@ steal("js/app/rating/mainLessons.js").then(function () {
 				"zusammenhalt",
 				"kreativitaet",
 				"fairness",
-				"motivation"
+				"motivation",
+				"fachkompetenz"
 			]
 			, values = {}
 			, model

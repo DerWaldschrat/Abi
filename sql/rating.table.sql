@@ -11,3 +11,5 @@ CREATE TABLE abi_rating (
   UNIQUE limit_entries (`userid`, `lesson`),
   INDEX fast_user (`userid`)
 )
+
+ALTER TABLE abi_rating ADD COLUMN fachkompetenz TINYINT NULL NULL;

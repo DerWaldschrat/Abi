@@ -11,7 +11,7 @@ if (isLoggedin()) {
 	// Just list all currently created ratings
 	get(function () {
 		$db = db();
-		$sql = "SELECT ratingid, lesson, kursklima, zusammenhalt, kreativitaet, fairness, motivation FROM " . RATING . " WHERE userid = " . userField("userid");
+		$sql = "SELECT ratingid, lesson, kursklima, zusammenhalt, kreativitaet, fairness, motivation, fachkompetenz FROM " . RATING . " WHERE userid = " . userField("userid");
 		$result = $db->query($sql);
 		$json = array();
 		while ($row = $result->fetch_object()) {
@@ -41,8 +41,8 @@ if (isLoggedin()) {
 			rangeField($body);
 			$db = db();
 			$user = userField("userid");
-			$st = $db->prepare("INSERT INTO " . RATING . " (lesson, kursklima, zusammenhalt, kreativitaet, fairness, motivation, userid) VALUES (?, ?, ?, ?, ?, ?, " . $user . ")");
-			$st->bind_param("siiiii", $body->lesson, $body->kursklima, $body->zusammenhalt, $body->kreativitaet, $body->fairness, $body->motivation);
+			$st = $db->prepare("INSERT INTO " . RATING . " (lesson, kursklima, zusammenhalt, kreativitaet, fairness, motivation, fachkompetenz, userid) VALUES (?, ?, ?, ?, ?, ?, ?, " . $user . ")");
+			$st->bind_param("siiiiii", $body->lesson, $body->kursklima, $body->zusammenhalt, $body->kreativitaet, $body->fairness, $body->motivation, $body->fachkompetenz);
 			if (exQuery($st)) {
 				$body->ratingid = $db->insert_id;
 				hJSON($body);
@@ -60,8 +60,8 @@ if (isLoggedin()) {
 			rangeField($body);
 			$db = db();
 			$user = userField("userid");
-			$st = $db->prepare("UPDATE " . RATING . " SET kursklima = ?, zusammenhalt = ?, kreativitaet = ?, fairness = ?, motivation = ? WHERE userid = " . $user . " AND ratingid = ?");
-			$st->bind_param("iiiiii", $body->kursklima, $body->zusammenhalt, $body->kreativitaet, $body->fairness, $body->motivation, $body->ratingid);
+			$st = $db->prepare("UPDATE " . RATING . " SET kursklima = ?, zusammenhalt = ?, kreativitaet = ?, fairness = ?, motivation = ?, fachkompetenz = ? WHERE userid = " . $user . " AND ratingid = ?");
+			$st->bind_param("iiiiiii", $body->kursklima, $body->zusammenhalt, $body->kreativitaet, $body->fairness, $body->motivation, $body->fachkompetenz, $body->ratingid);
 			if (exQuery($st)) {
 				hJSON();
 			} else {
