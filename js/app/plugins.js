@@ -107,5 +107,14 @@ window.Plugins = {
             route: "statistica",
             name: "Auswerten"
         }
-    }
+    },
+	"profilestat": {
+		js: "js/app/profilestat",
+		rights: 3,
+		route: "profilestat(/:profile)",
+		nav: {
+			route: "profilestat",
+			name: "Profile Auswerten"
+		}
+	}
 }
