@@ -114,7 +114,7 @@ window.Plugins = {
 		route: "profilestat(/:profile)",
 		nav: {
 			route: "profilestat",
-			name: "Profile Auswerten"
+			name: "Profile auswerten"
 		}
 	}
 }
