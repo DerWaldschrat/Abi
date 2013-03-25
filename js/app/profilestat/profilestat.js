@@ -97,14 +97,16 @@
 			+ $e(data.abi_schriftlich) + ", " + $e(data.abi_muendlich_1) + ", " + $e(data.abi_muendlich_2)
 			+ "<h3>Seminare</h3>"
 			+ $e(data.semi_thema) + " im Seminar " + $e(data.w_semi) + ", " + $e(data.p_semi)
-			+ "<h3>Positiv<h3>"
+			+ "<h3>Positiv</h3>"
 			+ $e(data.positiv)
 			+ "<h3>Negativ</h3>"
 			+ $e(data.negativ)
-			+ "<h3>Danksagung"
+			+ "<h3>Danksagung</h3>"
 			+ $e(data.danksagung)
 			+ "<h3>Zukunft</h3>"
 			+ $e(data.zukunft)
+			+ "<h3>Was nicht veröffentlicht werden soll</h3>"
+			+ $e(data.publish_problems)
 			+ "<h3>Kommentare</h3>"
 			+ "<ul>"
 			// Then iterate over comments
