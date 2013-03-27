@@ -51,6 +51,9 @@ define("IMAGE", $pre . "images");
 define("MARK", $pre . "images_mark");
 define("DATA", $pre . "data");
 define("RATING", $pre . "rating");
+define("TEACHER", $pre . "teacher");
+define("TEACHER_AWARD", $pre . "teacher_award");
+define("TEACHER_CATEGORY", $pre . "teacher_category");
 
 
 /**

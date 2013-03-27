@@ -6,9 +6,9 @@ defined("__EXEC") or die;
  * @param $user
  * @return int The inserted id or -1 if it failed
  */
-function createAward($category, $user)
+function createAward($category, $user, $table = AWARD)
 {
-    $st = db()->prepare("INSERT INTO " . AWARD . " (categoryid, userid) VALUES (?, ?)");
+    $st = db()->prepare("INSERT INTO " . $table . " (categoryid, userid) VALUES (?, ?)");
     $st->bind_param("ii", $category, $user);
     if (exQuery($st)) {
         return $st->insert_id;
