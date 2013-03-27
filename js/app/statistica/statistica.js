@@ -352,6 +352,23 @@ steal("js/highcharts").then(function () {
 			return this
 		}
 	})
+	
+	Abi.View.QuoteResultView = Backbone.View.extend({
+		initialize: function () {
+		},
+		render: function () {
+			var self = this
+			$query("quotes").done(function (data) {
+				var html = ""
+				for (var i = 0, len = data.length, curr; i < len; i++) {
+					curr = data[i]
+					html += "<div class='well well-small'>" + _.escape(curr.content) + "</div>"
+				}
+				self.$el.html(html)
+			})
+			return this
+		}
+	})
 
     // Main routing function
     App.StatsRoute = function (page) {
@@ -369,6 +386,7 @@ steal("js/highcharts").then(function () {
 			view.addTab("imagePreview", "Bildervorschau", Abi.View.ImagePreview)
             view.addTab("orderedUsers", "User alphabetisch", Abi.View.UserAlphabetic)
             view.addTab("orderedCategories", "Awards alphabetisch", Abi.View.AwardsAlphabetic)
+			view.addTab("quotes", "Sprücheklopfer", Abi.View.QuoteResultView)
 
         }
         view.setActive(page)

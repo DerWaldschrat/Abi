@@ -13,7 +13,8 @@ if (isLoggedin(3)) {
                          "categories" => "SELECT categoryid AS id, title FROM " . CATEGORY,
                          "commentFrom" => "SELECT COUNT( fromid ) AS fc, fromid AS id FROM " . COMMENT . " GROUP BY fromid ORDER BY fromid ASC",
                          "commentTo" => "SELECT COUNT( toid ) AS tc, toid AS id FROM " . COMMENT . " GROUP BY toid ORDER BY toid ASC",
-						 "imagePreview" => "SELECT name FROM " . IMAGE . " ORDER BY imageid");
+						 "imagePreview" => "SELECT name FROM " . IMAGE . " ORDER BY imageid",
+						 "quotes" => "SELECT userid, content FROM " . QUOTE);
         if (isset($allowed[$_GET["query"]])) {
             $sql = $allowed[$_GET["query"]];
             if (isset($_GET["param"]) && is_numeric($_GET["param"])) {
