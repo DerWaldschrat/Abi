@@ -176,7 +176,7 @@
 			})
 		},
 		render: function () {
-			var content = "<div style='padding: 10px;'><span class='close'>&times;</span><h1>Deine Veröffentlichungseinstellungen</h1>"
+			var content = "<div style='padding: 10px; width: 100%; height: 100%; overflow: scroll;'><span class='close'>&times;</span><h1>Deine Veröffentlichungseinstellungen</h1>"
 			+ "<div class='alert alert-warning'><h3>Beachte:</h3> Du musst der Veröffentlichung deiner Daten in der Abizeitung zustimmen. Dafür bitte einfach unten das entsprechende Feld markieren. "
 			+ "Weiterhin kannst du hier angeben, was nicht von dir veröffentlicht werden soll, etwa irgendwelche besonders blöden Kommentare.</div>"
 			+ "<form class=''>"

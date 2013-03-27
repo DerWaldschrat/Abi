@@ -54,6 +54,15 @@ window.Plugins = {
             name: "Die Abi-Awards"
         }
     },
+	"teacheraward": {
+		js: "js/app/teacheraward",
+		rights: 1,
+		route: "teacheraward",
+		nav: {
+			route: "teacheraward",
+			name: "Die Lehrer-Awards"
+		}
+	},
     "data": {
         js: "js/app/data",
         rights: 0,
