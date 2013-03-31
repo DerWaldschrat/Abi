@@ -1,11 +1,13 @@
 (function () {
 	
-	var _cache = {}
+	var limit = 0
 	
 	function $profile (id) {
-		if (_cache[id]) return _cache
-		return $.ajax(ROOT + "ProfileResult/index.php?" + id, {
-			
+		return $.ajax(ROOT + "ProfileResult/index.php", {
+			data: {
+				id: id,
+				limit: limit || 0
+			}
 		})
 	}
 	
@@ -25,7 +27,8 @@
 	
 	Abi.View.ProfileResultOverview = Backbone.View.extend({
 		events: {
-			"click a": "navigate"
+			"click a": "navigate",
+			"change #limitComment": "changeLimit"
 		},
 		navigate: function (event) {
 			event.preventDefault()
@@ -38,7 +41,7 @@
 			this._sorter = this.sorter.name;
 		},
 		render: function () {
-			var html = "<ul>"
+			var html = "<input type='text' title='Kommentarlimitierung' id='limitComment' value='" + limit + "' /><ul>"
 			, list = userList.sortBy(this._sorter)
 			_.each(list, function (model) {
 				html += "<li><a href='" + model.id + "'>" + model.escape("nachname") + ", " + model.escape("vorname") + "</a></li>";
@@ -51,6 +54,9 @@
 			name: function (model) {
 				return model.escape("nachname").toLowerCase() + " " + model.escape("vorname").toLowerCase()
 			}
+		},
+		changeLimit: function (event) {
+			limit = parseInt($(event.currentTarget).val())
 		}
 	})
 	

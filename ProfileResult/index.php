@@ -9,15 +9,16 @@ require IN . "User/fetchData" . PHP_EX;
 
 if (isLoggedin(3)) {
 	get(function () {
-		if(isset($_SERVER["QUERY_STRING"]) && is_numeric($_SERVER["QUERY_STRING"])) {
-			$userid = $_SERVER["QUERY_STRING"];
+		if(isset($_GET["id"]) && is_numeric($_GET["id"]) && isset($_GET["limit"]) && is_numeric($_GET["limit"])) {
+			$userid = $_GET["id"];
+			$limit = $_GET["limit"];
 			$db = db();
 			$user = new stdClass();
 			$user->userid = $userid;
 			// Fetch profile data
 			fetchUserData($user);
 			// Fetch comments
-			$query = $db->query("SELECT content FROM " . COMMENT . " WHERE toid = " . $userid);
+			$query = $db->query("SELECT content FROM " . COMMENT . " WHERE toid = " . $userid . " AND commentid > " . $limit);
 			$user->comments = array();
 			while ($row = $query->fetch_object()) {
 				$user->comments[] = $row->content;
