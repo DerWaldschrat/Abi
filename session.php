@@ -2,7 +2,7 @@
 // starts the session
 session_start();
 define("SESSION_INIT", true);
-define("WRITEMODE", true);
+define("WRITEMODE", strtotime("01-04-2013") >= time());
 // sets session initialization time if not set
 if (!(isset($_SESSION["__init"]))) {
     $_SESSION["__init"] = time();
